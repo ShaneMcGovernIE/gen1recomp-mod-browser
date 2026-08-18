@@ -220,18 +220,6 @@
     exportFmtText: document.getElementById('exportFmtText'),
     exportFmtJSON: document.getElementById('exportFmtJSON'),
 
-    // Add Mod Modal
-    addModModal: document.getElementById('addModModal'),
-    addModModalBtn: document.getElementById('addModModalBtn'),
-    addModCloseBtn: document.getElementById('addModCloseBtn'),
-    addModForm: document.getElementById('addModForm'),
-    newModTitle: document.getElementById('newModTitle'),
-    newModId: document.getElementById('newModId'),
-    newModGen: document.getElementById('newModGen'),
-    newModCat: document.getElementById('newModCat'),
-    newModDesc: document.getElementById('newModDesc'),
-    newModTags: document.getElementById('newModTags'),
-
     // Toast Container
     toastContainer: document.getElementById('toast-container')
   };
@@ -1027,13 +1015,9 @@
       SFX.back();
       elements.exportModal.classList.remove('open');
     });
-    elements.addModCloseBtn.addEventListener('click', () => {
-      SFX.back();
-      elements.addModModal.classList.remove('open');
-    });
 
     // Modal background click to close
-    [elements.modDetailModal, elements.exportModal, elements.addModModal].forEach(modal => {
+    [elements.modDetailModal, elements.exportModal].forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           SFX.back();
@@ -1102,70 +1086,6 @@
       URL.revokeObjectURL(url);
       showToast('FILE DOWNLOAD STARTED!', 'success');
     });
-
-    // Open Add Mod Modal
-    elements.addModModalBtn.addEventListener('click', () => {
-      SFX.select();
-      elements.addModModal.classList.add('open');
-    });
-
-    // Handle Add Mod Submit
-    elements.addModForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const title = elements.newModTitle.value.trim();
-      let rawId = elements.newModId.value.trim();
-      if (rawId.includes('/')) {
-        const parts = rawId.split('/');
-        rawId = parts[parts.length - 1];
-      }
-
-      if (!rawId || !title) return;
-
-      const gen = elements.newModGen.value;
-      const cat = elements.newModCat.value;
-      const desc = elements.newModDesc.value.trim() || `Mod thread for ${title}.`;
-      const tags = elements.newModTags.value.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
-
-      const catIcons = {
-        'Visuals & 3D': '🎨',
-        'Gameplay & Overhauls': '⚔️',
-        'Quality of Life': '🛠️',
-        'UI & HUD': '📱',
-        'Audio & Music': '🎵',
-        'Multiplayer & Online': '🌐',
-        'Translations': '🌍',
-        'Tools & Utilities': '🧰',
-        'Guides & Community': '📖'
-      };
-
-      const dateInfo = snowflakeToTimestamp(rawId);
-
-      const newMod = {
-        id: rawId,
-        title: title,
-        status: 'active',
-        generation: gen,
-        category: cat,
-        categoryIcon: catIcons[cat] || '📦',
-        description: desc,
-        tags: tags,
-        timestamp: dateInfo.timestamp,
-        dateCreated: dateInfo.dateDisplay,
-        discordWebUrl: `https://discord.com/channels/${GUILD_ID}/${rawId}`,
-        discordAppUrl: `discord://discord.com/channels/${GUILD_ID}/${rawId}`
-      };
-
-      state.customMods.push(newMod);
-      localStorage.setItem('gen1recomp_custom_mods', JSON.stringify(state.customMods));
-
-      elements.addModForm.reset();
-      elements.addModModal.classList.remove('open');
-      SFX.bookmark();
-      showToast('NEW ENTRY RECORDED IN POKéDEX!', 'success');
-      updateStats();
-      renderCategoryChips();
-      render();
-    });
   }
 
   function setExportScope(scope, activeBtn) {
@@ -1224,7 +1144,7 @@
   }
 
   function closeAllModals() {
-    [elements.modDetailModal, elements.exportModal, elements.addModModal].forEach(m => m.classList.remove('open'));
+    [elements.modDetailModal, elements.exportModal].forEach(m => m && m.classList.remove('open'));
   }
 
   // Toast Notification

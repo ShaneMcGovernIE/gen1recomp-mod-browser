@@ -32,9 +32,6 @@
         <button id="exportModalBtn" class="poke-btn poke-btn-sm" title="Export Modpack List">
           📋 EXPORT
         </button>
-        <button id="addModModalBtn" class="poke-btn poke-btn-sm poke-btn-primary" title="Add Custom Discord Thread">
-          + ADD MOD
-        </button>
         <a href="https://discord.com/channels/1019387038820216882/1529474711376105542" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord">
           DISCORD ↗
         </a>
@@ -294,69 +291,6 @@
           <button class="poke-btn" id="downloadExportBtn" style="flex:1;justify-content:center;">💾 DOWNLOAD FILE</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Add Custom Mod Modal -->
-  <div class="modal-screen" id="addModModal">
-    <div class="dialog-box">
-      <button class="dialog-close" id="addModCloseBtn">✕ B</button>
-      <div class="dialog-header">
-        <h2>+ RECORD NEW MOD ENTRY</h2>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Add a new thread from the Discord server to your local Pokédex.</p>
-      </div>
-
-      <form id="addModForm" class="dialog-content">
-        <div>
-          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">THREAD TITLE / MOD NAME *</label>
-          <input type="text" id="newModTitle" class="poke-search-input" required placeholder="e.g. [GEN 1] HD TEXTURE PACK">
-        </div>
-
-        <div>
-          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">DISCORD THREAD ID OR URL *</label>
-          <input type="text" id="newModId" class="poke-search-input" required placeholder="e.g. 1539042234068893766 or https://discord.com/channels/1019387038820216882/1539042234068893766">
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div>
-            <label class="gen-tab-label" style="display:block;margin-bottom:4px;">GENERATION</label>
-            <select id="newModGen" class="poke-select" style="width:100%;">
-              <option value="Gen 1">GEN 1</option>
-              <option value="Gen 2">GEN 2</option>
-              <option value="Gen 1+2">GEN 1+2</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="gen-tab-label" style="display:block;margin-bottom:4px;">CATEGORY</label>
-            <select id="newModCat" class="poke-select" style="width:100%;">
-              <option value="Visuals & 3D">VISUALS & 3D</option>
-              <option value="Gameplay & Overhauls">GAMEPLAY & OVERHAULS</option>
-              <option value="Quality of Life">QUALITY OF LIFE</option>
-              <option value="UI & HUD">UI & HUD</option>
-              <option value="Audio & Music">AUDIO & MUSIC</option>
-              <option value="Multiplayer & Online">MULTIPLAYER & ONLINE</option>
-              <option value="Translations">TRANSLATIONS</option>
-              <option value="Tools & Utilities">TOOLS & UTILITIES</option>
-              <option value="Guides & Community">GUIDES & COMMUNITY</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">DESCRIPTION</label>
-          <textarea id="newModDesc" rows="3" class="poke-search-input" style="height:auto;resize:vertical;" placeholder="SUMMARY OF FEATURES..."></textarea>
-        </div>
-
-        <div>
-          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">TAGS (COMMA SEPARATED)</label>
-          <input type="text" id="newModTags" class="poke-search-input" placeholder="sprites, hd, graphics">
-        </div>
-
-        <button type="submit" class="poke-btn poke-btn-primary" style="padding:10px;margin-top:6px;justify-content:center;">
-          SAVE TO POKéDEX
-        </button>
-      </form>
     </div>
   </div>
 
