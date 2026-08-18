@@ -580,6 +580,54 @@
     }
   }
 
+  // Candidate Logo URLs helper for GitHub repos
+  function getCandidateLogos(repoUrl) {
+    if (!repoUrl) return [];
+    const match = repoUrl.match(/github\.com\/([^/]+)\/([^/#?]+)/);
+    if (!match) return [];
+    const owner = match[1];
+    const repo = match[2];
+    return [
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/Logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/Logo.PNG`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/logo.PNG`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/master/Logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/master/logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/assets/logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/assets/Logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/images/logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/icon.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/preview.png`
+    ];
+  }
+
+  // Global Image Fallback Handler for GitHub Logos
+  window.handleImageFallback = function(img) {
+    try {
+      const rawFallbacks = img.getAttribute('data-fallbacks');
+      if (!rawFallbacks) {
+        if (img.parentElement && img.parentElement.classList.contains('mod-thumbnail-frame')) {
+          img.parentElement.style.display = 'none';
+        }
+        return;
+      }
+      const fallbacks = JSON.parse(rawFallbacks);
+      let idx = parseInt(img.getAttribute('data-fallback-idx') || '0', 10);
+      idx++;
+      if (idx < fallbacks.length) {
+        img.setAttribute('data-fallback-idx', idx);
+        img.src = fallbacks[idx];
+      } else {
+        if (img.parentElement && img.parentElement.classList.contains('mod-thumbnail-frame')) {
+          img.parentElement.style.display = 'none';
+        }
+      }
+    } catch (e) {
+      if (img.parentElement) img.parentElement.style.display = 'none';
+    }
+  };
+
   function renderGrid(mods, query) {
     elements.modsGrid.innerHTML = '';
 
@@ -592,10 +640,21 @@
       const card = document.createElement('article');
       card.className = 'dex-card';
 
-      // Thumbnail Image Frame HTML
-      const thumbHtml = (mod.thumbnailUrl)
+      // Thumbnail Image Frame HTML with dynamic Logo.PNG fallback chain
+      const candidateLogos = getCandidateLogos(mod.repoUrl);
+      const allImages = mod.thumbnailUrl ? [mod.thumbnailUrl, ...candidateLogos] : candidateLogos;
+      const initialImg = allImages.length > 0 ? allImages[0] : '';
+      const candidatesJson = escapeHTML(JSON.stringify(allImages));
+
+      const thumbHtml = initialImg
         ? `<div class="mod-thumbnail-frame" data-mod-id="${mod.id}" style="cursor:pointer;">
-             <img class="mod-thumbnail-img" src="${mod.thumbnailUrl}" alt="${escapeHTML(mod.title)}" loading="lazy" onerror="this.parentElement.style.display='none';">
+             <img class="mod-thumbnail-img" 
+                  src="${initialImg}" 
+                  alt="${escapeHTML(mod.title)}" 
+                  loading="lazy" 
+                  data-fallbacks='${candidatesJson}' 
+                  data-fallback-idx="0" 
+                  onerror="handleImageFallback(this)">
            </div>`
         : '';
 
@@ -823,9 +882,16 @@
       elements.modalAuthor.style.display = 'none';
     }
 
-    // Thumbnail in modal
-    if (mod.thumbnailUrl) {
-      elements.modalThumbnailImg.src = mod.thumbnailUrl;
+    // Thumbnail in modal with fallback support
+    const candidateLogos = getCandidateLogos(mod.repoUrl);
+    const allImages = mod.thumbnailUrl ? [mod.thumbnailUrl, ...candidateLogos] : candidateLogos;
+    if (allImages.length > 0) {
+      elements.modalThumbnailImg.src = allImages[0];
+      elements.modalThumbnailImg.setAttribute('data-fallbacks', JSON.stringify(allImages));
+      elements.modalThumbnailImg.setAttribute('data-fallback-idx', '0');
+      elements.modalThumbnailImg.onerror = function() {
+        handleImageFallback(this);
+      };
       elements.modalThumbnailContainer.style.display = 'block';
     } else {
       elements.modalThumbnailContainer.style.display = 'none';

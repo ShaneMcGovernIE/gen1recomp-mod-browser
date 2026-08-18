@@ -1,5 +1,5 @@
 // bryanthaboi/gen1recomp-mod-index dataset
-// Auto-generated with total release download stats
+// Auto-generated with total release download stats and logo lookups
 
 var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
   {
@@ -92,8 +92,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "menus"
     ],
     "repoUrl": "https://github.com/ArmstrongThomas/gen1-modern-ui",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/ArmstrongThomas/gen1-modern-ui/main/mods/gen1_modern_ui/assets/pixel_frame1.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "ArmstrongThomas@gen1_modern_ui",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ArmstrongThomas@gen1_modern_ui",
     "timestamp": 1786492800000,
@@ -131,7 +131,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.1.8",
     "source": "github_index",
     "downloads": 248,
-    "stars": 4
+    "stars": 4,
+    "repoLogoUrl": "https://raw.githubusercontent.com/AshJamB/SilphNet/main/assets/silphnet-banner.png"
   },
   {
     "id": "gh_AverageConsumer@kanto_gear",
@@ -219,8 +220,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "brenobertucci"
     ],
     "repoUrl": "https://github.com/BrenoBertucci/Terrarium",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/BrenoBertucci/Terrarium/main/assets/floor/floor.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "BrenoBertucci@TERRARIUM",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/BrenoBertucci@TERRARIUM",
     "timestamp": 1786478400000,
@@ -398,7 +399,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.0.0",
     "source": "github_index",
     "downloads": 1190,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/DavidSchuchert/gen1-voxel-dex/main/docs/screenshot.png"
   },
   {
     "id": "gh_Gamecorner_033@PokePCFollowers_VoxelMerge",
@@ -456,7 +458,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.0.2",
     "source": "github_index",
     "downloads": 14560,
-    "stars": 24
+    "stars": 24,
+    "repoLogoUrl": "https://raw.githubusercontent.com/gamecorner-033/Gen1Online/main/assets/cards/clubs/cards_clubs_10.png"
   },
   {
     "id": "gh_Gamecorner_033@overworld_encounters",
@@ -637,8 +640,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "secrets"
     ],
     "repoUrl": "https://github.com/MadeinTaly/gen1recomp-childhood-myths-are-real",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/MadeinTaly/gen1recomp-childhood-myths-are-real/main/assets/truck.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "MadeinTaly@childhood_myths_are_real",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@childhood_myths_are_real",
     "timestamp": 1786424400000,
@@ -735,8 +738,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "colours"
     ],
     "repoUrl": "https://github.com/MadeinTaly/gen1recomp-groovy-palette-frames",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/MadeinTaly/gen1recomp-groovy-palette-frames/main/assets/frames.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "MadeinTaly@groovy_palette",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@groovy_palette",
     "timestamp": 1786413600000,
@@ -1013,8 +1016,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "dive"
     ],
     "repoUrl": "https://github.com/mfrtechconsult/Kanto-gen1-dive",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/mfrtechconsult/Kanto-gen1-dive/main/kanto_dive/assets/tilesets/kanto_dive_underwater.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "MraYT@kanto_dive",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MraYT@kanto_dive",
     "timestamp": 1786381200000,
@@ -1126,7 +1129,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.0.4",
     "source": "github_index",
     "downloads": 324,
-    "stars": 3
+    "stars": 3,
+    "repoLogoUrl": "https://raw.githubusercontent.com/Razor1993-Real/FlyingOverhaul/main/index/thumbnail.png"
   },
   {
     "id": "gh_Roxas2712@deutsch-blau",
@@ -1180,8 +1184,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "gelb"
     ],
     "repoUrl": "https://github.com/Roxas2712/pokemon-gelb-deutsch-mod",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/Roxas2712/pokemon-gelb-deutsch-mod/main/overrides/title/pokemon_logo.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "Roxas2712@deutsch-gelb",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Roxas2712@deutsch-gelb",
     "timestamp": 1786363200000,
@@ -1272,8 +1276,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "espanol"
     ],
     "repoUrl": "https://github.com/Sebarosu/Gen-1-Recomp-Spanish",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/Sebarosu/Gen-1-Recomp-Spanish/main/assets/font/latin.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "Sebarosu@recomp-spanish",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Sebarosu@recomp-spanish",
     "timestamp": 1786352400000,
@@ -1968,7 +1972,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.7.1",
     "source": "github_index",
     "downloads": 55716,
-    "stars": 82
+    "stars": 82,
+    "repoLogoUrl": "https://raw.githubusercontent.com/YoDrehDenSwagAuf/overworld-spawn-mod/main/assets/balls/great_ball.png"
   },
   {
     "id": "gh_YukitaMayako@simple_girl",
@@ -1996,7 +2001,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.0.0",
     "source": "github_index",
     "downloads": 159,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/Yukitty/gen1mod-simple_girl/main/assets/battle/leaf.png"
   },
   {
     "id": "gh_Yukitty@oak_brief",
@@ -2023,7 +2029,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.0.0",
     "source": "github_index",
     "downloads": 910,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/Yukitty/gen1mod_oak_brief/main/.github/assets/thumbnail.png"
   },
   {
     "id": "gh_absol89@BATTLE_ART_VOXEL_FORK",
@@ -2078,8 +2085,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "kitt"
     ],
     "repoUrl": "https://github.com/castdrian/recomp-rider",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/castdrian/recomp-rider/main/assets/attack-mode-icon.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "adrian@recomp-rider",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/adrian@recomp-rider",
     "timestamp": 1786255200000,
@@ -2120,7 +2127,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.7.1",
     "source": "github_index",
     "downloads": 3986,
-    "stars": 12
+    "stars": 12,
+    "repoLogoUrl": "https://raw.githubusercontent.com/alamops/RBYMMOMod/main/assets/battle/outdoor_grass_arena.png"
   },
   {
     "id": "gh_allanrmartins@SWITCH_ADVISOR",
@@ -2257,8 +2265,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "bryanthaboi"
     ],
     "repoUrl": "https://github.com/bryanthaboi/versaovermelha",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/bryanthaboi/versaovermelha/main/assets/font/latin.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "bryanthaboi@versaovermelha",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/bryanthaboi@versaovermelha",
     "timestamp": 1786233600000,
@@ -2419,7 +2427,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.1.0",
     "source": "github_index",
     "downloads": 2152,
-    "stars": 3
+    "stars": 3,
+    "repoLogoUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-better-battle-ui/main/screenshot.png"
   },
   {
     "id": "gh_eduardocalafell@bike_anywhere",
@@ -2451,7 +2460,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.1.0",
     "source": "github_index",
     "downloads": 290,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-bike-anywhere/main/screenshot.png"
   },
   {
     "id": "gh_eduardocalafell@damage_numbers",
@@ -2505,8 +2515,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "eduardocalafell"
     ],
     "repoUrl": "https://github.com/eduardocalafell/gen1recomp-fakemons",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-fakemons/main/assets/cindrake_back.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "eduardocalafell@fakemons",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@fakemons",
     "timestamp": 1786204800000,
@@ -2545,7 +2555,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.1.0",
     "source": "github_index",
     "downloads": 620,
-    "stars": 1
+    "stars": 1,
+    "repoLogoUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-gen2-dex/main/assets/aipom_back.png"
   },
   {
     "id": "gh_eduardocalafell@minimap",
@@ -2607,7 +2618,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.2.0",
     "source": "github_index",
     "downloads": 764,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-modern-dialog/main/preview-patterns.png"
   },
   {
     "id": "gh_eduardocalafell@player_sprite_flip",
@@ -2639,7 +2651,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v0.1.0",
     "source": "github_index",
     "downloads": 901,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/eduardocalafell/gen1recomp-player-sprite-flip/main/screenshot.png"
   },
   {
     "id": "gh_hdbreaker@cheat_engine",
@@ -2784,8 +2797,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
       "casino"
     ],
     "repoUrl": "https://github.com/martin2844/gen1recomp-blackjack-corner",
-    "thumbnailUrl": "",
-    "hasThumbnail": false,
+    "thumbnailUrl": "https://raw.githubusercontent.com/martin2844/gen1recomp-blackjack-corner/main/assets/screenshots/blackjack-bet-selection.png",
+    "hasThumbnail": true,
     "githubIndexFolder": "martin2844@blackjack_corner",
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/martin2844@blackjack_corner",
     "timestamp": 1786172400000,
@@ -2909,7 +2922,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.0.0",
     "source": "github_index",
     "downloads": 1258,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/masterwebx/gen1recomp-heal-anywhere/main/assets/field_heal_machine.png"
   },
   {
     "id": "gh_masterwebx@MOVE_MATCHUP",
@@ -3060,7 +3074,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.3.1",
     "source": "github_index",
     "downloads": 11361,
-    "stars": 23
+    "stars": 23,
+    "repoLogoUrl": "https://raw.githubusercontent.com/menyas/unique-menu-icons/main/assets/icon_color/ABRA.png"
   },
   {
     "id": "gh_mresnick67@pokewalker",
@@ -3183,7 +3198,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.5.1",
     "source": "github_index",
     "downloads": 427,
-    "stars": 0
+    "stars": 0,
+    "repoLogoUrl": "https://raw.githubusercontent.com/tebwritescode/gen1mmo/main/assets/thumbnail.png"
   },
   {
     "id": "gh_tebwritescode@savesync",
@@ -3217,7 +3233,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.6.1",
     "source": "github_index",
     "downloads": 228,
-    "stars": 1
+    "stars": 1,
+    "repoLogoUrl": "https://raw.githubusercontent.com/tebwritescode/savesync/main/assets/icon.png"
   },
   {
     "id": "gh_ty-mcdk@additional_story_healers",
@@ -3271,7 +3288,8 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "dateCreated": "v1.2.0",
     "source": "github_index",
     "downloads": 48020,
-    "stars": 78
+    "stars": 78,
+    "repoLogoUrl": "https://raw.githubusercontent.com/unxpected-uxp/pokemon-gen1-recomp-mod-qol/main/images/battle.gif"
   },
   {
     "id": "gh_DarioMelo@Music_FRLG",
