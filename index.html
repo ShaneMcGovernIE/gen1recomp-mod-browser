@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen1Recomp & Gen2Recomp Mod Browser</title>
+  <meta name="description" content="Fast, clean search and discovery for Pokémon Gen1Recomp and Gen2Recomp Discord community mods.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="scanlines-on">
+
+  <!-- Main Game Boy / Pokédex Housing Frame -->
+  <div class="gameboy-frame">
+    
+    <!-- Top Site Bar -->
+    <header class="site-top-bar">
+      <div class="brand-wrapper">
+        <div class="pokeball-lens"></div>
+        <div class="brand-titles">
+          <h1>Gen1Recomp Mods</h1>
+          <p>POKéMON MOD ARCHIVE // 83 COMMUNITY ENTRIES</p>
+        </div>
+      </div>
+
+      <div class="header-quick-links">
+        <button id="favoritesModalBtn" class="poke-btn poke-btn-sm" title="View Bookmarks">
+          ★ SAVED (<span id="favCountBadge">0</span>)
+        </button>
+        <button id="exportModalBtn" class="poke-btn poke-btn-sm" title="Export Modpack List">
+          📋 EXPORT
+        </button>
+        <button id="addModModalBtn" class="poke-btn poke-btn-sm poke-btn-primary" title="Add Custom Discord Thread">
+          + ADD MOD
+        </button>
+        <a href="https://discord.com/channels/1019387038820216882/1529474711376105542" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord">
+          DISCORD ↗
+        </a>
+      </div>
+    </header>
+
+    <!-- Clean Primary Search & Filter Hub -->
+    <section class="search-hub-box">
+      <!-- Search Row -->
+      <div class="search-input-row">
+        <div class="search-input-wrapper">
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="poke-search-input" 
+            placeholder="Search mods by title, feature, tag (e.g. QoL, Voxel, Nuzlocke)... [Press /]"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button id="searchClearBtn" class="search-clear-btn" title="Clear Search">CLEAR</button>
+        </div>
+        <button id="toggleAdvancedBtn" class="poke-btn" title="Toggle Advanced Filters">
+          ⚙️ OPTIONS <span id="activeFilterBadge" class="filter-active-count" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <!-- Quick Generation Row -->
+      <div class="quick-controls-row">
+        <div class="gen-tab-group">
+          <span class="gen-tab-label">GENERATION:</span>
+          <button class="tab-pill active" data-gen="all">ALL</button>
+          <button class="tab-pill gen-red" data-gen="Gen 1">GEN 1</button>
+          <button class="tab-pill gen-blue" data-gen="Gen 2">GEN 2</button>
+          <button class="tab-pill gen-dual" data-gen="Gen 1+2">GEN 1+2</button>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="gen-tab-label">SORT:</span>
+          <select id="sortSelect" class="poke-select">
+            <option value="relevance">🎯 RELEVANCE / NEWEST</option>
+            <option value="newest">🕒 NEWEST FIRST</option>
+            <option value="oldest">⏳ OLDEST FIRST</option>
+            <option value="title-asc">🔤 TITLE (A → Z)</option>
+            <option value="title-desc">🔤 TITLE (Z → A)</option>
+            <option value="category">📁 CATEGORY</option>
+            <option value="status">🟢 ACTIVE FIRST</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Collapsible Advanced Options Panel -->
+      <div class="advanced-panel" id="advancedPanel">
+        <!-- Status Filter Row -->
+        <div class="adv-row">
+          <span class="adv-label">STATUS:</span>
+          <button class="tab-pill active" data-status="all">ALL</button>
+          <button class="tab-pill" data-status="active">🟢 ACTIVE ONLY</button>
+          <button class="tab-pill" data-status="archived">📁 ARCHIVED ONLY</button>
+          <button class="tab-pill" data-status="favorites">★ BOOKMARKED ONLY</button>
+        </div>
+
+        <!-- Appearance & Audio Row -->
+        <div class="adv-row">
+          <span class="adv-label">THEME & SFX:</span>
+          <select id="themeSelect" class="poke-select">
+            <option value="redblue">🔴 RED & BLUE 1996</option>
+            <option value="dmg">🎮 GAME BOY DMG-01</option>
+            <option value="gbc">🟡 GOLD & SILVER GBC</option>
+            <option value="pokedex">📱 OAK'S POKéDEX</option>
+            <option value="lavender">👻 LAVENDER TOWN</option>
+          </select>
+
+          <button id="soundToggleBtn" class="poke-btn poke-btn-sm">
+            🔊 SOUND: ON
+          </button>
+          <button id="scanlinesToggleBtn" class="poke-btn poke-btn-sm">
+            📺 CRT: ON
+          </button>
+          <button id="resetFiltersBtn" class="poke-btn poke-btn-sm">
+            🔄 RESET ALL FILTERS
+          </button>
+        </div>
+
+        <!-- Category Chips -->
+        <div class="category-chips-wrapper" id="categoryChipsContainer">
+          <!-- Dynamic Category Pills -->
+        </div>
+
+        <!-- Quick Stats Overview Strip -->
+        <div class="stats-summary-strip" id="statsStrip">
+          <div class="stat-chip" data-stat="all" style="cursor:pointer;">
+            <span class="stat-chip-label">TOTAL</span>
+            <span class="stat-chip-val" id="totalModsCount">83</span>
+          </div>
+          <div class="stat-chip" data-stat="active" style="cursor:pointer;">
+            <span class="stat-chip-label">ACTIVE</span>
+            <span class="stat-chip-val" id="activeModsCount">0</span>
+          </div>
+          <div class="stat-chip" data-stat="archived" style="cursor:pointer;">
+            <span class="stat-chip-label">ARCHIVED</span>
+            <span class="stat-chip-val" id="archivedModsCount">0</span>
+          </div>
+          <div class="stat-chip" data-stat="visuals" style="cursor:pointer;">
+            <span class="stat-chip-label">3D/VISUALS</span>
+            <span class="stat-chip-val" id="voxelModsCount">0</span>
+          </div>
+          <div class="stat-chip" data-stat="multiplayer" style="cursor:pointer;">
+            <span class="stat-chip-label">MULTIPLAYER</span>
+            <span class="stat-chip-val" id="multiplayerModsCount">0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Meta & View Controls -->
+    <div class="results-meta-bar">
+      <div class="results-count-text" id="resultsCount">
+        Showing <span id="resultsCountNum">83</span> entries
+      </div>
+
+      <div class="results-actions-right">
+        <button id="viewGridBtn" class="poke-btn poke-btn-sm" title="Pokédex Card View">🔲 CARDS</button>
+        <button id="viewListBtn" class="poke-btn poke-btn-sm" title="Table View">📑 TABLE</button>
+      </div>
+    </div>
+
+    <!-- Main Mod Grid / Table Container -->
+    <main id="modsContainer">
+      <div class="dex-grid" id="modsGrid">
+        <!-- Injected dynamically via app.js -->
+      </div>
+
+      <div class="table-box" id="modsTableWrapper" style="display: none;">
+        <table class="retro-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Status</th>
+              <th>Gen</th>
+              <th>Category</th>
+              <th>Mod Title & Overview</th>
+              <th>Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="modsTableBody">
+            <!-- Injected dynamically via app.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-box" id="emptyState" style="display: none;">
+        <h3>NO MATCHING MODS FOUND!</h3>
+        <p style="margin-top:6px;font-size:0.85rem;color:var(--text-muted);">Try a different search query or reset your filters.</p>
+        <button class="poke-btn poke-btn-primary" id="emptyResetBtn" style="margin-top: 12px;">
+          RESET FILTERS
+        </button>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Classic Pokémon Dialogue Box Modal (Details) -->
+  <div class="modal-screen" id="modDetailModal">
+    <div class="dialog-box">
+      <button class="dialog-close" id="modalCloseBtn">✕ B</button>
+      <div class="dialog-header">
+        <div class="dex-top-tags" id="modalBadges" style="margin-bottom:6px;"></div>
+        <h2 id="modalTitle"></h2>
+      </div>
+
+      <div class="dialog-content">
+        <div class="dialog-subbox">
+          <div class="dialog-subbox-title">DESCRIPTION & SPECS</div>
+          <p id="modalDesc" style="font-size:0.88rem;line-height:1.55;"></p>
+        </div>
+
+        <div class="dialog-subbox">
+          <div class="dialog-subbox-title">SEARCH TAGS</div>
+          <div class="dex-tags-list" id="modalTags"></div>
+        </div>
+
+        <div class="dialog-subbox">
+          <div class="dialog-subbox-title">DISCORD THREAD INFORMATION</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-top:4px;">
+            <span id="modalThreadId" style="font-size:0.78rem;font-weight:700;">THREAD ID: 1532024483546796103</span>
+            <button class="poke-btn poke-btn-sm" id="modalCopyIdBtn">COPY ID</button>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.72rem;color:var(--text-muted);">
+            <span id="modalThreadDate">CREATED: JUL 29, 2026</span>
+            <span id="modalStatusText">STATUS: ACTIVE</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-discord" id="modalWebLink" style="flex:1;justify-content:center;">
+            DISCORD WEB ↗
+          </a>
+          <a href="#" class="poke-btn poke-btn-blue" id="modalAppLink" style="flex:1;justify-content:center;">
+            DISCORD APP 🚀
+          </a>
+          <button class="poke-btn" id="modalCopyLinkBtn" style="flex:1;justify-content:center;">
+            🔗 COPY LINK
+          </button>
+          <button class="poke-btn" id="modalFavToggleBtn" style="flex:1;justify-content:center;">
+            ★ BOOKMARK
+          </button>
+        </div>
+
+        <div id="modalRelatedSection" class="dialog-subbox" style="margin-top:4px;">
+          <div class="dialog-subbox-title">RELATED MODS IN THIS CATEGORY</div>
+          <div id="modalRelatedList" style="display:flex;flex-direction:column;gap:6px;margin-top:6px;"></div>
+        </div>
+
+        <div style="text-align:right;">
+          <span class="dialog-arrow">▼</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal-screen" id="exportModal">
+    <div class="dialog-box">
+      <button class="dialog-close" id="exportCloseBtn">✕ B</button>
+      <div class="dialog-header">
+        <h2>📋 MODPACK EXPORT</h2>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Export your bookmarked load order or full directory for Discord posts.</p>
+      </div>
+
+      <div class="dialog-content">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <span class="gen-tab-label">SCOPE:</span>
+          <button class="tab-pill active" id="exportScopeFavs">★ SAVED (<span id="exportFavCount">0</span>)</button>
+          <button class="tab-pill" id="exportScopeFiltered">CURRENT FILTERED</button>
+          <button class="tab-pill" id="exportScopeAll">ALL 83 MODS</button>
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <span class="gen-tab-label">FORMAT:</span>
+          <button class="tab-pill active" id="exportFmtMarkdown">MARKDOWN</button>
+          <button class="tab-pill" id="exportFmtText">PLAIN TEXT</button>
+          <button class="tab-pill" id="exportFmtJSON">JSON</button>
+        </div>
+
+        <textarea 
+          id="exportTextArea" 
+          rows="10" 
+          readonly 
+          class="poke-search-input" 
+          style="font-size:0.75rem;resize:vertical;"
+        ></textarea>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="poke-btn poke-btn-primary" id="copyExportBtn" style="flex:1;justify-content:center;">📋 COPY TO CLIPBOARD</button>
+          <button class="poke-btn" id="downloadExportBtn" style="flex:1;justify-content:center;">💾 DOWNLOAD FILE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Custom Mod Modal -->
+  <div class="modal-screen" id="addModModal">
+    <div class="dialog-box">
+      <button class="dialog-close" id="addModCloseBtn">✕ B</button>
+      <div class="dialog-header">
+        <h2>+ RECORD NEW MOD ENTRY</h2>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Add a new thread from the Discord server to your local Pokédex.</p>
+      </div>
+
+      <form id="addModForm" class="dialog-content">
+        <div>
+          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">THREAD TITLE / MOD NAME *</label>
+          <input type="text" id="newModTitle" class="poke-search-input" required placeholder="e.g. [GEN 1] HD TEXTURE PACK">
+        </div>
+
+        <div>
+          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">DISCORD THREAD ID OR URL *</label>
+          <input type="text" id="newModId" class="poke-search-input" required placeholder="e.g. 1539042234068893766 or https://discord.com/channels/1019387038820216882/1539042234068893766">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="gen-tab-label" style="display:block;margin-bottom:4px;">GENERATION</label>
+            <select id="newModGen" class="poke-select" style="width:100%;">
+              <option value="Gen 1">GEN 1</option>
+              <option value="Gen 2">GEN 2</option>
+              <option value="Gen 1+2">GEN 1+2</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="gen-tab-label" style="display:block;margin-bottom:4px;">CATEGORY</label>
+            <select id="newModCat" class="poke-select" style="width:100%;">
+              <option value="Visuals & 3D">VISUALS & 3D</option>
+              <option value="Gameplay & Overhauls">GAMEPLAY & OVERHAULS</option>
+              <option value="Quality of Life">QUALITY OF LIFE</option>
+              <option value="UI & HUD">UI & HUD</option>
+              <option value="Audio & Music">AUDIO & MUSIC</option>
+              <option value="Multiplayer & Online">MULTIPLAYER & ONLINE</option>
+              <option value="Translations">TRANSLATIONS</option>
+              <option value="Tools & Utilities">TOOLS & UTILITIES</option>
+              <option value="Guides & Community">GUIDES & COMMUNITY</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">DESCRIPTION</label>
+          <textarea id="newModDesc" rows="3" class="poke-search-input" style="height:auto;resize:vertical;" placeholder="SUMMARY OF FEATURES..."></textarea>
+        </div>
+
+        <div>
+          <label class="gen-tab-label" style="display:block;margin-bottom:4px;">TAGS (COMMA SEPARATED)</label>
+          <input type="text" id="newModTags" class="poke-search-input" placeholder="sprites, hd, graphics">
+        </div>
+
+        <button type="submit" class="poke-btn poke-btn-primary" style="padding:10px;margin-top:6px;justify-content:center;">
+          SAVE TO POKéDEX
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="data/mods.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
