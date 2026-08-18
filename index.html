@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.6">
+  <link rel="stylesheet" href="styles.css?v=2.7">
 </head>
 <body class="scanlines-on">
 
@@ -26,6 +26,13 @@
       </div>
 
       <div class="header-quick-links">
+        <select id="themeSelect" class="poke-select poke-btn-sm" title="Select Visual Theme" style="cursor:pointer;">
+          <option value="redblue">🎨 THEME: RED & BLUE</option>
+          <option value="dmg">🎮 THEME: DMG-01</option>
+          <option value="gbc">🟡 THEME: GBC</option>
+          <option value="pokedex">📱 THEME: POKéDEX</option>
+          <option value="lavender">👻 THEME: LAVENDER</option>
+        </select>
         <button id="favoritesModalBtn" class="poke-btn poke-btn-sm" title="View Bookmarks">
           ★ SAVED (<span id="favCountBadge">0</span>)
         </button>
@@ -113,17 +120,9 @@
           <button class="tab-pill" data-status="favorites">★ BOOKMARKED ONLY</button>
         </div>
 
-        <!-- Appearance & Audio Row -->
+        <!-- Audio & Display Settings Row -->
         <div class="adv-row">
-          <span class="adv-label">THEME & SFX:</span>
-          <select id="themeSelect" class="poke-select">
-            <option value="redblue">🔴 RED & BLUE 1996</option>
-            <option value="dmg">🎮 GAME BOY DMG-01</option>
-            <option value="gbc">🟡 GOLD & SILVER GBC</option>
-            <option value="pokedex">📱 OAK'S POKéDEX</option>
-            <option value="lavender">👻 LAVENDER TOWN</option>
-          </select>
-
+          <span class="adv-label">AUDIO & DISPLAY:</span>
           <button id="soundToggleBtn" class="poke-btn poke-btn-sm">
             🔊 SOUND: ON
           </button>
@@ -337,8 +336,8 @@
   <div id="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="data/mods.js?v=2.6"></script>
-  <script src="data/github_mods.js?v=2.6"></script>
-  <script src="app.js?v=2.6"></script>
+  <script src="data/mods.js?v=2.7"></script>
+  <script src="data/github_mods.js?v=2.7"></script>
+  <script src="app.js?v=2.7"></script>
 </body>
 </html>
