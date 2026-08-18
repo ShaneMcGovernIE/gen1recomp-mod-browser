@@ -35,29 +35,6 @@ A fast, modern, zero-dependency web application designed for searching, filterin
 
 ---
 
-## 🚀 Quick Start
-
-### Option 1: Open Directly
-Simply open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge):
-```bash
-open index.html # On macOS
-# or double-click index.html in your file manager
-```
-
-### Option 2: Run Local Dev Server
-```bash
-python3 -m http.server 8000
-```
-Then visit `http://localhost:8000` in your browser.
-
-### Option 3: Deploy to GitHub Pages
-1. Push this repository to GitHub.
-2. Go to **Settings > Pages**.
-3. Select the `main` branch and `/ (root)` folder.
-4. Your mod browser is now live!
-
----
-
 ## 📂 Project Structure
 
 ```
