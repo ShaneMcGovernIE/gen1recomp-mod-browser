@@ -281,15 +281,15 @@
 
   // Categories list
   const CATEGORIES = [
-    { name: 'Quality of Life', icon: '🛠️' },
-    { name: 'Visuals & 3D', icon: '🎨' },
-    { name: 'Gameplay & Overhauls', icon: '⚔️' },
-    { name: 'UI & HUD', icon: '📱' },
-    { name: 'Audio & Music', icon: '🎵' },
-    { name: 'Multiplayer & Online', icon: '🌐' },
-    { name: 'Translations', icon: '🌍' },
-    { name: 'Tools & Utilities', icon: '🧰' },
-    { name: 'Guides & Community', icon: '📖' }
+    { name: 'Quality of Life' },
+    { name: 'Visuals & 3D' },
+    { name: 'Gameplay & Overhauls' },
+    { name: 'UI & HUD' },
+    { name: 'Audio & Music' },
+    { name: 'Multiplayer & Online' },
+    { name: 'Translations' },
+    { name: 'Tools & Utilities' },
+    { name: 'Guides & Community' }
   ];
 
   // Update Source Counts
@@ -349,7 +349,7 @@
     // "ALL" Category Chip
     const allBtn = document.createElement('button');
     allBtn.className = `cat-btn ${state.selectedCategories.size === 0 ? 'active' : ''}`;
-    allBtn.innerHTML = `<span>✨ ALL CATEGORIES</span> <span class="cat-num">${totalMatchingGen}</span>`;
+    allBtn.innerHTML = `<span>ALL CATEGORIES</span> <span class="cat-num">${totalMatchingGen}</span>`;
     allBtn.addEventListener('click', () => {
       SFX.cursor();
       state.selectedCategories.clear();
@@ -369,7 +369,7 @@
       const isSelected = state.selectedCategories.has(cat.name);
       btn.className = `cat-btn ${isSelected ? 'active' : ''}`;
       btn.setAttribute('data-category-name', cat.name);
-      btn.innerHTML = `<span>${cat.icon} ${cat.name}</span> <span class="cat-num">${count}</span>`;
+      btn.innerHTML = `<span>${cat.name}</span> <span class="cat-num">${count}</span>`;
       btn.addEventListener('click', () => {
         SFX.cursor();
         if (state.selectedCategories.has(cat.name)) {
@@ -885,11 +885,11 @@
         : '';
 
       const authorHtml = mod.author
-        ? `<div class="mod-author-tag"><span class="author-clickable" data-author="${escapeHTML(mod.author)}" title="Filter mods by ${escapeHTML(mod.author)}">👤 by ${highlightText(mod.author, query)}</span> ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
+        ? `<div class="mod-author-tag"><span class="author-clickable" data-author="${escapeHTML(mod.author)}" title="Filter mods by ${escapeHTML(mod.author)}">by ${highlightText(mod.author, query)}</span> ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
         : '';
 
       const downloadsBadge = (mod.downloads && mod.downloads > 0)
-        ? `<span class="poke-tag tag-downloads" title="${mod.downloads.toLocaleString()} Total GitHub Downloads">📥 ${formatDownloads(mod.downloads)}</span>`
+        ? `<span class="poke-tag tag-downloads" title="${mod.downloads.toLocaleString()} Total GitHub Downloads">DL: ${formatDownloads(mod.downloads)}</span>`
         : '';
 
       const starsBadge = (mod.stars && mod.stars > 0)
@@ -908,7 +908,7 @@
               ${downloadsBadge}
               ${starsBadge}
               <span class="poke-tag ${genClass}">${mod.generation}</span>
-              <span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span>
+              <span class="poke-tag">${mod.category}</span>
               <button class="poke-btn poke-btn-sm btn-favorite" data-mod-id="${mod.id}" title="${isFav ? 'Remove Bookmark' : 'Bookmark Mod'}">
                 ${isFav ? '★' : '☆'}
               </button>
@@ -936,7 +936,7 @@
 
           <div class="card-actions-row">
             ${primaryActionBtn}
-            <button class="poke-btn poke-btn-sm btn-copy-link" data-mod-id="${mod.id}" title="Copy Link">🔗 COPY</button>
+            <button class="poke-btn poke-btn-sm btn-copy-link" data-mod-id="${mod.id}" title="Copy Link">COPY</button>
             <button class="poke-btn poke-btn-sm btn-details" data-mod-id="${mod.id}">INFO</button>
           </div>
         </div>
@@ -1027,7 +1027,7 @@
 
       const thumbImg = mod.thumbnailUrl
         ? `<img src="${mod.thumbnailUrl}" alt="" style="width:40px;height:40px;object-fit:cover;border:1px solid var(--border-color);" onerror="this.style.display='none';">`
-        : `<span style="font-size:1.2rem;">${mod.categoryIcon || '📦'}</span>`;
+        : `<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">[MOD]</span>`;
 
       const primaryLink = mod.repoUrl || mod.discordWebUrl;
 
@@ -1041,8 +1041,8 @@
           ${mod.author ? `<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--poke-blue);cursor:pointer;" class="table-author-click">by ${escapeHTML(mod.author)}</div>` : ''}
         </td>
         <td><span class="poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}">${mod.generation}</span></td>
-        <td><span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span></td>
-        <td><span class="poke-tag tag-downloads" title="${(mod.downloads || 0).toLocaleString()} Downloads">📥 ${formatDownloads(mod.downloads || 0)}</span></td>
+        <td><span class="poke-tag">${mod.category}</span></td>
+        <td><span class="poke-tag tag-downloads" title="${(mod.downloads || 0).toLocaleString()} Downloads">DL: ${formatDownloads(mod.downloads || 0)}</span></td>
         <td>${hpBarHtml}</td>
         <td style="text-align:right;">
           <div style="display:inline-flex;gap:4px;">
@@ -1130,10 +1130,10 @@
     elements.modalDexNo.textContent = mod.dexNo;
     elements.modalGenBadge.textContent = mod.generation;
     elements.modalGenBadge.className = `poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}`;
-    elements.modalCatBadge.textContent = `${mod.categoryIcon || '📦'} ${mod.category}`;
+    elements.modalCatBadge.textContent = mod.category;
 
     if (mod.downloads && mod.downloads > 0) {
-      elements.modalDownloadsBadge.textContent = `📥 ${mod.downloads.toLocaleString()} DLs`;
+      elements.modalDownloadsBadge.textContent = `${mod.downloads.toLocaleString()} DLs`;
       elements.modalDownloadsBadge.style.display = 'inline-block';
     } else {
       elements.modalDownloadsBadge.style.display = 'none';
@@ -1453,7 +1453,7 @@
     // Sound toggle
     elements.soundToggleBtn.addEventListener('click', () => {
       state.soundEnabled = !state.soundEnabled;
-      elements.soundToggleBtn.textContent = `🔊 SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
+      elements.soundToggleBtn.textContent = `SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
       try {
         localStorage.setItem('gen1recomp_sound', state.soundEnabled);
       } catch (err) {}
@@ -1465,7 +1465,7 @@
     elements.scanlinesToggleBtn.addEventListener('click', () => {
       SFX.cursor();
       state.scanlinesEnabled = !state.scanlinesEnabled;
-      elements.scanlinesToggleBtn.textContent = `📺 CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
+      elements.scanlinesToggleBtn.textContent = `CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
       document.body.classList.toggle('scanlines-on', state.scanlinesEnabled);
       try {
         localStorage.setItem('gen1recomp_scanlines', state.scanlinesEnabled);
@@ -1767,8 +1767,8 @@
     elements.themeSelect.value = state.theme;
 
     document.body.classList.toggle('scanlines-on', state.scanlinesEnabled);
-    elements.scanlinesToggleBtn.textContent = `📺 CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
-    elements.soundToggleBtn.textContent = `🔊 SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
+    elements.scanlinesToggleBtn.textContent = `CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
+    elements.soundToggleBtn.textContent = `SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
 
     // Apply active source button
     elements.sourceTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-source') === state.dataSource));
