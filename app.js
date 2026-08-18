@@ -628,6 +628,51 @@
     }
   };
 
+  // Calculate 10-segment HP based on weeks since last update (-1 HP per week)
+  function calculateModHP(mod) {
+    const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    const updateTs = mod.lastUpdated || mod.timestamp || now;
+    const ageMs = Math.max(0, now - updateTs);
+    const weeksOld = Math.floor(ageMs / msPerWeek);
+    const daysOld = Math.floor(ageMs / (24 * 60 * 60 * 1000));
+    const hp = Math.max(0, Math.min(10, 10 - weeksOld));
+    
+    let hpClass = 'hp-green';
+    if (hp <= 2) {
+      hpClass = 'hp-red';
+    } else if (hp <= 5) {
+      hpClass = 'hp-yellow';
+    }
+
+    return {
+      hp,
+      maxHp: 10,
+      weeksOld,
+      daysOld,
+      hpClass,
+      tooltip: `Updated ${daysOld === 0 ? 'Today' : `${daysOld}d ago (${weeksOld}w)`} — ${hp}/10 HP`
+    };
+  }
+
+  function renderHPBar(hpInfo) {
+    const segments = [];
+    for (let i = 0; i < 10; i++) {
+      if (i < hpInfo.hp) {
+        segments.push(`<span class="hp-segment ${hpInfo.hpClass}"></span>`);
+      } else {
+        segments.push(`<span class="hp-segment hp-depleted"></span>`);
+      }
+    }
+    return `
+      <div class="hp-gauge-wrapper" title="${escapeHTML(hpInfo.tooltip)}">
+        <span class="hp-label">HP:</span>
+        <div class="hp-meter-10">${segments.join('')}</div>
+        <span class="hp-num">${hpInfo.hp}/10</span>
+      </div>
+    `;
+  }
+
   function renderGrid(mods, query) {
     elements.modsGrid.innerHTML = '';
 
@@ -636,6 +681,8 @@
       const isActive = mod.status.toLowerCase() === 'active';
       const genClass = mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual';
       const isGh = mod.source === 'github_index';
+      const hpInfo = calculateModHP(mod);
+      const hpBarHtml = renderHPBar(hpInfo);
 
       const card = document.createElement('article');
       card.className = 'dex-card';
@@ -704,13 +751,7 @@
 
         <div class="dex-card-footer">
           <div class="card-meta-row">
-            <div class="hp-gauge-wrapper">
-              <span>HP:</span>
-              <div class="hp-bar-outer">
-                <div class="hp-bar-inner ${isActive ? '' : 'archived'}"></div>
-              </div>
-              <span>${isActive ? 'ACTIVE' : 'ARCHIVED'}</span>
-            </div>
+            ${hpBarHtml}
             <span>${mod.downloads ? `${mod.downloads.toLocaleString()} DLs` : (mod.dateCreated || 'Recent')}</span>
           </div>
 
@@ -872,7 +913,10 @@
       elements.modalVersionBadge.style.display = 'none';
     }
 
-    elements.modalStatusBadge.textContent = (mod.status || 'active').toUpperCase();
+    const hpInfo = calculateModHP(mod);
+    elements.modalStatusBadge.textContent = `HP: ${hpInfo.hp}/10`;
+    elements.modalStatusBadge.className = `poke-tag ${hpInfo.hp > 5 ? 'tag-downloads' : hpInfo.hp > 2 ? 'tag-stars' : 'tag-red'}`;
+    elements.modalStatusBadge.title = hpInfo.tooltip;
     elements.modalTitle.textContent = mod.title;
 
     if (mod.author) {

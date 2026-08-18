@@ -741,7 +741,7 @@ body.scanlines-on::after {
 .tag-downloads { background: var(--poke-green); color: #ffffff; font-family: var(--font-mono); font-weight: 700; }
 .tag-stars { background: var(--poke-yellow); color: #181818; font-family: var(--font-mono); font-weight: 700; }
 
-/* HP Gauge Status Bar */
+/* 10-Segment Pokémon HP Gauge Status Bar */
 .hp-gauge-wrapper {
   display: flex;
   align-items: center;
@@ -749,23 +749,52 @@ body.scanlines-on::after {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
+  user-select: none;
 }
 
-.hp-bar-outer {
-  width: 50px;
-  height: 8px;
-  background: #282828;
-  border: 1px solid var(--border-color);
+.hp-label {
+  font-family: var(--font-retro-title);
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
-.hp-bar-inner {
-  height: 100%;
+.hp-meter-10 {
+  display: inline-flex;
+  gap: 2px;
+  background: #111827;
+  padding: 2px;
+  border: 2px solid var(--border-color);
+  box-shadow: 1px 1px 0px var(--shadow-color);
+}
+
+.hp-segment {
+  width: 4px;
+  height: 10px;
+  border-radius: 1px;
+}
+
+.hp-segment.hp-green {
   background: #22c55e;
-  width: 100%;
 }
-.hp-bar-inner.archived {
-  background: #64748b;
-  width: 25%;
+
+.hp-segment.hp-yellow {
+  background: #eab308;
+}
+
+.hp-segment.hp-red {
+  background: #ef4444;
+}
+
+.hp-segment.hp-depleted {
+  background: #374151;
+  opacity: 0.35;
+}
+
+.hp-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .dex-card-body {
