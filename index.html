@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.7">
+  <link rel="stylesheet" href="styles.css?v=2.8">
 </head>
 <body class="scanlines-on">
 
@@ -66,6 +66,16 @@
         <button id="toggleAdvancedBtn" class="poke-btn" title="Toggle Advanced Filters">
           ⚙️ OPTIONS <span id="activeFilterBadge" class="filter-active-count" style="display:none;">0</span>
         </button>
+      </div>
+
+      <!-- Quick Presets Row -->
+      <div class="quick-presets-row">
+        <span class="gen-tab-label">⚡ PRESETS:</span>
+        <button class="preset-pill active" data-preset="all">✨ ALL</button>
+        <button class="preset-pill" data-preset="top10">🏆 TOP 10</button>
+        <button class="preset-pill" data-preset="recent">⚡ RECENT (&lt;14d)</button>
+        <button class="preset-pill" data-preset="thumbnails">🖼️ PREVIEWS</button>
+        <button class="preset-pill" data-preset="bookmarks">★ BOOKMARKS</button>
       </div>
 
       <!-- Quick Source & Generation Row -->
@@ -165,6 +175,13 @@
       </div>
     </section>
 
+    <!-- Active Filters Breadcrumb Bar -->
+    <div id="activeFiltersBar" class="active-filters-bar" style="display:none;">
+      <span class="active-filters-label">ACTIVE:</span>
+      <div id="activeFiltersPills" class="active-filters-pills"></div>
+      <button id="clearAllBreadcrumbsBtn" class="filter-breadcrumb-clear" title="Clear All Active Filters">✕ CLEAR ALL</button>
+    </div>
+
     <!-- Results Meta Bar -->
     <div class="results-meta-bar">
       <div class="results-count-text">
@@ -185,6 +202,13 @@
       <section id="modsGrid" class="dex-grid">
         <!-- Dynamically Rendered Pokédex Cards -->
       </section>
+
+      <!-- Load More Container -->
+      <div id="loadMoreContainer" class="load-more-container" style="display:none;">
+        <button id="loadMoreBtn" class="poke-btn poke-btn-primary load-more-btn">
+          ⬇️ LOAD MORE POKéMON MODS (<span id="loadMoreCount">0</span> REMAINING)
+        </button>
+      </div>
 
       <!-- Table View Container -->
       <section id="modsTableWrapper" class="table-box" style="display: none;">
@@ -214,6 +238,16 @@
         <button id="emptyResetBtn" class="poke-btn poke-btn-primary">CLEAR ALL FILTERS</button>
       </div>
     </main>
+
+    <!-- Game Boy Hotkeys Bar -->
+    <footer class="hotkeys-footer-bar">
+      <div class="hotkey-item"><kbd class="poke-kbd">↑</kbd><kbd class="poke-kbd">↓</kbd> / <kbd class="poke-kbd">J</kbd><kbd class="poke-kbd">K</kbd> <span>NAVIGATE</span></div>
+      <div class="hotkey-item"><kbd class="poke-kbd">ENTER</kbd> <span>VIEW</span></div>
+      <div class="hotkey-item"><kbd class="poke-kbd">B</kbd> <span>BOOKMARK</span></div>
+      <div class="hotkey-item"><kbd class="poke-kbd">C</kbd> <span>COPY</span></div>
+      <div class="hotkey-item"><kbd class="poke-kbd">/</kbd> <span>SEARCH</span></div>
+      <div class="hotkey-item"><kbd class="poke-kbd">ESC</kbd> <span>CLOSE</span></div>
+    </footer>
 
   </div>
 
@@ -258,6 +292,9 @@
 
         <!-- Action Links -->
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <a id="modalDownloadZipBtn" href="#" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-primary" style="flex:1;justify-content:center;display:none;">
+            📥 DOWNLOAD LATEST (.ZIP)
+          </a>
           <a id="modalRepoLink" href="#" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-github" style="flex:1;justify-content:center;display:none;">
             GITHUB REPO ↗
           </a>
@@ -336,8 +373,8 @@
   <div id="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="data/mods.js?v=2.7"></script>
-  <script src="data/github_mods.js?v=2.7"></script>
-  <script src="app.js?v=2.7"></script>
+  <script src="data/mods.js?v=2.8"></script>
+  <script src="data/github_mods.js?v=2.8"></script>
+  <script src="app.js?v=2.8"></script>
 </body>
 </html>

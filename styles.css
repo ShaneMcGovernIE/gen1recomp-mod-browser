@@ -1084,11 +1084,184 @@ mark.highlight {
   margin-bottom: 8px;
 }
 
+/* Quick Presets Bar */
+.quick-presets-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.preset-pill {
+  font-family: var(--font-retro-title);
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  background: var(--bg-screen);
+  color: var(--text-main);
+  border: 2px solid var(--border-color);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  cursor: pointer;
+  text-transform: uppercase;
+  user-select: none;
+  transition: transform 0.05s ease, background 0.1s ease;
+}
+
+.preset-pill:hover {
+  background: var(--bg-card-hover);
+  transform: translate(-1px, -1px);
+}
+
+.preset-pill.active {
+  background: var(--poke-red);
+  color: #ffffff;
+  border-color: var(--border-color);
+  box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* Active Filter Breadcrumbs Bar */
+.active-filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--bg-box-header);
+  border: 2px solid var(--border-color);
+  padding: 6px 12px;
+  margin-bottom: 14px;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.active-filters-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.active-filters-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-breadcrumb-chip {
+  font-family: var(--font-retro-title);
+  font-size: 0.7rem;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 1px 1px 0px var(--shadow-color);
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.filter-breadcrumb-chip:hover {
+  background: var(--poke-red);
+  color: #ffffff;
+}
+
+.filter-breadcrumb-clear {
+  margin-left: auto;
+  font-family: var(--font-retro-title);
+  font-size: 0.68rem;
+  background: var(--poke-red);
+  color: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 3px 7px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0px var(--shadow-color);
+}
+
+/* Card Keyboard Focus & Hover */
+.dex-card.card-focused {
+  border-color: var(--poke-red);
+  box-shadow: 0 0 0 2px var(--poke-red), 4px 4px 0px var(--shadow-color);
+  transform: translate(-2px, -2px);
+}
+
+.author-clickable {
+  cursor: pointer;
+  transition: color 0.1s ease;
+  display: inline-block;
+}
+
+.author-clickable:hover {
+  color: var(--poke-red);
+  text-decoration: underline;
+}
+
+/* Load More Button */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.load-more-btn {
+  padding: 10px 24px;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+}
+
+/* Game Boy Hotkeys Footer */
+.hotkeys-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  padding: 10px 16px;
+  margin-top: 24px;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.hotkey-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.poke-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--bg-screen);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  box-shadow: 1px 1px 0px var(--shadow-color);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   body { padding: 8px; }
   .gameboy-frame { padding: 12px; border-width: 3px; }
   .dex-grid { grid-template-columns: 1fr; }
   .site-top-bar { flex-direction: column; align-items: flex-start; }
-  .header-quick-links { width: 100%; }
+  .header-quick-links { width: 100%; justify-content: flex-start; }
+  .quick-controls-row { flex-direction: column; align-items: flex-start; }
+  .hotkeys-footer-bar { font-size: 0.65rem; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .header-quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .header-quick-links select { grid-column: span 2; }
+  .quick-presets-row { flex-direction: row; }
 }

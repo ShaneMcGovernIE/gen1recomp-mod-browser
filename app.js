@@ -2,6 +2,7 @@
  * Gen1Recomp & Gen2Recomp Mod Browser - Interactive Controller
  * Supports bryanthaboi/gen1recomp-mod-index & Discord Forum Sources
  * Ranked by Total Downloads Across All Releases
+ * Enhanced Performance, UX, Keyboard Controls & Mobile Responsiveness
  */
 
 (function () {
@@ -17,6 +18,7 @@
     selectedGen: 'all',
     selectedCategories: new Set(),
     selectedStatus: 'all',
+    selectedPreset: 'all', // 'all' | 'top10' | 'recent' | 'thumbnails' | 'bookmarks'
     sortBy: 'downloads', // Default to Most Popular!
     viewMode: 'grid',
     theme: 'redblue',
@@ -24,7 +26,10 @@
     scanlinesEnabled: true,
     favorites: new Set(),
     exportScope: 'favs',
-    exportFormat: 'markdown'
+    exportFormat: 'markdown',
+    pageSize: 36,
+    currentPage: 1,
+    focusedCardIndex: -1
   };
 
   // Helper to format download numbers (e.g. 55.7K, 1.2M)
@@ -193,6 +198,10 @@
     activeFilterBadge: document.getElementById('activeFilterBadge'),
     advancedPanel: document.getElementById('advancedPanel'),
     categoryChipsContainer: document.getElementById('categoryChipsContainer'),
+    presetPills: document.querySelectorAll('[data-preset]'),
+    activeFiltersBar: document.getElementById('activeFiltersBar'),
+    activeFiltersPills: document.getElementById('activeFiltersPills'),
+    clearAllBreadcrumbsBtn: document.getElementById('clearAllBreadcrumbsBtn'),
     genTabs: document.querySelectorAll('[data-gen]'),
     sourceTabs: document.querySelectorAll('[data-source]'),
     sourceGithubCount: document.getElementById('sourceGithubCount'),
@@ -210,6 +219,9 @@
     modsGrid: document.getElementById('modsGrid'),
     modsTableWrapper: document.getElementById('modsTableWrapper'),
     modsTableBody: document.getElementById('modsTableBody'),
+    loadMoreContainer: document.getElementById('loadMoreContainer'),
+    loadMoreBtn: document.getElementById('loadMoreBtn'),
+    loadMoreCount: document.getElementById('loadMoreCount'),
     emptyState: document.getElementById('emptyState'),
     emptyResetBtn: document.getElementById('emptyResetBtn'),
 
@@ -239,6 +251,7 @@
     modalTags: document.getElementById('modalTags'),
     modalThreadId: document.getElementById('modalThreadId'),
     modalThreadDate: document.getElementById('modalThreadDate'),
+    modalDownloadZipBtn: document.getElementById('modalDownloadZipBtn'),
     modalRepoLink: document.getElementById('modalRepoLink'),
     modalWebLink: document.getElementById('modalWebLink'),
     modalAppLink: document.getElementById('modalAppLink'),
@@ -314,33 +327,44 @@
     elements.exportFavCount.textContent = state.favorites.size;
   }
 
-  // Render Category Chips
+  // Dynamic Category Counts based on active Generation / Source
   function renderCategoryChips() {
     const allMods = getAllMods();
+    
+    // Calculate dynamic counts based on generation
     const counts = {};
     allMods.forEach(m => {
+      if (state.selectedGen !== 'all') {
+        if (state.selectedGen === 'Gen 1' && m.generation !== 'Gen 1') return;
+        if (state.selectedGen === 'Gen 2' && m.generation !== 'Gen 2' && m.generation !== 'Gen 1+2') return;
+        if (state.selectedGen === 'Gen 1+2' && m.generation !== 'Gen 1+2') return;
+      }
       counts[m.category] = (counts[m.category] || 0) + 1;
     });
+
+    const totalMatchingGen = Object.values(counts).reduce((a, b) => a + b, 0);
 
     elements.categoryChipsContainer.innerHTML = '';
 
     // "ALL" Category Chip
     const allBtn = document.createElement('button');
     allBtn.className = `cat-btn ${state.selectedCategories.size === 0 ? 'active' : ''}`;
-    allBtn.innerHTML = `<span>✨ ALL CATEGORIES</span> <span class="cat-num">${allMods.length}</span>`;
+    allBtn.innerHTML = `<span>✨ ALL CATEGORIES</span> <span class="cat-num">${totalMatchingGen}</span>`;
     allBtn.addEventListener('click', () => {
       SFX.cursor();
       state.selectedCategories.clear();
+      state.currentPage = 1;
       updateCategoryChipClasses();
       updateActiveFilterBadge();
       render();
+      renderActiveBreadcrumbs();
       updateUrlParams();
     });
     elements.categoryChipsContainer.appendChild(allBtn);
 
     CATEGORIES.forEach(cat => {
       const count = counts[cat.name] || 0;
-      if (count === 0) return;
+      if (count === 0 && state.selectedCategories.size === 0) return;
       const btn = document.createElement('button');
       const isSelected = state.selectedCategories.has(cat.name);
       btn.className = `cat-btn ${isSelected ? 'active' : ''}`;
@@ -353,9 +377,11 @@
         } else {
           state.selectedCategories.add(cat.name);
         }
+        state.currentPage = 1;
         updateCategoryChipClasses();
         updateActiveFilterBadge();
         render();
+        renderActiveBreadcrumbs();
         updateUrlParams();
       });
       elements.categoryChipsContainer.appendChild(btn);
@@ -378,6 +404,7 @@
     let count = 0;
     if (state.selectedCategories.size > 0) count += state.selectedCategories.size;
     if (state.selectedStatus !== 'all') count += 1;
+    if (state.selectedPreset !== 'all') count += 1;
 
     if (count > 0) {
       elements.activeFilterBadge.textContent = count;
@@ -385,6 +412,97 @@
     } else {
       elements.activeFilterBadge.style.display = 'none';
     }
+  }
+
+  // Render Active Filter Breadcrumbs Bar
+  function renderActiveBreadcrumbs() {
+    if (!elements.activeFiltersBar || !elements.activeFiltersPills) return;
+
+    const chips = [];
+
+    if (state.searchQuery.trim()) {
+      chips.push({
+        label: `SEARCH: "${state.searchQuery.trim()}"`,
+        clear: () => {
+          state.searchQuery = '';
+          elements.searchInput.value = '';
+          elements.searchClearBtn.style.display = 'none';
+        }
+      });
+    }
+
+    if (state.selectedGen !== 'all') {
+      chips.push({
+        label: `GEN: ${state.selectedGen}`,
+        clear: () => {
+          state.selectedGen = 'all';
+          elements.genTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-gen') === 'all'));
+        }
+      });
+    }
+
+    if (state.selectedPreset !== 'all') {
+      const pLabel = {
+        top10: 'TOP 10',
+        recent: 'RECENT (<14d)',
+        thumbnails: 'WITH PREVIEWS',
+        bookmarks: 'BOOKMARKS'
+      }[state.selectedPreset] || state.selectedPreset;
+      chips.push({
+        label: `PRESET: ${pLabel}`,
+        clear: () => {
+          setPresetFilter('all');
+        }
+      });
+    }
+
+    if (state.selectedCategories.size > 0) {
+      state.selectedCategories.forEach(cat => {
+        chips.push({
+          label: `CAT: ${cat}`,
+          clear: () => {
+            state.selectedCategories.delete(cat);
+            updateCategoryChipClasses();
+          }
+        });
+      });
+    }
+
+    if (state.selectedStatus !== 'all') {
+      chips.push({
+        label: `STATUS: ${state.selectedStatus.toUpperCase()}`,
+        clear: () => {
+          state.selectedStatus = 'all';
+          elements.statusTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-status') === 'all'));
+        }
+      });
+    }
+
+    if (chips.length === 0) {
+      elements.activeFiltersBar.style.display = 'none';
+      elements.activeFiltersPills.innerHTML = '';
+      return;
+    }
+
+    elements.activeFiltersBar.style.display = 'flex';
+    elements.activeFiltersPills.innerHTML = '';
+
+    chips.forEach(c => {
+      const chipBtn = document.createElement('button');
+      chipBtn.className = 'filter-breadcrumb-chip';
+      chipBtn.innerHTML = `<span>${escapeHTML(c.label)}</span> <span>✕</span>`;
+      chipBtn.addEventListener('click', () => {
+        SFX.back();
+        c.clear();
+        state.currentPage = 1;
+        updateActiveFilterBadge();
+        renderCategoryChips();
+        render();
+        renderActiveBreadcrumbs();
+        updateUrlParams();
+      });
+      elements.activeFiltersPills.appendChild(chipBtn);
+    });
   }
 
   // Calculate Weighted Relevance Score for Searching
@@ -479,6 +597,14 @@
       if (state.selectedStatus === 'archived' && mod.status !== 'archived') return false;
       if (state.selectedStatus === 'favorites' && !state.favorites.has(mod.id)) return false;
 
+      // Presets
+      if (state.selectedPreset === 'bookmarks' && !state.favorites.has(mod.id)) return false;
+      if (state.selectedPreset === 'thumbnails' && !mod.thumbnailUrl && !mod.hasThumbnail) return false;
+      if (state.selectedPreset === 'recent') {
+        const hpInfo = calculateModHP(mod);
+        if (hpInfo.hp < 8) return false;
+      }
+
       // Text Search Query
       if (query) {
         const score = calculateSearchScore(mod, query);
@@ -491,7 +617,7 @@
     });
 
     // 2. Sort
-    return filtered.sort((a, b) => {
+    const sorted = filtered.sort((a, b) => {
       // If there is an active search query, weighted relevance is primary
       if (query) {
         const scoreDiff = (b._searchScore || 0) - (a._searchScore || 0);
@@ -527,6 +653,12 @@
           return (b.timestamp || 0) - (a.timestamp || 0);
       }
     });
+
+    if (state.selectedPreset === 'top10') {
+      return sorted.slice(0, 10);
+    }
+
+    return sorted;
   }
 
   // Highlight matching text helper
@@ -550,34 +682,6 @@
 
   function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  // Render Grid & Table
-  function render() {
-    const filtered = getFilteredMods();
-    const query = state.searchQuery.trim();
-
-    // Results Counter
-    elements.resultsCountNum.textContent = `${filtered.length} / ${getAllMods().length}`;
-
-    if (filtered.length === 0) {
-      elements.modsGrid.style.display = 'none';
-      elements.modsTableWrapper.style.display = 'none';
-      elements.emptyState.style.display = 'block';
-      return;
-    }
-
-    elements.emptyState.style.display = 'none';
-
-    if (state.viewMode === 'grid') {
-      elements.modsGrid.style.display = 'grid';
-      elements.modsTableWrapper.style.display = 'none';
-      renderGrid(filtered, query);
-    } else {
-      elements.modsGrid.style.display = 'none';
-      elements.modsTableWrapper.style.display = 'block';
-      renderTable(filtered, query);
-    }
   }
 
   // Candidate Logo URLs helper for GitHub repos
@@ -696,10 +800,60 @@
     `;
   }
 
-  function renderGrid(mods, query) {
-    elements.modsGrid.innerHTML = '';
+  // Filter by Author helper
+  function filterByAuthor(authorName) {
+    if (!authorName) return;
+    SFX.select();
+    elements.searchInput.value = authorName;
+    state.searchQuery = authorName;
+    state.currentPage = 1;
+    elements.searchClearBtn.style.display = 'block';
+    renderCategoryChips();
+    render();
+    renderActiveBreadcrumbs();
+    updateUrlParams();
+    window.scrollTo({ top: elements.modsGrid.offsetTop - 120, behavior: 'smooth' });
+    showToast(`FILTERED BY AUTHOR: ${authorName.toUpperCase()}`, 'info');
+  }
 
-    mods.forEach(mod => {
+  // Render Grid & Table using DocumentFragment Batching
+  function render() {
+    const filtered = getFilteredMods();
+    const query = state.searchQuery.trim();
+
+    // Results Counter
+    elements.resultsCountNum.textContent = `${filtered.length} / ${getAllMods().length}`;
+
+    if (filtered.length === 0) {
+      elements.modsGrid.style.display = 'none';
+      elements.modsTableWrapper.style.display = 'none';
+      if (elements.loadMoreContainer) elements.loadMoreContainer.style.display = 'none';
+      elements.emptyState.style.display = 'block';
+      return;
+    }
+
+    elements.emptyState.style.display = 'none';
+
+    if (state.viewMode === 'grid') {
+      elements.modsGrid.style.display = 'grid';
+      elements.modsTableWrapper.style.display = 'none';
+      renderGrid(filtered, query);
+    } else {
+      elements.modsGrid.style.display = 'none';
+      elements.modsTableWrapper.style.display = 'block';
+      renderTable(filtered, query);
+    }
+  }
+
+  function renderGrid(mods, query) {
+    const maxItems = state.currentPage * state.pageSize;
+    const visibleMods = mods.slice(0, maxItems);
+    const remaining = mods.length - visibleMods.length;
+
+    // Build DOM inside a DocumentFragment for 60fps performance
+    const fragment = document.createDocumentFragment();
+
+    visibleMods.forEach((mod, idx) => {
       const isFav = state.favorites.has(mod.id);
       const isActive = mod.status.toLowerCase() === 'active';
       const genClass = mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual';
@@ -708,7 +862,9 @@
       const hpBarHtml = renderHPBar(hpInfo);
 
       const card = document.createElement('article');
-      card.className = 'dex-card';
+      card.className = `dex-card ${idx === state.focusedCardIndex ? 'card-focused' : ''}`;
+      card.setAttribute('data-card-index', idx);
+      card.tabIndex = 0;
 
       // Thumbnail Image Frame HTML with dynamic Logo.PNG fallback chain
       const candidateLogos = getCandidateLogos(mod.repoUrl);
@@ -729,7 +885,7 @@
         : '';
 
       const authorHtml = mod.author
-        ? `<div class="mod-author-tag">👤 by ${highlightText(mod.author, query)} ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
+        ? `<div class="mod-author-tag"><span class="author-clickable" data-author="${escapeHTML(mod.author)}" title="Filter mods by ${escapeHTML(mod.author)}">👤 by ${highlightText(mod.author, query)}</span> ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
         : '';
 
       const downloadsBadge = (mod.downloads && mod.downloads > 0)
@@ -786,7 +942,7 @@
         </div>
       `;
 
-      // Event listeners on card
+      // Event listeners
       const titleEl = card.querySelector('.dex-mod-title');
       if (titleEl) titleEl.addEventListener('click', () => openDetailModal(mod));
 
@@ -795,6 +951,14 @@
 
       const detailsBtn = card.querySelector('.btn-details');
       if (detailsBtn) detailsBtn.addEventListener('click', () => openDetailModal(mod));
+
+      const authorEl = card.querySelector('.author-clickable');
+      if (authorEl) {
+        authorEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          filterByAuthor(mod.author);
+        });
+      }
 
       const favBtn = card.querySelector('.btn-favorite');
       if (favBtn) {
@@ -820,23 +984,45 @@
           const tag = tagEl.getAttribute('data-tag');
           elements.searchInput.value = tag;
           state.searchQuery = tag;
+          state.currentPage = 1;
           elements.searchClearBtn.style.display = 'block';
           SFX.cursor();
+          renderCategoryChips();
           render();
+          renderActiveBreadcrumbs();
           updateUrlParams();
         });
       });
 
-      elements.modsGrid.appendChild(card);
+      card.addEventListener('focus', () => {
+        setFocusedCard(idx);
+      });
+
+      fragment.appendChild(card);
     });
+
+    elements.modsGrid.innerHTML = '';
+    elements.modsGrid.appendChild(fragment);
+
+    // Update Load More Container
+    if (elements.loadMoreContainer) {
+      if (remaining > 0) {
+        elements.loadMoreContainer.style.display = 'flex';
+        elements.loadMoreCount.textContent = remaining;
+      } else {
+        elements.loadMoreContainer.style.display = 'none';
+      }
+    }
   }
 
   function renderTable(mods, query) {
-    elements.modsTableBody.innerHTML = '';
+    const fragment = document.createDocumentFragment();
 
     mods.forEach(mod => {
       const isFav = state.favorites.has(mod.id);
       const isGh = mod.source === 'github_index';
+      const hpInfo = calculateModHP(mod);
+      const hpBarHtml = renderHPBar(hpInfo);
       const row = document.createElement('tr');
 
       const thumbImg = mod.thumbnailUrl
@@ -852,12 +1038,12 @@
           <div style="font-family:var(--font-retro-title);font-size:0.95rem;font-weight:700;cursor:pointer;" class="table-title-click">
             ${highlightText(mod.title, query)}
           </div>
-          ${mod.author ? `<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--poke-blue);">by ${escapeHTML(mod.author)}</div>` : ''}
+          ${mod.author ? `<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--poke-blue);cursor:pointer;" class="table-author-click">by ${escapeHTML(mod.author)}</div>` : ''}
         </td>
         <td><span class="poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}">${mod.generation}</span></td>
         <td><span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span></td>
         <td><span class="poke-tag tag-downloads" title="${(mod.downloads || 0).toLocaleString()} Downloads">📥 ${formatDownloads(mod.downloads || 0)}</span></td>
-        <td style="font-family:var(--font-mono);font-size:0.75rem;">${mod.dateCreated || 'Recent'}</td>
+        <td>${hpBarHtml}</td>
         <td style="text-align:right;">
           <div style="display:inline-flex;gap:4px;">
             <button class="poke-btn poke-btn-sm btn-favorite" data-mod-id="${mod.id}">${isFav ? '★' : '☆'}</button>
@@ -869,13 +1055,43 @@
 
       row.querySelector('.table-title-click').addEventListener('click', () => openDetailModal(mod));
       row.querySelector('.btn-details').addEventListener('click', () => openDetailModal(mod));
+
+      const authorBtn = row.querySelector('.table-author-click');
+      if (authorBtn) {
+        authorBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          filterByAuthor(mod.author);
+        });
+      }
+
       row.querySelector('.btn-favorite').addEventListener('click', (e) => {
         e.stopPropagation();
         toggleFavorite(mod.id);
       });
 
-      elements.modsTableBody.appendChild(row);
+      fragment.appendChild(row);
     });
+
+    elements.modsTableBody.innerHTML = '';
+    elements.modsTableBody.appendChild(fragment);
+
+    if (elements.loadMoreContainer) {
+      elements.loadMoreContainer.style.display = 'none';
+    }
+  }
+
+  // Keyboard navigation focus handler
+  function setFocusedCard(index) {
+    const cards = elements.modsGrid.querySelectorAll('.dex-card');
+    if (cards.length === 0) return;
+    
+    cards.forEach(c => c.classList.remove('card-focused'));
+    
+    if (index >= 0 && index < cards.length) {
+      state.focusedCardIndex = index;
+      cards[index].classList.add('card-focused');
+      cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   // Toggle Bookmark
@@ -896,6 +1112,7 @@
 
     updateStats();
     render();
+    renderActiveBreadcrumbs();
 
     // If modal is open, update button
     if (elements.modDetailModal.classList.contains('open')) {
@@ -943,8 +1160,15 @@
     elements.modalTitle.textContent = mod.title;
 
     if (mod.author) {
-      elements.modalAuthor.textContent = `Author: ${mod.author}`;
+      elements.modalAuthor.innerHTML = `Author: <span class="author-clickable" title="Filter mods by ${escapeHTML(mod.author)}">${escapeHTML(mod.author)}</span>`;
       elements.modalAuthor.style.display = 'block';
+      const authorEl = elements.modalAuthor.querySelector('.author-clickable');
+      if (authorEl) {
+        authorEl.onclick = () => {
+          closeAllModals();
+          filterByAuthor(mod.author);
+        };
+      }
     } else {
       elements.modalAuthor.style.display = 'none';
     }
@@ -969,14 +1193,17 @@
     elements.modalThreadId.textContent = mod.id;
     elements.modalThreadDate.textContent = mod.downloads ? `${mod.downloads.toLocaleString()} Total Downloads` : (mod.dateCreated || 'Recent');
 
-    // Action links
+    // Direct Release Download Button
     if (isGh && mod.repoUrl) {
+      elements.modalDownloadZipBtn.href = `${mod.repoUrl}/releases/latest`;
+      elements.modalDownloadZipBtn.style.display = 'inline-flex';
       elements.modalRepoLink.href = mod.repoUrl;
       elements.modalRepoLink.style.display = 'inline-flex';
       elements.modalWebLink.href = mod.githubIndexUrl || mod.repoUrl;
       elements.modalWebLink.textContent = 'INDEX FILE ↗';
       elements.modalAppLink.style.display = 'none';
     } else {
+      elements.modalDownloadZipBtn.style.display = 'none';
       elements.modalRepoLink.style.display = 'none';
       elements.modalWebLink.href = mod.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${mod.id}`;
       elements.modalWebLink.textContent = 'DISCORD WEB ↗';
@@ -1011,14 +1238,34 @@
     elements.modDetailModal.classList.add('open');
   }
 
+  // Preset Filters
+  function setPresetFilter(preset) {
+    state.selectedPreset = preset;
+    state.currentPage = 1;
+    elements.presetPills.forEach(p => p.classList.toggle('active', p.getAttribute('data-preset') === preset));
+    updateActiveFilterBadge();
+    render();
+    renderActiveBreadcrumbs();
+  }
+
   // Bind Event Listeners
   function initEventListeners() {
-    // Search input
+    // Debounced Search Input (100ms) with requestAnimationFrame
+    let searchDebounceTimer = null;
     elements.searchInput.addEventListener('input', (e) => {
-      state.searchQuery = e.target.value;
-      elements.searchClearBtn.style.display = state.searchQuery ? 'block' : 'none';
-      render();
-      updateUrlParams();
+      const val = e.target.value;
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        state.searchQuery = val;
+        state.currentPage = 1;
+        elements.searchClearBtn.style.display = state.searchQuery ? 'block' : 'none';
+        requestAnimationFrame(() => {
+          renderCategoryChips();
+          render();
+          renderActiveBreadcrumbs();
+          updateUrlParams();
+        });
+      }, 100);
     });
 
     // Clear search
@@ -1026,21 +1273,103 @@
       SFX.back();
       elements.searchInput.value = '';
       state.searchQuery = '';
+      state.currentPage = 1;
       elements.searchClearBtn.style.display = 'none';
       elements.searchInput.focus();
+      renderCategoryChips();
       render();
+      renderActiveBreadcrumbs();
       updateUrlParams();
     });
 
-    // Keyboard shortcut "/" to search
+    // Presets
+    elements.presetPills.forEach(p => {
+      p.addEventListener('click', () => {
+        SFX.cursor();
+        const preset = p.getAttribute('data-preset');
+        setPresetFilter(preset);
+      });
+    });
+
+    // Clear All Breadcrumbs button
+    if (elements.clearAllBreadcrumbsBtn) {
+      elements.clearAllBreadcrumbsBtn.addEventListener('click', resetAllFilters);
+    }
+
+    // Load More Button
+    if (elements.loadMoreBtn) {
+      elements.loadMoreBtn.addEventListener('click', () => {
+        SFX.select();
+        state.currentPage += 1;
+        render();
+      });
+    }
+
+    // Keyboard Shortcuts & Navigation Controls
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== elements.searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      const isInputActive = document.activeElement === elements.searchInput || 
+                            document.activeElement.tagName === 'INPUT' || 
+                            document.activeElement.tagName === 'TEXTAREA';
+
+      if (e.key === '/' && !isInputActive) {
         e.preventDefault();
         elements.searchInput.focus();
         elements.searchInput.select();
         SFX.cursor();
-      } else if (e.key === 'Escape') {
-        closeAllModals();
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        if (elements.modDetailModal.classList.contains('open') || elements.exportModal.classList.contains('open')) {
+          closeAllModals();
+        } else if (state.searchQuery) {
+          elements.searchClearBtn.click();
+        }
+        return;
+      }
+
+      // Card navigation when modal is not open
+      if (!isInputActive && !elements.modDetailModal.classList.contains('open') && !elements.exportModal.classList.contains('open')) {
+        const visibleCards = elements.modsGrid.querySelectorAll('.dex-card');
+        const count = visibleCards.length;
+
+        if (count > 0) {
+          if (e.key === 'ArrowDown' || e.key === 'j' || e.key === 'J') {
+            e.preventDefault();
+            SFX.cursor();
+            const nextIdx = state.focusedCardIndex < count - 1 ? state.focusedCardIndex + 1 : 0;
+            setFocusedCard(nextIdx);
+          } else if (e.key === 'ArrowUp' || e.key === 'k' || e.key === 'K') {
+            e.preventDefault();
+            SFX.cursor();
+            const prevIdx = state.focusedCardIndex > 0 ? state.focusedCardIndex - 1 : count - 1;
+            setFocusedCard(prevIdx);
+          } else if (e.key === 'Enter' || e.key === ' ') {
+            if (state.focusedCardIndex >= 0 && state.focusedCardIndex < count) {
+              e.preventDefault();
+              const filtered = getFilteredMods();
+              const targetMod = filtered[state.focusedCardIndex];
+              if (targetMod) openDetailModal(targetMod);
+            }
+          } else if (e.key === 'b' || e.key === 'B') {
+            if (state.focusedCardIndex >= 0 && state.focusedCardIndex < count) {
+              e.preventDefault();
+              const filtered = getFilteredMods();
+              const targetMod = filtered[state.focusedCardIndex];
+              if (targetMod) toggleFavorite(targetMod.id);
+            }
+          } else if (e.key === 'c' || e.key === 'C') {
+            if (state.focusedCardIndex >= 0 && state.focusedCardIndex < count) {
+              e.preventDefault();
+              const filtered = getFilteredMods();
+              const targetMod = filtered[state.focusedCardIndex];
+              if (targetMod) {
+                const link = targetMod.repoUrl || targetMod.discordWebUrl;
+                copyToClipboard(link, 'LINK COPIED TO CLIPBOARD!');
+              }
+            }
+          }
+        }
       }
     });
 
@@ -1057,6 +1386,7 @@
         elements.sourceTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.dataSource = tab.getAttribute('data-source');
+        state.currentPage = 1;
         try {
           localStorage.setItem('gen1recomp_source', state.dataSource);
         } catch (e) {}
@@ -1064,6 +1394,7 @@
         updateStats();
         renderCategoryChips();
         render();
+        renderActiveBreadcrumbs();
         updateUrlParams();
         showToast(`SOURCE SWITCHED: ${state.dataSource.toUpperCase()}`, 'info');
       });
@@ -1076,7 +1407,10 @@
         elements.genTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.selectedGen = tab.getAttribute('data-gen');
+        state.currentPage = 1;
+        renderCategoryChips();
         render();
+        renderActiveBreadcrumbs();
         updateUrlParams();
       });
     });
@@ -1088,8 +1422,10 @@
         elements.statusTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.selectedStatus = tab.getAttribute('data-status');
+        state.currentPage = 1;
         updateActiveFilterBadge();
         render();
+        renderActiveBreadcrumbs();
         updateUrlParams();
       });
     });
@@ -1098,6 +1434,7 @@
     elements.sortSelect.addEventListener('change', (e) => {
       SFX.cursor();
       state.sortBy = e.target.value;
+      state.currentPage = 1;
       render();
       updateUrlParams();
     });
@@ -1277,7 +1614,7 @@
     } else if (state.exportFormat === 'text') {
       output += `POKÉMON GEN1RECOMP MODPACK EXPORT\nTotal: ${modsToExport.length} Mods\n=========================================\n\n`;
       modsToExport.forEach(m => {
-        const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${m.id}`;
+        const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${mod.id}`;
         output += `[${m.dexNo}] ${m.title} (${m.generation} - ${m.category})\n`;
         if (m.author) output += `Author: ${m.author}\n`;
         if (m.downloads) output += `Downloads: ${m.downloads.toLocaleString()}\n`;
@@ -1295,6 +1632,7 @@
     SFX.back();
     elements.searchInput.value = '';
     state.searchQuery = '';
+    state.currentPage = 1;
     elements.searchClearBtn.style.display = 'none';
 
     state.selectedGen = 'all';
@@ -1303,6 +1641,9 @@
     state.selectedStatus = 'all';
     elements.statusTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-status') === 'all'));
 
+    state.selectedPreset = 'all';
+    elements.presetPills.forEach(p => p.classList.toggle('active', p.getAttribute('data-preset') === 'all'));
+
     state.selectedCategories.clear();
     updateCategoryChipClasses();
     updateActiveFilterBadge();
@@ -1310,7 +1651,9 @@
     state.sortBy = 'downloads';
     elements.sortSelect.value = 'downloads';
 
+    renderCategoryChips();
     render();
+    renderActiveBreadcrumbs();
     updateUrlParams();
     showToast('POKéDEX FILTERS RESET', 'info');
   }
@@ -1437,6 +1780,7 @@
     updateActiveFilterBadge();
     initEventListeners();
     render();
+    renderActiveBreadcrumbs();
   }
 
   if (document.readyState === 'loading') {
