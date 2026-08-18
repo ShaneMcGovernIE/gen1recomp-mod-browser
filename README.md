@@ -1,4 +1,4 @@
-# Gen1Recomp & Gen2Recomp Mod Browser 🎮
+# Gen1Recomp++ Mod Browser 🎮
 
 A fast, modern, zero-dependency web application designed for searching, filtering, and organizing Pokémon Gen1Recomp and Gen2Recomp mods hosted on the official community Discord forum threads.
 
