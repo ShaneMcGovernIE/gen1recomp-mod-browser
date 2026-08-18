@@ -1,6 +1,7 @@
 /* ==========================================================================
    Gen1Recomp & Gen2Recomp Mod Browser - Clean Retro Pokémon Design System
    Featuring 'Karmatic Arcade' Retro Font + Clean 'Inter' & 'Space Mono' Body
+   Supports GitHub Mod Index & Discord Threads Sources + Thumbnails
    ========================================================================== */
 
 @font-face {
@@ -44,6 +45,7 @@
   --poke-purple: #7e22ce;
 
   --discord-blurple: #5865f2;
+  --github-dark: #24292e;
 
   /* High-Readability Retro Typography Tokens */
   --font-retro-title: 'Karmatic Arcade', 'Pixelify Sans', -apple-system, sans-serif;
@@ -76,6 +78,7 @@
   --poke-blue: #306230;
   --poke-green: #0f380f;
   --poke-yellow: #8bac0f;
+  --github-dark: #0f380f;
 }
 
 /* Theme 3: Game Boy Color / Pokémon Gold & Silver */
@@ -102,6 +105,7 @@
   --poke-blue: #2563eb;
   --poke-green: #16a34a;
   --poke-yellow: #ca8a04;
+  --github-dark: #1e1b4b;
 }
 
 /* Theme 4: Professor Oak's Pokédex */
@@ -128,6 +132,7 @@
   --poke-blue: #60a5fa;
   --poke-green: #4ade80;
   --poke-yellow: #facc15;
+  --github-dark: #0f172a;
 }
 
 /* Theme 5: Lavender Town CRT */
@@ -154,6 +159,7 @@
   --poke-blue: #38bdf8;
   --poke-green: #34d399;
   --poke-yellow: #fde047;
+  --github-dark: #3b1968;
 }
 
 /* ==========================================================================
@@ -171,7 +177,7 @@ body {
   background-color: var(--bg-casing);
   color: var(--text-main);
   min-height: 100vh;
-  padding: 24px 16px 80px;
+  padding: 20px 14px 80px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -204,7 +210,7 @@ body.scanlines-on::after {
 
 /* Main Housing Frame */
 .gameboy-frame {
-  max-width: 1320px;
+  max-width: 1340px;
   margin: 0 auto;
   background: var(--bg-screen);
   border: 4px solid var(--border-color);
@@ -333,6 +339,11 @@ body.scanlines-on::after {
   color: #ffffff;
 }
 
+.poke-btn-github {
+  background: var(--github-dark);
+  color: #ffffff;
+}
+
 .poke-btn-sm {
   padding: 5px 9px;
   font-size: 0.75rem;
@@ -349,6 +360,17 @@ body.scanlines-on::after {
   box-shadow: 2px 2px 0px var(--shadow-color);
   outline: none;
   cursor: pointer;
+}
+
+/* Source Switcher Pill Group */
+.source-switch-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-box-header);
+  border: 2px solid var(--border-color);
+  padding: 4px 8px;
+  box-shadow: 2px 2px 0px var(--shadow-color);
 }
 
 /* ==========================================================================
@@ -408,7 +430,7 @@ body.scanlines-on::after {
   display: none;
 }
 
-/* Quick Gen Tabs Row */
+/* Quick Controls Row */
 .quick-controls-row {
   display: flex;
   justify-content: space-between;
@@ -623,7 +645,7 @@ body.scanlines-on::after {
 .dex-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .dex-card {
@@ -634,6 +656,7 @@ body.scanlines-on::after {
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.05s ease, box-shadow 0.05s ease;
+  overflow: hidden;
 }
 
 .dex-card:hover {
@@ -664,6 +687,39 @@ body.scanlines-on::after {
   align-items: center;
 }
 
+/* Mod Card Thumbnail Preview */
+.mod-thumbnail-frame {
+  width: 100%;
+  height: 140px;
+  background: #111827;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mod-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+  transition: transform 0.2s ease;
+}
+
+.dex-card:hover .mod-thumbnail-img {
+  transform: scale(1.03);
+}
+
+.mod-author-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--poke-blue);
+  margin-bottom: 6px;
+}
+
 /* Retro Type Tags */
 .poke-tag {
   font-family: var(--font-retro-title);
@@ -681,6 +737,7 @@ body.scanlines-on::after {
 .tag-red { background: var(--poke-red); color: #ffffff; }
 .tag-blue { background: var(--poke-blue); color: #ffffff; }
 .tag-dual { background: var(--poke-purple); color: #ffffff; }
+.tag-version { background: var(--poke-yellow); color: #181818; }
 
 /* HP Gauge Status Bar */
 .hp-gauge-wrapper {

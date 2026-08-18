@@ -1,34 +1,59 @@
 /**
- * Gen1Recomp & Gen2Recomp Mod Browser
- * Weighted Relevance Search Engine + Streamlined UI
+ * Gen1Recomp & Gen2Recomp Mod Browser - Interactive Controller
+ * Supports bryanthaboi/gen1recomp-mod-index & Discord Forum Sources
  */
 
 (function () {
   'use strict';
 
   const GUILD_ID = '1019387038820216882';
+  const FORUM_CHANNEL_ID = '1529474711376105542';
 
-  // State
+  // Application State
   const state = {
+    dataSource: 'github', // 'github' (109 mods) | 'discord' (83 mods) | 'all' (192 mods)
     searchQuery: '',
     selectedGen: 'all',
-    selectedStatus: 'all',
     selectedCategories: new Set(),
+    selectedStatus: 'all',
     sortBy: 'relevance',
     viewMode: 'grid',
-    advancedPanelOpen: false,
-    soundEnabled: localStorage.getItem('gen1recomp_sound') !== 'false',
-    scanlinesEnabled: localStorage.getItem('gen1recomp_scanlines') !== 'false',
-    favorites: new Set(JSON.parse(localStorage.getItem('gen1recomp_favorites') || '[]')),
-    customMods: JSON.parse(localStorage.getItem('gen1recomp_custom_mods') || '[]'),
-    theme: localStorage.getItem('gen1recomp_theme') || 'redblue',
+    theme: 'redblue',
+    soundEnabled: true,
+    scanlinesEnabled: true,
+    favorites: new Set(),
     exportScope: 'favs',
     exportFormat: 'markdown'
   };
 
-  // Web Audio Synthesizer
-  let audioCtx = null;
+  // Load Saved Preferences
+  try {
+    const savedFavs = localStorage.getItem('gen1recomp_favs');
+    if (savedFavs) {
+      state.favorites = new Set(JSON.parse(savedFavs));
+    }
+    const savedTheme = localStorage.getItem('gen1recomp_theme');
+    if (savedTheme) {
+      state.theme = savedTheme;
+    }
+    const savedSound = localStorage.getItem('gen1recomp_sound');
+    if (savedSound !== null) {
+      state.soundEnabled = savedSound === 'true';
+    }
+    const savedScanlines = localStorage.getItem('gen1recomp_scanlines');
+    if (savedScanlines !== null) {
+      state.scanlinesEnabled = savedScanlines === 'true';
+    }
+    const savedSource = localStorage.getItem('gen1recomp_source');
+    if (savedSource && ['github', 'discord', 'all'].includes(savedSource)) {
+      state.dataSource = savedSource;
+    }
+  } catch (e) {
+    console.error('LocalStorage load error:', e);
+  }
 
+  // 8-Bit Web Audio Synthesizer for Authentic Game Boy Sound Effects
+  let audioCtx = null;
   function getAudioContext() {
     if (!audioCtx) {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -42,32 +67,26 @@
     return audioCtx;
   }
 
-  function playTone(freq, type = 'square', duration = 0.05, gainValue = 0.08) {
-    if (!state.soundEnabled) return;
-    try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-      gain.gain.setValueAtTime(gainValue, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
-    } catch (e) {}
-  }
-
   const SFX = {
-    cursor: () => playTone(440, 'square', 0.03, 0.06),
-    select: () => {
+    cursor() {
+      if (!state.soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(440, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.04);
+      } catch (e) {}
+    },
+    select() {
       if (!state.soundEnabled) return;
       try {
         const ctx = getAudioContext();
@@ -76,17 +95,18 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'square';
-        osc.frequency.setValueAtTime(520, now);
-        osc.frequency.setValueAtTime(780, now + 0.04);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.04);
+        osc.frequency.setValueAtTime(783.99, now + 0.08);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.1);
+        osc.stop(now + 0.14);
       } catch (e) {}
     },
-    back: () => {
+    back() {
       if (!state.soundEnabled) return;
       try {
         const ctx = getAudioContext();
@@ -95,9 +115,9 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'square';
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.setValueAtTime(220, now + 0.04);
-        gain.gain.setValueAtTime(0.08, now);
+        osc.frequency.setValueAtTime(659.25, now);
+        osc.frequency.setValueAtTime(440.0, now + 0.05);
+        gain.gain.setValueAtTime(0.09, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
         osc.connect(gain);
         gain.connect(ctx.destination);
@@ -105,51 +125,46 @@
         osc.stop(now + 0.1);
       } catch (e) {}
     },
-    bookmark: () => {
+    bookmark() {
       if (!state.soundEnabled) return;
       try {
         const ctx = getAudioContext();
         if (!ctx) return;
         const now = ctx.currentTime;
-        [587.33, 659.25, 880].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(freq, now + i * 0.06);
-          gain.gain.setValueAtTime(0.08, now + i * 0.06);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.08);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + i * 0.06);
-          osc.stop(now + i * 0.06 + 0.08);
-        });
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880.00, now + 0.06);
+        osc.frequency.setValueAtTime(1174.66, now + 0.12);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.22);
       } catch (e) {}
     }
   };
 
-  // Helper: Snowflake timestamp calculator
-  function snowflakeToTimestamp(sfStr) {
-    try {
-      const sf = BigInt(sfStr);
-      const tsMs = Number((sf >> 22n) + 1420070400000n);
-      const date = new Date(tsMs);
-      return {
-        timestamp: tsMs,
-        dateDisplay: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      };
-    } catch (e) {
-      return {
-        timestamp: Date.now(),
-        dateDisplay: 'Recent'
-      };
+  // Get active dataset based on selected source
+  function getActiveRawMods() {
+    const ghMods = typeof GITHUB_MODS_DATA !== 'undefined' ? GITHUB_MODS_DATA : [];
+    const discMods = typeof MODS_DATA !== 'undefined' ? MODS_DATA : [];
+
+    if (state.dataSource === 'github') {
+      return ghMods;
+    } else if (state.dataSource === 'discord') {
+      return discMods;
+    } else {
+      return [...ghMods, ...discMods];
     }
   }
 
   // Get full combined dataset with Pokédex index numbers
   function getAllMods() {
-    const baseMods = typeof MODS_DATA !== 'undefined' ? MODS_DATA : [];
-    const all = [...baseMods, ...state.customMods];
-    return all.map((m, idx) => ({
+    const raw = getActiveRawMods();
+    return raw.map((m, idx) => ({
       ...m,
       dexNo: `No. ${String(idx + 1).padStart(3, '0')}`
     }));
@@ -157,47 +172,58 @@
 
   // DOM Elements
   const elements = {
+    siteSubtitle: document.getElementById('siteSubtitle'),
     searchInput: document.getElementById('searchInput'),
     searchClearBtn: document.getElementById('searchClearBtn'),
     toggleAdvancedBtn: document.getElementById('toggleAdvancedBtn'),
     activeFilterBadge: document.getElementById('activeFilterBadge'),
     advancedPanel: document.getElementById('advancedPanel'),
     categoryChipsContainer: document.getElementById('categoryChipsContainer'),
+    genTabs: document.querySelectorAll('[data-gen]'),
+    sourceTabs: document.querySelectorAll('[data-source]'),
+    sourceGithubCount: document.getElementById('sourceGithubCount'),
+    sourceDiscordCount: document.getElementById('sourceDiscordCount'),
+    sourceAllCount: document.getElementById('sourceAllCount'),
+    statusTabs: document.querySelectorAll('[data-status]'),
+    sortSelect: document.getElementById('sortSelect'),
+    themeSelect: document.getElementById('themeSelect'),
+    soundToggleBtn: document.getElementById('soundToggleBtn'),
+    scanlinesToggleBtn: document.getElementById('scanlinesToggleBtn'),
+    resetFiltersBtn: document.getElementById('resetFiltersBtn'),
+    resultsCountNum: document.getElementById('resultsCountNum'),
+    viewGridBtn: document.getElementById('viewGridBtn'),
+    viewTableBtn: document.getElementById('viewTableBtn'),
     modsGrid: document.getElementById('modsGrid'),
     modsTableWrapper: document.getElementById('modsTableWrapper'),
     modsTableBody: document.getElementById('modsTableBody'),
     emptyState: document.getElementById('emptyState'),
-    resultsCount: document.getElementById('resultsCount'),
-    resultsCountNum: document.getElementById('resultsCountNum'),
-    sortSelect: document.getElementById('sortSelect'),
-    viewGridBtn: document.getElementById('viewGridBtn'),
-    viewListBtn: document.getElementById('viewListBtn'),
-    resetFiltersBtn: document.getElementById('resetFiltersBtn'),
     emptyResetBtn: document.getElementById('emptyResetBtn'),
-    favCountBadge: document.getElementById('favCountBadge'),
-    themeSelect: document.getElementById('themeSelect'),
-    soundToggleBtn: document.getElementById('soundToggleBtn'),
-    scanlinesToggleBtn: document.getElementById('scanlinesToggleBtn'),
 
     // Stats
-    totalModsCount: document.getElementById('totalModsCount'),
-    activeModsCount: document.getElementById('activeModsCount'),
-    archivedModsCount: document.getElementById('archivedModsCount'),
-    voxelModsCount: document.getElementById('voxelModsCount'),
-    multiplayerModsCount: document.getElementById('multiplayerModsCount'),
-    statsStrip: document.getElementById('statsStrip'),
+    statTotalCount: document.getElementById('statTotalCount'),
+    statGen1Count: document.getElementById('statGen1Count'),
+    statGen2Count: document.getElementById('statGen2Count'),
+    statThumbnailCount: document.getElementById('statThumbnailCount'),
+    statFavCount: document.getElementById('statFavCount'),
+    favCountBadge: document.getElementById('favCountBadge'),
 
     // Mod Detail Modal
     modDetailModal: document.getElementById('modDetailModal'),
     modalCloseBtn: document.getElementById('modalCloseBtn'),
-    modalBadges: document.getElementById('modalBadges'),
+    modalDexNo: document.getElementById('modalDexNo'),
+    modalGenBadge: document.getElementById('modalGenBadge'),
+    modalCatBadge: document.getElementById('modalCatBadge'),
+    modalVersionBadge: document.getElementById('modalVersionBadge'),
+    modalStatusBadge: document.getElementById('modalStatusBadge'),
     modalTitle: document.getElementById('modalTitle'),
+    modalAuthor: document.getElementById('modalAuthor'),
+    modalThumbnailContainer: document.getElementById('modalThumbnailContainer'),
+    modalThumbnailImg: document.getElementById('modalThumbnailImg'),
     modalDesc: document.getElementById('modalDesc'),
     modalTags: document.getElementById('modalTags'),
     modalThreadId: document.getElementById('modalThreadId'),
-    modalCopyIdBtn: document.getElementById('modalCopyIdBtn'),
     modalThreadDate: document.getElementById('modalThreadDate'),
-    modalStatusText: document.getElementById('modalStatusText'),
+    modalRepoLink: document.getElementById('modalRepoLink'),
     modalWebLink: document.getElementById('modalWebLink'),
     modalAppLink: document.getElementById('modalAppLink'),
     modalCopyLinkBtn: document.getElementById('modalCopyLinkBtn'),
@@ -224,54 +250,118 @@
     toastContainer: document.getElementById('toast-container')
   };
 
-  let currentDetailMod = null;
+  // Categories list
+  const CATEGORIES = [
+    { name: 'Quality of Life', icon: '🛠️' },
+    { name: 'Visuals & 3D', icon: '🎨' },
+    { name: 'Gameplay & Overhauls', icon: '⚔️' },
+    { name: 'UI & HUD', icon: '📱' },
+    { name: 'Audio & Music', icon: '🎵' },
+    { name: 'Multiplayer & Online', icon: '🌐' },
+    { name: 'Translations', icon: '🌍' },
+    { name: 'Tools & Utilities', icon: '🧰' },
+    { name: 'Guides & Community', icon: '📖' }
+  ];
 
-  // Initialize
-  function init() {
-    applyTheme(state.theme);
-    applyScanlines(state.scanlinesEnabled);
-    updateSoundButton();
-    loadUrlParams();
-    updateStats();
-    renderCategoryChips();
-    updateActiveFilterBadge();
-    bindEvents();
-    render();
-  }
+  // Update Source Counts
+  function updateSourceCounts() {
+    const ghCount = (typeof GITHUB_MODS_DATA !== 'undefined') ? GITHUB_MODS_DATA.length : 0;
+    const discCount = (typeof MODS_DATA !== 'undefined') ? MODS_DATA.length : 0;
+    if (elements.sourceGithubCount) elements.sourceGithubCount.textContent = ghCount;
+    if (elements.sourceDiscordCount) elements.sourceDiscordCount.textContent = discCount;
+    if (elements.sourceAllCount) elements.sourceAllCount.textContent = ghCount + discCount;
 
-  // Theme Management
-  function applyTheme(themeName) {
-    state.theme = themeName;
-    if (themeName === 'redblue') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', themeName);
+    if (elements.siteSubtitle) {
+      if (state.dataSource === 'github') {
+        elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${ghCount} GITHUB INDEX ENTRIES (BY BRYANTHABOI)`;
+      } else if (state.dataSource === 'discord') {
+        elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${discCount} DISCORD COMMUNITY ENTRIES`;
+      } else {
+        elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${ghCount + discCount} COMBINED ENTRIES`;
+      }
     }
-    elements.themeSelect.value = themeName;
-    localStorage.setItem('gen1recomp_theme', themeName);
   }
 
-  function applyScanlines(enabled) {
-    state.scanlinesEnabled = enabled;
-    if (enabled) {
-      document.body.classList.add('scanlines-on');
-      elements.scanlinesToggleBtn.textContent = '📺 CRT: ON';
-    } else {
-      document.body.classList.remove('scanlines-on');
-      elements.scanlinesToggleBtn.textContent = '📺 CRT: OFF';
-    }
-    localStorage.setItem('gen1recomp_scanlines', enabled);
+  // Update Statistics
+  function updateStats() {
+    const allMods = getAllMods();
+    const gen1 = allMods.filter(m => m.generation === 'Gen 1').length;
+    const gen2 = allMods.filter(m => m.generation === 'Gen 2' || m.generation === 'Gen 1+2').length;
+    const thumbs = allMods.filter(m => m.hasThumbnail || m.thumbnailUrl).length;
+
+    elements.statTotalCount.textContent = allMods.length;
+    elements.statGen1Count.textContent = gen1;
+    elements.statGen2Count.textContent = gen2;
+    elements.statThumbnailCount.textContent = thumbs;
+    elements.statFavCount.textContent = state.favorites.size;
+    elements.favCountBadge.textContent = state.favorites.size;
+    elements.exportFavCount.textContent = state.favorites.size;
   }
 
-  function updateSoundButton() {
-    elements.soundToggleBtn.textContent = state.soundEnabled ? '🔊 SOUND: ON' : '🔇 SOUND: OFF';
-    localStorage.setItem('gen1recomp_sound', state.soundEnabled);
+  // Render Category Chips
+  function renderCategoryChips() {
+    const allMods = getAllMods();
+    const counts = {};
+    allMods.forEach(m => {
+      counts[m.category] = (counts[m.category] || 0) + 1;
+    });
+
+    elements.categoryChipsContainer.innerHTML = '';
+
+    // "ALL" Category Chip
+    const allBtn = document.createElement('button');
+    allBtn.className = `cat-btn ${state.selectedCategories.size === 0 ? 'active' : ''}`;
+    allBtn.innerHTML = `<span>✨ ALL CATEGORIES</span> <span class="cat-num">${allMods.length}</span>`;
+    allBtn.addEventListener('click', () => {
+      SFX.cursor();
+      state.selectedCategories.clear();
+      updateCategoryChipClasses();
+      updateActiveFilterBadge();
+      render();
+      updateUrlParams();
+    });
+    elements.categoryChipsContainer.appendChild(allBtn);
+
+    CATEGORIES.forEach(cat => {
+      const count = counts[cat.name] || 0;
+      if (count === 0) return;
+      const btn = document.createElement('button');
+      const isSelected = state.selectedCategories.has(cat.name);
+      btn.className = `cat-btn ${isSelected ? 'active' : ''}`;
+      btn.setAttribute('data-category-name', cat.name);
+      btn.innerHTML = `<span>${cat.icon} ${cat.name}</span> <span class="cat-num">${count}</span>`;
+      btn.addEventListener('click', () => {
+        SFX.cursor();
+        if (state.selectedCategories.has(cat.name)) {
+          state.selectedCategories.delete(cat.name);
+        } else {
+          state.selectedCategories.add(cat.name);
+        }
+        updateCategoryChipClasses();
+        updateActiveFilterBadge();
+        render();
+        updateUrlParams();
+      });
+      elements.categoryChipsContainer.appendChild(btn);
+    });
+  }
+
+  function updateCategoryChipClasses() {
+    const chips = elements.categoryChipsContainer.querySelectorAll('.cat-btn');
+    chips.forEach(chip => {
+      const catName = chip.getAttribute('data-category-name');
+      if (!catName) {
+        chip.classList.toggle('active', state.selectedCategories.size === 0);
+      } else {
+        chip.classList.toggle('active', state.selectedCategories.has(catName));
+      }
+    });
   }
 
   function updateActiveFilterBadge() {
     let count = 0;
-    if (state.selectedStatus !== 'all') count++;
     if (state.selectedCategories.size > 0) count += state.selectedCategories.size;
+    if (state.selectedStatus !== 'all') count += 1;
 
     if (count > 0) {
       elements.activeFilterBadge.textContent = count;
@@ -281,216 +371,136 @@
     }
   }
 
-  // Stats calculation
-  function updateStats() {
-    const allMods = getAllMods();
-    const total = allMods.length;
-    const active = allMods.filter(m => m.status.toLowerCase() === 'active').length;
-    const archived = allMods.filter(m => m.status.toLowerCase() === 'archived').length;
-    const visuals = allMods.filter(m => m.category === 'Visuals & 3D').length;
-    const multiplayer = allMods.filter(m => m.category === 'Multiplayer & Online').length;
-
-    elements.totalModsCount.textContent = total;
-    elements.activeModsCount.textContent = active;
-    elements.archivedModsCount.textContent = archived;
-    elements.voxelModsCount.textContent = visuals;
-    elements.multiplayerModsCount.textContent = multiplayer;
-    elements.favCountBadge.textContent = state.favorites.size;
-    elements.exportFavCount.textContent = state.favorites.size;
-  }
-
-  // Dynamic Category Chips
-  function renderCategoryChips() {
-    const allMods = getAllMods();
-    const catCounts = {};
-    allMods.forEach(m => {
-      catCounts[m.category] = (catCounts[m.category] || 0) + 1;
-    });
-
-    const sortedCats = Object.keys(catCounts).sort((a, b) => catCounts[b] - catCounts[a]);
-
-    elements.categoryChipsContainer.innerHTML = '';
-    sortedCats.forEach(cat => {
-      const btn = document.createElement('button');
-      btn.className = `cat-btn ${state.selectedCategories.has(cat) ? 'active' : ''}`;
-      btn.dataset.category = cat;
-      btn.innerHTML = `${escapeHTML(cat)} <span class="cat-num">${catCounts[cat]}</span>`;
-      btn.addEventListener('click', () => {
-        SFX.select();
-        toggleCategory(cat);
-      });
-      elements.categoryChipsContainer.appendChild(btn);
-    });
-  }
-
-  function toggleCategory(category) {
-    if (state.selectedCategories.has(category)) {
-      state.selectedCategories.delete(category);
-    } else {
-      state.selectedCategories.add(category);
-    }
-    updateCategoryChipClasses();
-    updateActiveFilterBadge();
-    render();
-    updateUrlParams();
-  }
-
-  function updateCategoryChipClasses() {
-    const chips = elements.categoryChipsContainer.querySelectorAll('.cat-btn');
-    chips.forEach(chip => {
-      const cat = chip.dataset.category;
-      if (state.selectedCategories.has(cat)) {
-        chip.classList.add('active');
-      } else {
-        chip.classList.remove('active');
-      }
-    });
-  }
-
-  // Weighted Relevance Calculation Engine
-  function calculateSearchScore(mod, query) {
-    if (!query) return 0;
-    const q = query.toLowerCase().trim();
-    const title = mod.title.toLowerCase();
+  // Calculate Weighted Relevance Score for Searching
+  function calculateSearchScore(mod, q) {
+    if (!q) return 0;
+    const query = q.toLowerCase();
+    const title = (mod.title || '').toLowerCase();
     const desc = (mod.description || '').toLowerCase();
-    const tags = (mod.tags || []).map(t => t.toLowerCase());
-    const cat = mod.category.toLowerCase();
-    const id = mod.id;
-    const dexNo = (mod.dexNo || '').toLowerCase();
+    const author = (mod.author || '').toLowerCase();
+    const cat = (mod.category || '').toLowerCase();
+    const tags = Array.isArray(mod.tags) ? mod.tags.map(t => String(t).toLowerCase()) : [];
+    const id = String(mod.id || '').toLowerCase();
 
     let score = 0;
 
-    // 1. Exact Title Match
-    if (title === q) {
+    // 1. Title Direct Match
+    if (title === query) {
       score += 2500;
-    } 
-    // 2. Title Starts With query (e.g. "QoL Toggles..." when searching "QoL")
-    else if (title.startsWith(q)) {
+    } else if (title.startsWith(query)) {
       score += 1500;
-    }
-    // 3. Whole Word Boundary Match in Title (e.g. " QoL " or "[QoL]")
-    else if (new RegExp(`(?:^|[^a-zA-Z0-9])${escapeRegExp(q)}(?:$|[^a-zA-Z0-9])`, 'i').test(title)) {
-      score += 1000;
-    }
-    // 4. Substring in Title
-    else if (title.includes(q)) {
-      score += 500;
+    } else {
+      const titleWords = title.split(/[\s\-_[\]()]+/);
+      const isWordPrefix = titleWords.some(w => w.startsWith(query));
+      if (isWordPrefix) {
+        score += 1000;
+      } else if (title.includes(query)) {
+        score += 500;
+      }
     }
 
-    // 5. Tags Match
-    if (tags.some(t => t === q)) {
+    // 2. Author Match
+    if (author === query) {
+      score += 1800;
+    } else if (author.startsWith(query)) {
+      score += 900;
+    } else if (author.includes(query)) {
+      score += 400;
+    }
+
+    // 3. Tag Matches
+    if (tags.includes(query)) {
       score += 300;
-    } else if (tags.some(t => t.startsWith(q))) {
+    } else if (tags.some(t => t.startsWith(query))) {
       score += 180;
-    } else if (tags.some(t => t.includes(q))) {
+    } else if (tags.some(t => t.includes(query))) {
       score += 90;
     }
 
-    // 6. Category Match
-    if (cat === q) {
+    // 4. Category Match
+    if (cat === query) {
       score += 200;
-    } else if (cat.includes(q)) {
+    } else if (cat.includes(query)) {
       score += 80;
     }
 
-    // 7. Pokédex Index or Thread ID
-    if (dexNo.includes(q)) {
-      score += 400;
-    }
-    if (id === q) {
-      score += 500;
-    } else if (id.includes(q)) {
-      score += 50;
+    // 5. Description Matches
+    if (desc.includes(query)) {
+      const descWords = desc.split(/\s+/);
+      const isDescWord = descWords.some(w => w === query);
+      score += isDescWord ? 60 : 25;
     }
 
-    // 8. Description Match
-    if (new RegExp(`(?:^|[^a-zA-Z0-9])${escapeRegExp(q)}(?:$|[^a-zA-Z0-9])`, 'i').test(desc)) {
-      score += 60;
-    } else if (desc.includes(q)) {
-      score += 25;
+    // 6. ID Match
+    if (id.includes(query)) {
+      score += 100;
     }
 
     return score;
   }
 
-  // Filter and Sort Engine
+  // Filter and Sort Mods
   function getFilteredMods() {
     const allMods = getAllMods();
-    const query = state.searchQuery.trim();
+    const query = state.searchQuery.trim().toLowerCase();
 
-    // Compute search scores and filter
-    const scoredMods = [];
-
-    for (const mod of allMods) {
-      let score = 0;
-      if (query) {
-        score = calculateSearchScore(mod, query);
-        if (score === 0) {
-          // No match in title, desc, tags, category, or ID
-          continue;
-        }
-      }
-
+    // 1. Filter
+    const filtered = allMods.filter(mod => {
       // Generation filter
       if (state.selectedGen !== 'all') {
-        if (mod.generation !== state.selectedGen) {
-          continue;
-        }
+        if (state.selectedGen === 'Gen 1' && mod.generation !== 'Gen 1') return false;
+        if (state.selectedGen === 'Gen 2' && mod.generation !== 'Gen 2' && mod.generation !== 'Gen 1+2') return false;
+        if (state.selectedGen === 'Gen 1+2' && mod.generation !== 'Gen 1+2') return false;
       }
 
-      // Status & Favorites filter
-      if (state.selectedStatus === 'active') {
-        if (mod.status.toLowerCase() !== 'active') continue;
-      } else if (state.selectedStatus === 'archived') {
-        if (mod.status.toLowerCase() !== 'archived') continue;
-      } else if (state.selectedStatus === 'favorites') {
-        if (!state.favorites.has(mod.id)) continue;
+      // Category filter
+      if (state.selectedCategories.size > 0 && !state.selectedCategories.has(mod.category)) {
+        return false;
       }
 
-      // Category multi-select
-      if (state.selectedCategories.size > 0) {
-        if (!state.selectedCategories.has(mod.category)) continue;
+      // Status / Bookmarks filter
+      if (state.selectedStatus === 'active' && mod.status !== 'active') return false;
+      if (state.selectedStatus === 'archived' && mod.status !== 'archived') return false;
+      if (state.selectedStatus === 'favorites' && !state.favorites.has(mod.id)) return false;
+
+      // Text Search Query
+      if (query) {
+        const score = calculateSearchScore(mod, query);
+        mod._searchScore = score;
+        return score > 0;
       }
 
-      scoredMods.push({
-        ...mod,
-        _searchScore: score
-      });
-    }
+      mod._searchScore = 0;
+      return true;
+    });
 
-    // Sort
-    return scoredMods.sort((a, b) => {
+    // 2. Sort
+    return filtered.sort((a, b) => {
+      // If there is an active search query and sort is 'relevance', sort by weighted score
+      if (query && (state.sortBy === 'relevance' || !state.sortBy)) {
+        const scoreDiff = (b._searchScore || 0) - (a._searchScore || 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        // Tie-breaker: active status first, then timestamp
+        if (a.status !== b.status) return a.status === 'active' ? -1 : 1;
+        return (b.timestamp || 0) - (a.timestamp || 0);
+      }
+
       switch (state.sortBy) {
-        case 'relevance':
-          if (query) {
-            // High search score first!
-            if (b._searchScore !== a._searchScore) {
-              return b._searchScore - a._searchScore;
-            }
-          }
-          // Secondary: Active first, then newest
-          if (a.status !== b.status) {
-            return a.status === 'active' ? -1 : 1;
-          }
-          return (b.timestamp || 0) - (a.timestamp || 0);
-
         case 'newest':
           return (b.timestamp || 0) - (a.timestamp || 0);
         case 'oldest':
           return (a.timestamp || 0) - (b.timestamp || 0);
         case 'title-asc':
-          return a.title.localeCompare(b.title);
+          return (a.title || '').localeCompare(b.title || '');
         case 'title-desc':
-          return b.title.localeCompare(a.title);
+          return (b.title || '').localeCompare(a.title || '');
+        case 'author':
+          return (a.author || '').localeCompare(b.author || '');
         case 'category':
-          return a.category.localeCompare(b.category) || a.title.localeCompare(b.title);
-        case 'status':
-          if (a.status !== b.status) {
-            return a.status === 'active' ? -1 : 1;
-          }
-          return (b.timestamp || 0) - (a.timestamp || 0);
+          return (a.category || '').localeCompare(b.category || '');
+        case 'relevance':
         default:
-          return 0;
+          return (b.timestamp || 0) - (a.timestamp || 0);
       }
     });
   }
@@ -553,9 +563,26 @@
       const isFav = state.favorites.has(mod.id);
       const isActive = mod.status.toLowerCase() === 'active';
       const genClass = mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual';
+      const isGh = mod.source === 'github_index';
 
       const card = document.createElement('article');
       card.className = 'dex-card';
+
+      // Thumbnail Image Frame HTML
+      const thumbHtml = (mod.thumbnailUrl)
+        ? `<div class="mod-thumbnail-frame" data-mod-id="${mod.id}" style="cursor:pointer;">
+             <img class="mod-thumbnail-img" src="${mod.thumbnailUrl}" alt="${escapeHTML(mod.title)}" loading="lazy" onerror="this.parentElement.style.display='none';">
+           </div>`
+        : '';
+
+      const authorHtml = mod.author
+        ? `<div class="mod-author-tag">👤 by ${highlightText(mod.author, query)} ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
+        : '';
+
+      const primaryActionBtn = isGh
+        ? `<a href="${mod.repoUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-github" title="View Source on GitHub">GITHUB ↗</a>`
+        : `<a href="${mod.discordWebUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord" title="Open Thread in Web Browser">WEB ↗</a>`;
+
       card.innerHTML = `
         <div>
           <div class="dex-card-top">
@@ -569,57 +596,82 @@
             </div>
           </div>
 
+          ${thumbHtml}
+
           <div class="dex-card-body">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-              <div class="hp-gauge-wrapper">
-                <span>STATUS:</span>
-                <div class="hp-bar-outer">
-                  <div class="hp-bar-inner ${isActive ? '' : 'archived'}"></div>
-                </div>
-                <span>${mod.status.toUpperCase()}</span>
-              </div>
-            </div>
-
-            <h3 class="dex-mod-title btn-details" data-mod-id="${mod.id}">
-              ${highlightText(mod.title, query)}
-            </h3>
-
-            <p class="dex-mod-desc">
-              ${highlightText(mod.description || '', query)}
-            </p>
+            ${authorHtml}
+            <h3 class="dex-mod-title" data-mod-id="${mod.id}">${highlightText(mod.title, query)}</h3>
+            <p class="dex-mod-desc">${highlightText(mod.description, query)}</p>
 
             <div class="dex-tags-list">
-              ${(mod.tags || []).map(tag => `<span class="mini-tag" data-tag="${escapeHTML(tag)}">#${highlightText(tag, query)}</span>`).join('')}
+              ${(mod.tags || []).slice(0, 4).map(t => `<span class="mini-tag" data-tag="${escapeHTML(t)}">#${highlightText(t, query)}</span>`).join('')}
             </div>
           </div>
         </div>
 
         <div class="dex-card-footer">
           <div class="card-meta-row">
-            <span>ID: ${mod.id.slice(0, 10)}...</span>
+            <div class="hp-gauge-wrapper">
+              <span>HP:</span>
+              <div class="hp-bar-outer">
+                <div class="hp-bar-inner ${isActive ? '' : 'archived'}"></div>
+              </div>
+              <span>${isActive ? 'ACTIVE' : 'ARCHIVED'}</span>
+            </div>
             <span>${mod.dateCreated || 'Recent'}</span>
           </div>
+
           <div class="card-actions-row">
-            <a href="${mod.discordWebUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord" title="Open thread in browser">
-              WEB ↗
-            </a>
-            <a href="${mod.discordAppUrl}" class="poke-btn poke-btn-sm poke-btn-blue" title="Open in Discord App">
-              APP 🚀
-            </a>
-            <button class="poke-btn poke-btn-sm btn-copy-link" data-url="${mod.discordWebUrl}" title="Copy Link">
-              🔗 COPY
-            </button>
-            <button class="poke-btn poke-btn-sm btn-details" data-mod-id="${mod.id}" title="View Details">
-              INFO
-            </button>
+            ${primaryActionBtn}
+            <button class="poke-btn poke-btn-sm btn-copy-link" data-mod-id="${mod.id}" title="Copy Link">🔗 COPY</button>
+            <button class="poke-btn poke-btn-sm btn-details" data-mod-id="${mod.id}">INFO</button>
           </div>
         </div>
       `;
 
+      // Event listeners on card
+      const titleEl = card.querySelector('.dex-mod-title');
+      if (titleEl) titleEl.addEventListener('click', () => openDetailModal(mod));
+
+      const thumbEl = card.querySelector('.mod-thumbnail-frame');
+      if (thumbEl) thumbEl.addEventListener('click', () => openDetailModal(mod));
+
+      const detailsBtn = card.querySelector('.btn-details');
+      if (detailsBtn) detailsBtn.addEventListener('click', () => openDetailModal(mod));
+
+      const favBtn = card.querySelector('.btn-favorite');
+      if (favBtn) {
+        favBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleFavorite(mod.id);
+        });
+      }
+
+      const copyBtn = card.querySelector('.btn-copy-link');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const link = mod.repoUrl || mod.discordWebUrl;
+          copyToClipboard(link, 'LINK COPIED TO CLIPBOARD!');
+        });
+      }
+
+      const tagEls = card.querySelectorAll('.mini-tag');
+      tagEls.forEach(tagEl => {
+        tagEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const tag = tagEl.getAttribute('data-tag');
+          elements.searchInput.value = tag;
+          state.searchQuery = tag;
+          elements.searchClearBtn.style.display = 'block';
+          SFX.cursor();
+          render();
+          updateUrlParams();
+        });
+      });
+
       elements.modsGrid.appendChild(card);
     });
-
-    bindCardEvents(elements.modsGrid);
   }
 
   function renderTable(mods, query) {
@@ -627,383 +679,299 @@
 
     mods.forEach(mod => {
       const isFav = state.favorites.has(mod.id);
-      const isActive = mod.status.toLowerCase() === 'active';
-      const genClass = mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual';
-
+      const isGh = mod.source === 'github_index';
       const row = document.createElement('tr');
+
+      const thumbImg = mod.thumbnailUrl
+        ? `<img src="${mod.thumbnailUrl}" alt="" style="width:40px;height:40px;object-fit:cover;border:1px solid var(--border-color);" onerror="this.style.display='none';">`
+        : `<span style="font-size:1.2rem;">${mod.categoryIcon || '📦'}</span>`;
+
+      const primaryLink = mod.repoUrl || mod.discordWebUrl;
+
       row.innerHTML = `
-        <td style="font-family:var(--font-pixel-heading);font-size:0.62rem;">${mod.dexNo}</td>
+        <td style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">${mod.dexNo}</td>
+        <td>${thumbImg}</td>
         <td>
-          <div class="hp-gauge-wrapper">
-            <div class="hp-bar-outer" style="width:40px;height:7px;">
-              <div class="hp-bar-inner ${isActive ? '' : 'archived'}"></div>
-            </div>
-            <span style="font-size:0.6rem;">${mod.status.toUpperCase()}</span>
-          </div>
-        </td>
-        <td><span class="poke-tag ${genClass}">${mod.generation}</span></td>
-        <td><span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span></td>
-        <td>
-          <div style="cursor:pointer;font-weight:700;" data-mod-id="${mod.id}" class="btn-details">
+          <div style="font-family:var(--font-retro-title);font-size:0.95rem;font-weight:700;cursor:pointer;" class="table-title-click">
             ${highlightText(mod.title, query)}
           </div>
-          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">
-            ${highlightText(mod.description ? mod.description.slice(0, 80) + '...' : '', query)}
-          </div>
+          ${mod.author ? `<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--poke-blue);">by ${escapeHTML(mod.author)}</div>` : ''}
         </td>
-        <td style="font-size:0.72rem;white-space:nowrap;">
-          ${mod.dateCreated || 'Recent'}
-        </td>
-        <td>
-          <div style="display:flex;gap:4px;">
-            <button class="poke-btn poke-btn-sm btn-favorite" data-mod-id="${mod.id}" title="Bookmark">
-              ${isFav ? '★' : '☆'}
-            </button>
-            <a href="${mod.discordWebUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord">
-              WEB
-            </a>
-            <button class="poke-btn poke-btn-sm btn-copy-link" data-url="${mod.discordWebUrl}">
-              🔗
-            </button>
+        <td><span class="poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}">${mod.generation}</span></td>
+        <td><span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span></td>
+        <td style="font-family:var(--font-mono);font-size:0.75rem;">${mod.dateCreated || 'Recent'}</td>
+        <td style="text-align:right;">
+          <div style="display:inline-flex;gap:4px;">
+            <button class="poke-btn poke-btn-sm btn-favorite" data-mod-id="${mod.id}">${isFav ? '★' : '☆'}</button>
+            <a href="${primaryLink}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm ${isGh ? 'poke-btn-github' : 'poke-btn-discord'}">${isGh ? 'GH ↗' : 'WEB ↗'}</a>
+            <button class="poke-btn poke-btn-sm btn-details" data-mod-id="${mod.id}">INFO</button>
           </div>
         </td>
       `;
 
+      row.querySelector('.table-title-click').addEventListener('click', () => openDetailModal(mod));
+      row.querySelector('.btn-details').addEventListener('click', () => openDetailModal(mod));
+      row.querySelector('.btn-favorite').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(mod.id);
+      });
+
       elements.modsTableBody.appendChild(row);
     });
-
-    bindCardEvents(elements.modsTableBody);
   }
 
-  function bindCardEvents(container) {
-    // Favorite toggle
-    container.querySelectorAll('.btn-favorite').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const modId = btn.dataset.modId;
-        toggleFavorite(modId);
-      });
-    });
-
-    // Tag chip click -> quick search
-    container.querySelectorAll('.mini-tag').forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        e.stopPropagation();
-        SFX.select();
-        const tag = chip.dataset.tag;
-        state.searchQuery = tag;
-        elements.searchInput.value = tag;
-        elements.searchClearBtn.style.display = 'block';
-        render();
-        updateUrlParams();
-      });
-    });
-
-    // Copy link button
-    container.querySelectorAll('.btn-copy-link').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        SFX.select();
-        const url = btn.dataset.url;
-        copyToClipboard(url, 'DISCORD THREAD LINK COPIED!');
-      });
-    });
-
-    // Open detail modal
-    container.querySelectorAll('.dex-mod-title, .btn-details').forEach(el => {
-      el.addEventListener('click', (e) => {
-        const modId = el.dataset.modId;
-        if (modId) {
-          SFX.select();
-          openModDetail(modId);
-        }
-      });
-    });
-  }
-
-  // Favorite toggle
+  // Toggle Bookmark
   function toggleFavorite(modId) {
     if (state.favorites.has(modId)) {
       state.favorites.delete(modId);
       SFX.back();
-      showToast('REMOVED FROM BOOKMARKS', 'info');
+      showToast('BOOKMARK REMOVED', 'info');
     } else {
       state.favorites.add(modId);
       SFX.bookmark();
-      showToast('SAVED TO POKéDEX BOOKMARKS! ★', 'success');
+      showToast('MOD BOOKMARKED TO SAVED LIST! ★', 'success');
     }
-    localStorage.setItem('gen1recomp_favorites', JSON.stringify(Array.from(state.favorites)));
+
+    try {
+      localStorage.setItem('gen1recomp_favs', JSON.stringify([...state.favorites]));
+    } catch (e) {}
+
     updateStats();
     render();
 
-    if (currentDetailMod && currentDetailMod.id === modId) {
-      updateModalFavButton();
+    // If modal is open, update button
+    if (elements.modDetailModal.classList.contains('open')) {
+      const isFav = state.favorites.has(modId);
+      elements.modalFavToggleBtn.textContent = isFav ? '★ SAVED' : '☆ BOOKMARK';
     }
   }
 
-  // Open Mod Detail Modal
-  function openModDetail(modId) {
-    const mod = getAllMods().find(m => m.id === modId);
-    if (!mod) return;
+  // Open Detail Modal
+  function openDetailModal(mod) {
+    SFX.select();
+    const isFav = state.favorites.has(mod.id);
+    const isGh = mod.source === 'github_index';
 
-    currentDetailMod = mod;
-    const isActive = mod.status.toLowerCase() === 'active';
-    const genClass = mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual';
+    elements.modalDexNo.textContent = mod.dexNo;
+    elements.modalGenBadge.textContent = mod.generation;
+    elements.modalGenBadge.className = `poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}`;
+    elements.modalCatBadge.textContent = `${mod.categoryIcon || '📦'} ${mod.category}`;
 
-    elements.modalBadges.innerHTML = `
-      <span class="dex-index-num" style="margin-right:6px;">${mod.dexNo}</span>
-      <span class="poke-tag ${genClass}">${mod.generation}</span>
-      <span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span>
-      <span class="poke-tag">${isActive ? '🟢 ACTIVE' : '📁 ARCHIVED'}</span>
-    `;
+    if (mod.version) {
+      elements.modalVersionBadge.textContent = `v${mod.version}`;
+      elements.modalVersionBadge.style.display = 'inline-block';
+    } else {
+      elements.modalVersionBadge.style.display = 'none';
+    }
 
+    elements.modalStatusBadge.textContent = (mod.status || 'active').toUpperCase();
     elements.modalTitle.textContent = mod.title;
-    elements.modalDesc.textContent = mod.description || 'No detailed description recorded in Pokédex.';
 
-    elements.modalTags.innerHTML = (mod.tags || []).map(tag => 
-      `<span class="mini-tag" style="cursor:default;">#${escapeHTML(tag)}</span>`
-    ).join('');
+    if (mod.author) {
+      elements.modalAuthor.textContent = `Author: ${mod.author}`;
+      elements.modalAuthor.style.display = 'block';
+    } else {
+      elements.modalAuthor.style.display = 'none';
+    }
 
-    elements.modalThreadId.textContent = `THREAD ID: ${mod.id}`;
-    elements.modalThreadDate.textContent = `CREATED: ${mod.dateCreated || 'UNKNOWN'}`;
-    elements.modalStatusText.textContent = `STATUS: ${mod.status.toUpperCase()}`;
+    // Thumbnail in modal
+    if (mod.thumbnailUrl) {
+      elements.modalThumbnailImg.src = mod.thumbnailUrl;
+      elements.modalThumbnailContainer.style.display = 'block';
+    } else {
+      elements.modalThumbnailContainer.style.display = 'none';
+    }
 
-    elements.modalWebLink.href = mod.discordWebUrl;
-    elements.modalAppLink.href = mod.discordAppUrl;
+    elements.modalDesc.textContent = mod.description;
+    elements.modalTags.innerHTML = (mod.tags || []).map(t => `<span class="mini-tag">#${escapeHTML(t)}</span>`).join('');
+    elements.modalThreadId.textContent = mod.id;
+    elements.modalThreadDate.textContent = mod.dateCreated || 'Recent';
 
-    updateModalFavButton();
+    // Action links
+    if (isGh && mod.repoUrl) {
+      elements.modalRepoLink.href = mod.repoUrl;
+      elements.modalRepoLink.style.display = 'inline-flex';
+      elements.modalWebLink.href = mod.githubIndexUrl || mod.repoUrl;
+      elements.modalWebLink.textContent = 'INDEX FILE ↗';
+      elements.modalAppLink.style.display = 'none';
+    } else {
+      elements.modalRepoLink.style.display = 'none';
+      elements.modalWebLink.href = mod.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${mod.id}`;
+      elements.modalWebLink.textContent = 'DISCORD WEB ↗';
+      elements.modalAppLink.href = mod.discordAppUrl || `discord://discord.com/channels/${GUILD_ID}/${mod.id}`;
+      elements.modalAppLink.style.display = 'inline-flex';
+    }
 
-    // Copy handlers
-    elements.modalCopyIdBtn.onclick = () => {
-      SFX.select();
-      copyToClipboard(mod.id, 'THREAD ID COPIED!');
-    };
+    elements.modalFavToggleBtn.textContent = isFav ? '★ SAVED' : '☆ BOOKMARK';
+    elements.modalFavToggleBtn.onclick = () => toggleFavorite(mod.id);
 
     elements.modalCopyLinkBtn.onclick = () => {
-      SFX.select();
-      copyToClipboard(mod.discordWebUrl, 'DISCORD THREAD LINK COPIED!');
-    };
-
-    elements.modalFavToggleBtn.onclick = () => {
-      toggleFavorite(mod.id);
+      const link = mod.repoUrl || mod.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${mod.id}`;
+      copyToClipboard(link, 'LINK COPIED TO CLIPBOARD!');
     };
 
     // Related mods
-    const related = getAllMods()
-      .filter(m => m.category === mod.category && m.id !== mod.id)
-      .slice(0, 4);
-
-    if (related.length > 0) {
-      elements.modalRelatedList.innerHTML = related.map(rel => `
-        <div class="dialog-subbox" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:8px 10px;" onclick="window.gen1recompOpenDetail('${rel.id}')">
-          <span style="font-size:0.82rem;font-weight:700;">▶ ${escapeHTML(rel.title)}</span>
-          <span class="poke-tag ${rel.generation === 'Gen 1' ? 'tag-red' : rel.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}">${rel.generation}</span>
-        </div>
-      `).join('');
+    const allMods = getAllMods();
+    const related = allMods.filter(m => m.id !== mod.id && m.category === mod.category).slice(0, 5);
+    elements.modalRelatedList.innerHTML = '';
+    if (related.length === 0) {
+      elements.modalRelatedList.innerHTML = '<span style="font-size:0.8rem;color:var(--text-muted);">No similar category entries.</span>';
     } else {
-      elements.modalRelatedList.innerHTML = '<p style="font-size:0.75rem;color:var(--text-muted);">No other entries in this category.</p>';
+      related.forEach(rel => {
+        const btn = document.createElement('button');
+        btn.className = 'poke-btn poke-btn-sm';
+        btn.textContent = rel.title;
+        btn.addEventListener('click', () => openDetailModal(rel));
+        elements.modalRelatedList.appendChild(btn);
+      });
     }
 
     elements.modDetailModal.classList.add('open');
   }
 
-  window.gen1recompOpenDetail = openModDetail;
-
-  function updateModalFavButton() {
-    if (!currentDetailMod) return;
-    const isFav = state.favorites.has(currentDetailMod.id);
-    elements.modalFavToggleBtn.innerHTML = isFav ? '★ BOOKMARKED' : '☆ BOOKMARK';
-    elements.modalFavToggleBtn.className = `poke-btn ${isFav ? 'poke-btn-primary' : ''}`;
-  }
-
-  // Export / Modpack Generation
-  function generateExportContent() {
-    let modsToExport = [];
-    if (state.exportScope === 'favs') {
-      modsToExport = getAllMods().filter(m => state.favorites.has(m.id));
-    } else if (state.exportScope === 'filtered') {
-      modsToExport = getFilteredMods();
-    } else {
-      modsToExport = getAllMods();
-    }
-
-    if (state.exportFormat === 'markdown') {
-      let md = `# Pokémon Gen1Recomp & Gen2Recomp Mod List\n`;
-      md += `*Total Entries: ${modsToExport.length} | Exported: ${new Date().toLocaleDateString()}*\n\n`;
-      md += `| No. | Generation | Mod Name | Category | Status | Discord Thread |\n`;
-      md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
-      modsToExport.forEach(m => {
-        md += `| ${m.dexNo} | ${m.generation} | ${m.title.replace(/\|/g, '\\|')} | ${m.category} | ${m.status} | [View Thread](${m.discordWebUrl}) |\n`;
-      });
-      return md;
-    } else if (state.exportFormat === 'text') {
-      let txt = `Gen1Recomp Mods Archive (${modsToExport.length} entries)\n\n`;
-      modsToExport.forEach((m, idx) => {
-        txt += `${m.dexNo} [${m.generation}] ${m.title} (${m.status})\n`;
-        txt += `   Type: ${m.category}\n`;
-        txt += `   Thread: ${m.discordWebUrl}\n\n`;
-      });
-      return txt;
-    } else if (state.exportFormat === 'json') {
-      return JSON.stringify(modsToExport, null, 2);
-    }
-    return '';
-  }
-
-  function updateExportView() {
-    elements.exportTextArea.value = generateExportContent();
-  }
-
-  // Event Listeners
-  function bindEvents() {
+  // Bind Event Listeners
+  function initEventListeners() {
     // Search input
     elements.searchInput.addEventListener('input', (e) => {
-      SFX.cursor();
       state.searchQuery = e.target.value;
       elements.searchClearBtn.style.display = state.searchQuery ? 'block' : 'none';
       render();
       updateUrlParams();
     });
 
+    // Clear search
     elements.searchClearBtn.addEventListener('click', () => {
       SFX.back();
-      state.searchQuery = '';
       elements.searchInput.value = '';
+      state.searchQuery = '';
       elements.searchClearBtn.style.display = 'none';
       elements.searchInput.focus();
       render();
       updateUrlParams();
     });
 
-    // Toggle Advanced Panel
-    elements.toggleAdvancedBtn.addEventListener('click', () => {
-      SFX.select();
-      state.advancedPanelOpen = !state.advancedPanelOpen;
-      elements.advancedPanel.classList.toggle('open', state.advancedPanelOpen);
-      elements.toggleAdvancedBtn.classList.toggle('active', state.advancedPanelOpen);
-    });
-
-    // Keyboard shortcut (/)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== elements.searchInput && !document.querySelector('.modal-screen.open')) {
+    // Keyboard shortcut "/" to search
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== elements.searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
-        SFX.cursor();
         elements.searchInput.focus();
+        elements.searchInput.select();
+        SFX.cursor();
       } else if (e.key === 'Escape') {
-        SFX.back();
         closeAllModals();
-        if (elements.searchInput.value) {
-          elements.searchClearBtn.click();
-        }
       }
     });
 
-    // Sound toggle
-    elements.soundToggleBtn.addEventListener('click', () => {
-      state.soundEnabled = !state.soundEnabled;
-      updateSoundButton();
-      if (state.soundEnabled) {
-        SFX.select();
-      }
+    // Toggle Advanced Drawer
+    elements.toggleAdvancedBtn.addEventListener('click', () => {
+      SFX.cursor();
+      elements.advancedPanel.classList.toggle('open');
     });
 
-    // Scanlines CRT toggle
-    elements.scanlinesToggleBtn.addEventListener('click', () => {
-      SFX.select();
-      applyScanlines(!state.scanlinesEnabled);
-    });
-
-    // Theme selector
-    elements.themeSelect.addEventListener('change', (e) => {
-      SFX.select();
-      applyTheme(e.target.value);
-    });
-
-    // Generation tabs
-    document.querySelectorAll('.gen-tab-group [data-gen]').forEach(tab => {
+    // Source Selector Tabs
+    elements.sourceTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         SFX.select();
-        document.querySelectorAll('.gen-tab-group [data-gen]').forEach(t => t.classList.remove('active'));
+        elements.sourceTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        state.selectedGen = tab.dataset.gen;
+        state.dataSource = tab.getAttribute('data-source');
+        try {
+          localStorage.setItem('gen1recomp_source', state.dataSource);
+        } catch (e) {}
+        updateSourceCounts();
+        updateStats();
+        renderCategoryChips();
+        render();
+        updateUrlParams();
+        showToast(`SOURCE SWITCHED: ${state.dataSource.toUpperCase()}`, 'info');
+      });
+    });
+
+    // Gen Tabs
+    elements.genTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        SFX.cursor();
+        elements.genTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        state.selectedGen = tab.getAttribute('data-gen');
         render();
         updateUrlParams();
       });
     });
 
-    // Status tabs in advanced panel
-    document.querySelectorAll('.adv-row [data-status]').forEach(tab => {
+    // Status Tabs
+    elements.statusTabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        SFX.select();
-        document.querySelectorAll('.adv-row [data-status]').forEach(t => t.classList.remove('active'));
+        SFX.cursor();
+        elements.statusTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        state.selectedStatus = tab.dataset.status;
+        state.selectedStatus = tab.getAttribute('data-status');
         updateActiveFilterBadge();
         render();
         updateUrlParams();
       });
-    });
-
-    // Stats strip quick filters
-    elements.statsStrip.addEventListener('click', (e) => {
-      const chip = e.target.closest('.stat-chip');
-      if (!chip) return;
-      SFX.select();
-      const stat = chip.dataset.stat;
-      if (stat === 'all') {
-        resetAllFilters();
-      } else if (stat === 'active') {
-        selectStatusTab('active');
-      } else if (stat === 'archived') {
-        selectStatusTab('archived');
-      } else if (stat === 'visuals') {
-        state.selectedCategories.clear();
-        state.selectedCategories.add('Visuals & 3D');
-        updateCategoryChipClasses();
-        updateActiveFilterBadge();
-        render();
-      } else if (stat === 'multiplayer') {
-        state.selectedCategories.clear();
-        state.selectedCategories.add('Multiplayer & Online');
-        updateCategoryChipClasses();
-        updateActiveFilterBadge();
-        render();
-      }
     });
 
     // Sort select
     elements.sortSelect.addEventListener('change', (e) => {
-      SFX.select();
+      SFX.cursor();
       state.sortBy = e.target.value;
       render();
       updateUrlParams();
     });
 
-    // View mode toggle
+    // Theme select
+    elements.themeSelect.addEventListener('change', (e) => {
+      SFX.cursor();
+      state.theme = e.target.value;
+      document.body.setAttribute('data-theme', state.theme);
+      try {
+        localStorage.setItem('gen1recomp_theme', state.theme);
+      } catch (err) {}
+      showToast(`THEME: ${state.theme.toUpperCase()}`, 'info');
+    });
+
+    // Sound toggle
+    elements.soundToggleBtn.addEventListener('click', () => {
+      state.soundEnabled = !state.soundEnabled;
+      elements.soundToggleBtn.textContent = `🔊 SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
+      try {
+        localStorage.setItem('gen1recomp_sound', state.soundEnabled);
+      } catch (err) {}
+      if (state.soundEnabled) SFX.select();
+      showToast(`AUDIO EFFECTS ${state.soundEnabled ? 'ENABLED' : 'MUTED'}`, 'info');
+    });
+
+    // CRT Scanlines toggle
+    elements.scanlinesToggleBtn.addEventListener('click', () => {
+      SFX.cursor();
+      state.scanlinesEnabled = !state.scanlinesEnabled;
+      elements.scanlinesToggleBtn.textContent = `📺 CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
+      document.body.classList.toggle('scanlines-on', state.scanlinesEnabled);
+      try {
+        localStorage.setItem('gen1recomp_scanlines', state.scanlinesEnabled);
+      } catch (err) {}
+    });
+
+    // Reset all filters
+    elements.resetFiltersBtn.addEventListener('click', resetAllFilters);
+    elements.emptyResetBtn.addEventListener('click', resetAllFilters);
+
+    // View mode switchers
     elements.viewGridBtn.addEventListener('click', () => {
-      SFX.select();
+      SFX.cursor();
       state.viewMode = 'grid';
       elements.viewGridBtn.classList.add('active');
-      elements.viewListBtn.classList.remove('active');
+      elements.viewTableBtn.classList.remove('active');
       render();
     });
 
-    elements.viewListBtn.addEventListener('click', () => {
-      SFX.select();
-      state.viewMode = 'list';
-      elements.viewListBtn.classList.add('active');
+    elements.viewTableBtn.addEventListener('click', () => {
+      SFX.cursor();
+      state.viewMode = 'table';
+      elements.viewTableBtn.classList.add('active');
       elements.viewGridBtn.classList.remove('active');
       render();
-    });
-
-    // Reset filters
-    elements.resetFiltersBtn.addEventListener('click', () => {
-      SFX.back();
-      resetAllFilters();
-    });
-    elements.emptyResetBtn.addEventListener('click', () => {
-      SFX.back();
-      resetAllFilters();
     });
 
     // Modal close buttons
@@ -1102,34 +1070,55 @@
     updateExportView();
   }
 
-  function selectStatusTab(status) {
-    document.querySelectorAll('.adv-row [data-status]').forEach(t => {
-      if (t.dataset.status === status) {
-        t.classList.add('active');
-      } else {
-        t.classList.remove('active');
-      }
-    });
-    state.selectedStatus = status;
-    updateActiveFilterBadge();
-    render();
-    updateUrlParams();
+  function updateExportView() {
+    let modsToExport = [];
+    const allMods = getAllMods();
+
+    if (state.exportScope === 'favs') {
+      modsToExport = allMods.filter(m => state.favorites.has(m.id));
+    } else if (state.exportScope === 'filtered') {
+      modsToExport = getFilteredMods();
+    } else {
+      modsToExport = allMods;
+    }
+
+    let output = '';
+
+    if (state.exportFormat === 'markdown') {
+      output += `# Pokémon Gen1Recomp & Gen2Recomp Modpack (${modsToExport.length} Mods)\n\n`;
+      output += `| No. | Mod Title | Author | Gen | Category | Link |\n`;
+      output += `| --- | --------- | ------ | --- | -------- | ---- |\n`;
+      modsToExport.forEach(m => {
+        const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${m.id}`;
+        output += `| ${m.dexNo} | ${m.title} | ${m.author || 'Community'} | ${m.generation} | ${m.category} | [View](${link}) |\n`;
+      });
+    } else if (state.exportFormat === 'text') {
+      output += `POKÉMON GEN1RECOMP MODPACK EXPORT\nTotal: ${modsToExport.length} Mods\n=========================================\n\n`;
+      modsToExport.forEach(m => {
+        const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${m.id}`;
+        output += `[${m.dexNo}] ${m.title} (${m.generation} - ${m.category})\n`;
+        if (m.author) output += `Author: ${m.author}\n`;
+        output += `Link: ${link}\n`;
+        output += `-----------------------------------------\n`;
+      });
+    } else if (state.exportFormat === 'json') {
+      output = JSON.stringify(modsToExport, null, 2);
+    }
+
+    elements.exportTextArea.value = output;
   }
 
   function resetAllFilters() {
-    state.searchQuery = '';
+    SFX.back();
     elements.searchInput.value = '';
+    state.searchQuery = '';
     elements.searchClearBtn.style.display = 'none';
 
     state.selectedGen = 'all';
-    document.querySelectorAll('.gen-tab-group [data-gen]').forEach(t => {
-      t.classList.toggle('active', t.dataset.gen === 'all');
-    });
+    elements.genTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-gen') === 'all'));
 
     state.selectedStatus = 'all';
-    document.querySelectorAll('.adv-row [data-status]').forEach(t => {
-      t.classList.toggle('active', t.dataset.status === 'all');
-    });
+    elements.statusTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-status') === 'all'));
 
     state.selectedCategories.clear();
     updateCategoryChipClasses();
@@ -1175,70 +1164,94 @@
   }
 
   function fallbackCopy(text, successMsg) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-9999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
     try {
       document.execCommand('copy');
       showToast(successMsg, 'success');
     } catch (err) {
-      showToast('FAILED TO COPY', 'info');
+      showToast('UNABLE TO COPY AUTOMATICALLY', 'info');
     }
-    document.body.removeChild(textArea);
+    document.body.removeChild(ta);
   }
 
-  // URL Query Parameters Sync
+  // URL Parameter Sync
   function loadUrlParams() {
     const params = new URLSearchParams(window.location.search);
-    if (params.has('q')) {
-      state.searchQuery = params.get('q');
-      elements.searchInput.value = state.searchQuery;
+    const q = params.get('q');
+    if (q) {
+      state.searchQuery = q;
+      elements.searchInput.value = q;
       elements.searchClearBtn.style.display = 'block';
     }
-    if (params.has('gen')) {
-      state.selectedGen = params.get('gen');
-      document.querySelectorAll('.gen-tab-group [data-gen]').forEach(t => {
-        t.classList.toggle('active', t.dataset.gen === state.selectedGen);
-      });
+
+    const gen = params.get('gen');
+    if (gen && ['all', 'Gen 1', 'Gen 2', 'Gen 1+2'].includes(gen)) {
+      state.selectedGen = gen;
+      elements.genTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-gen') === gen));
     }
-    if (params.has('status')) {
-      state.selectedStatus = params.get('status');
-      document.querySelectorAll('.adv-row [data-status]').forEach(t => {
-        t.classList.toggle('active', t.dataset.status === state.selectedStatus);
-      });
+
+    const src = params.get('source');
+    if (src && ['github', 'discord', 'all'].includes(src)) {
+      state.dataSource = src;
+      elements.sourceTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-source') === src));
     }
-    if (params.has('cat')) {
-      const cats = params.get('cat').split(',');
-      cats.forEach(c => state.selectedCategories.add(c));
+
+    const cat = params.get('cat');
+    if (cat) {
+      state.selectedCategories = new Set(cat.split(','));
     }
-    if (params.has('sort')) {
-      state.sortBy = params.get('sort');
-      elements.sortSelect.value = state.sortBy;
+
+    const modId = params.get('mod');
+    if (modId) {
+      const allMods = getAllMods();
+      const target = allMods.find(m => m.id === modId);
+      if (target) {
+        setTimeout(() => openDetailModal(target), 300);
+      }
     }
   }
 
   function updateUrlParams() {
     const params = new URLSearchParams();
-    if (state.searchQuery) params.set('q', state.searchQuery);
+    if (state.searchQuery.trim()) params.set('q', state.searchQuery.trim());
     if (state.selectedGen !== 'all') params.set('gen', state.selectedGen);
-    if (state.selectedStatus !== 'all') params.set('status', state.selectedStatus);
+    if (state.dataSource !== 'github') params.set('source', state.dataSource);
     if (state.selectedCategories.size > 0) params.set('cat', Array.from(state.selectedCategories).join(','));
-    if (state.sortBy !== 'relevance') params.set('sort', state.sortBy);
 
-    const queryString = params.toString();
-    const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+    const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
     window.history.replaceState({}, '', newUrl);
   }
 
-  // Bootstrap
+  // Initialization
+  function init() {
+    // Apply initial settings
+    document.body.setAttribute('data-theme', state.theme);
+    elements.themeSelect.value = state.theme;
+
+    document.body.classList.toggle('scanlines-on', state.scanlinesEnabled);
+    elements.scanlinesToggleBtn.textContent = `📺 CRT: ${state.scanlinesEnabled ? 'ON' : 'OFF'}`;
+    elements.soundToggleBtn.textContent = `🔊 SOUND: ${state.soundEnabled ? 'ON' : 'OFF'}`;
+
+    // Apply active source button
+    elements.sourceTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-source') === state.dataSource));
+
+    updateSourceCounts();
+    loadUrlParams();
+    updateStats();
+    renderCategoryChips();
+    updateActiveFilterBadge();
+    initEventListeners();
+    render();
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
-
 })();
