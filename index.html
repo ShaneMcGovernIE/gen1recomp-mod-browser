@@ -90,7 +90,8 @@
         <div style="display:flex;align-items:center;gap:6px;">
           <span class="gen-tab-label">SORT:</span>
           <select id="sortSelect" class="poke-select">
-            <option value="relevance">🎯 RELEVANCE / NEWEST</option>
+            <option value="downloads" selected>🔥 MOST POPULAR</option>
+            <option value="relevance">🎯 RELEVANCE / SEARCH</option>
             <option value="newest">🕒 NEWEST FIRST</option>
             <option value="oldest">⏳ OLDEST FIRST</option>
             <option value="title-asc">🔤 TITLE (A → Z)</option>
@@ -196,6 +197,7 @@
               <th>MOD TITLE & AUTHOR</th>
               <th>GEN</th>
               <th>CATEGORY</th>
+              <th>DOWNLOADS</th>
               <th>VERSION / DATE</th>
               <th style="text-align: right;">ACTIONS</th>
             </tr>
@@ -225,6 +227,8 @@
           <span id="modalDexNo" class="dex-index-num">No. 001</span>
           <span id="modalGenBadge" class="poke-tag tag-red">GEN 1</span>
           <span id="modalCatBadge" class="poke-tag">📁 CATEGORY</span>
+          <span id="modalDownloadsBadge" class="poke-tag tag-downloads" style="display:none;">📥 0</span>
+          <span id="modalStarsBadge" class="poke-tag tag-stars" style="display:none;">★ 0</span>
           <span id="modalVersionBadge" class="poke-tag tag-version" style="display:none;">v1.0.0</span>
           <span id="modalStatusBadge" class="poke-tag" style="margin-left:auto;">ACTIVE</span>
         </div>

@@ -1,5 +1,5 @@
 // bryanthaboi/gen1recomp-mod-index dataset
-// Auto-generated from official GitHub Mod Index repository
+// Auto-generated with total release download stats
 
 var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
   {
@@ -33,7 +33,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/AntoniMan31@day_night_cycle",
     "timestamp": 1786500000000,
     "dateCreated": "v0.1.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 227,
+    "stars": 0
   },
   {
     "id": "gh_AntoniMan31@trad-fr-extended",
@@ -64,7 +66,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/AntoniMan31@trad-fr-extended",
     "timestamp": 1786496400000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 491,
+    "stars": 2
   },
   {
     "id": "gh_ArmstrongThomas@gen1_modern_ui",
@@ -94,7 +98,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ArmstrongThomas@gen1_modern_ui",
     "timestamp": 1786492800000,
     "dateCreated": "v0.8.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 28205,
+    "stars": 39
   },
   {
     "id": "gh_AshJam@silphnet",
@@ -123,7 +129,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/AshJam@silphnet",
     "timestamp": 1786489200000,
     "dateCreated": "v1.1.8",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 248,
+    "stars": 4
   },
   {
     "id": "gh_AverageConsumer@kanto_gear",
@@ -156,7 +164,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/AverageConsumer@kanto_gear",
     "timestamp": 1786485600000,
     "dateCreated": "v2.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 7626,
+    "stars": 48
   },
   {
     "id": "gh_BartInTheField@translation-nl",
@@ -182,7 +192,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/BartInTheField@translation-nl",
     "timestamp": 1786482000000,
     "dateCreated": "v0.0.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 171,
+    "stars": 0
   },
   {
     "id": "gh_BrenoBertucci@TERRARIUM",
@@ -213,7 +225,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/BrenoBertucci@TERRARIUM",
     "timestamp": 1786478400000,
     "dateCreated": "v1.19.0-mobile",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 6059,
+    "stars": 2
   },
   {
     "id": "gh_Campo@kanto_dynamic_weather",
@@ -242,7 +256,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Campo@kanto_dynamic_weather",
     "timestamp": 1786474800000,
     "dateCreated": "v1.0.3",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1571,
+    "stars": 2
   },
   {
     "id": "gh_Campo@pokemon_red_voice_acting",
@@ -266,7 +282,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Campo@pokemon_red_voice_acting",
     "timestamp": 1786471200000,
     "dateCreated": "v1.17.9",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1612,
+    "stars": 0
   },
   {
     "id": "gh_DarioMelo@Music_HGSS",
@@ -291,7 +309,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/DarioMelo@Music_HGSS",
     "timestamp": 1786464000000,
     "dateCreated": "v26.08.04",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 7957,
+    "stars": 7
   },
   {
     "id": "gh_DarioMelo@Music_LGPE",
@@ -316,7 +336,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/DarioMelo@Music_LGPE",
     "timestamp": 1786460400000,
     "dateCreated": "v26.08.04",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 7957,
+    "stars": 7
   },
   {
     "id": "gh_DaroMelo@Music2_HGSS",
@@ -342,7 +364,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/DaroMelo@Music2_HGSS",
     "timestamp": 1786456800000,
     "dateCreated": "v26.08.11",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 442,
+    "stars": 0
   },
   {
     "id": "gh_DavidSchuchert@VOXEL_DEX",
@@ -372,7 +396,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/DavidSchuchert@VOXEL_DEX",
     "timestamp": 1786453200000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1190,
+    "stars": 0
   },
   {
     "id": "gh_Gamecorner_033@PokePCFollowers_VoxelMerge",
@@ -399,7 +425,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Gamecorner_033@PokePCFollowers_VoxelMerge",
     "timestamp": 1786449600000,
     "dateCreated": "v0.5.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 0,
+    "stars": 37
   },
   {
     "id": "gh_Gamecorner_033@gen1online",
@@ -426,7 +454,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Gamecorner_033@gen1online",
     "timestamp": 1786446000000,
     "dateCreated": "v0.0.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 14560,
+    "stars": 24
   },
   {
     "id": "gh_Gamecorner_033@overworld_encounters",
@@ -453,7 +483,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Gamecorner_033@overworld_encounters",
     "timestamp": 1786442400000,
     "dateCreated": "v0.0.7",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 0,
+    "stars": 35
   },
   {
     "id": "gh_Illan@wills_mod",
@@ -483,7 +515,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Illan@wills_mod",
     "timestamp": 1786438800000,
     "dateCreated": "v1.0.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 193,
+    "stars": 1
   },
   {
     "id": "gh_MFRTechConsult@DRAMATIC_SKY_RIDE",
@@ -516,7 +550,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MFRTechConsult@DRAMATIC_SKY_RIDE",
     "timestamp": 1786435200000,
     "dateCreated": "v0.1.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 5403,
+    "stars": 6
   },
   {
     "id": "gh_Maaggel@mew_under_the_truck",
@@ -546,7 +582,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Maaggel@mew_under_the_truck",
     "timestamp": 1786431600000,
     "dateCreated": "v0.8.3",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 415,
+    "stars": 0
   },
   {
     "id": "gh_Maaggel@move_descriptions",
@@ -575,7 +613,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Maaggel@move_descriptions",
     "timestamp": 1786428000000,
     "dateCreated": "v0.5.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 290,
+    "stars": 0
   },
   {
     "id": "gh_MadeinTaly@childhood_myths_are_real",
@@ -603,7 +643,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@childhood_myths_are_real",
     "timestamp": 1786424400000,
     "dateCreated": "v0.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 338,
+    "stars": 0
   },
   {
     "id": "gh_MadeinTaly@gen3_box",
@@ -633,7 +675,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@gen3_box",
     "timestamp": 1786420800000,
     "dateCreated": "v1.8.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 19298,
+    "stars": 20
   },
   {
     "id": "gh_MadeinTaly@gen3_dex",
@@ -663,7 +707,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@gen3_dex",
     "timestamp": 1786417200000,
     "dateCreated": "v0.5.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1563,
+    "stars": 0
   },
   {
     "id": "gh_MadeinTaly@groovy_palette",
@@ -695,7 +741,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@groovy_palette",
     "timestamp": 1786413600000,
     "dateCreated": "v0.7.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 3772,
+    "stars": 1
   },
   {
     "id": "gh_MadeinTaly@modern_johto",
@@ -725,7 +773,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@modern_johto",
     "timestamp": 1786410000000,
     "dateCreated": "v0.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 206,
+    "stars": 0
   },
   {
     "id": "gh_MadeinTaly@modern_kanto",
@@ -753,7 +803,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@modern_kanto",
     "timestamp": 1786406400000,
     "dateCreated": "v0.3.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 10719,
+    "stars": 5
   },
   {
     "id": "gh_MadeinTaly@running_shoes",
@@ -782,7 +834,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MadeinTaly@running_shoes",
     "timestamp": 1786402800000,
     "dateCreated": "v1.6.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 11655,
+    "stars": 10
   },
   {
     "id": "gh_MaxTomahawk@savestates",
@@ -814,7 +868,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MaxTomahawk@savestates",
     "timestamp": 1786399200000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 167,
+    "stars": 0
   },
   {
     "id": "gh_MaybeGreg@modern_type_framework",
@@ -838,7 +894,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MaybeGreg@modern_type_framework",
     "timestamp": 1786395600000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 25,
+    "stars": 0
   },
   {
     "id": "gh_MisterMiracle@snag_quest",
@@ -868,7 +926,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MisterMiracle@snag_quest",
     "timestamp": 1786392000000,
     "dateCreated": "v0.12.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 539,
+    "stars": 0
   },
   {
     "id": "gh_MrJoufflu@translation-qc",
@@ -896,7 +956,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MrJoufflu@translation-qc",
     "timestamp": 1786388400000,
     "dateCreated": "v1.0.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 122,
+    "stars": 1
   },
   {
     "id": "gh_MrKrisSatan@leaf_avatar",
@@ -924,7 +986,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MrKrisSatan@leaf_avatar",
     "timestamp": 1786384800000,
     "dateCreated": "v1.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4652,
+    "stars": 1
   },
   {
     "id": "gh_MraYT@kanto_dive",
@@ -955,7 +1019,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MraYT@kanto_dive",
     "timestamp": 1786381200000,
     "dateCreated": "v1.5.3",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 263,
+    "stars": 1
   },
   {
     "id": "gh_MyFriendDevBR@whos_that_trainer",
@@ -989,7 +1055,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/MyFriendDevBR@whos_that_trainer",
     "timestamp": 1786377600000,
     "dateCreated": "v1.2.5",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1382,
+    "stars": 0
   },
   {
     "id": "gh_Nezara@silphscope_network",
@@ -1022,7 +1090,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Nezara@silphscope_network",
     "timestamp": 1786374000000,
     "dateCreated": "v0.12.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 179,
+    "stars": 0
   },
   {
     "id": "gh_Razor1993@FLYING_OVERHAUL",
@@ -1054,7 +1124,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Razor1993@FLYING_OVERHAUL",
     "timestamp": 1786370400000,
     "dateCreated": "v1.0.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 324,
+    "stars": 3
   },
   {
     "id": "gh_Roxas2712@deutsch-blau",
@@ -1083,7 +1155,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Roxas2712@deutsch-blau",
     "timestamp": 1786366800000,
     "dateCreated": "v1.0.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 480,
+    "stars": 3
   },
   {
     "id": "gh_Roxas2712@deutsch-gelb",
@@ -1112,7 +1186,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Roxas2712@deutsch-gelb",
     "timestamp": 1786363200000,
     "dateCreated": "v1.0.5",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 635,
+    "stars": 3
   },
   {
     "id": "gh_Roxas2712@deutsch",
@@ -1141,7 +1217,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Roxas2712@deutsch",
     "timestamp": 1786359600000,
     "dateCreated": "v2.1.6",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1408,
+    "stars": 8
   },
   {
     "id": "gh_Satori7Kensho@shiny_starters_gifts",
@@ -1171,7 +1249,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Satori7Kensho@shiny_starters_gifts",
     "timestamp": 1786356000000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 981,
+    "stars": 0
   },
   {
     "id": "gh_Sebarosu@recomp-spanish",
@@ -1198,7 +1278,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Sebarosu@recomp-spanish",
     "timestamp": 1786352400000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4868,
+    "stars": 16
   },
   {
     "id": "gh_Sedatb23@recomp_cartographer",
@@ -1222,7 +1304,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Sedatb23@recomp_cartographer",
     "timestamp": 1786348800000,
     "dateCreated": "v0.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 103,
+    "stars": 1
   },
   {
     "id": "gh_ShaneHudson@dev-hook-inspector",
@@ -1251,7 +1335,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneHudson@dev-hook-inspector",
     "timestamp": 1786345200000,
     "dateCreated": "v0.1.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 92,
+    "stars": 0
   },
   {
     "id": "gh_ShaneHudson@double_battles",
@@ -1280,7 +1366,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneHudson@double_battles",
     "timestamp": 1786341600000,
     "dateCreated": "v0.2.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 838,
+    "stars": 2
   },
   {
     "id": "gh_ShaneHudson@free_fly",
@@ -1309,7 +1397,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneHudson@free_fly",
     "timestamp": 1786338000000,
     "dateCreated": "v1.4.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 5699,
+    "stars": 10
   },
   {
     "id": "gh_ShaneHudson@wild_skies",
@@ -1339,7 +1429,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneHudson@wild_skies",
     "timestamp": 1786334400000,
     "dateCreated": "v1.5.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 8018,
+    "stars": 14
   },
   {
     "id": "gh_ShaneMcGovernIE@critical_capture",
@@ -1367,7 +1459,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@critical_capture",
     "timestamp": 1786330800000,
     "dateCreated": "v0.1.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 951,
+    "stars": 0
   },
   {
     "id": "gh_ShaneMcGovernIE@exp_share",
@@ -1394,7 +1488,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@exp_share",
     "timestamp": 1786327200000,
     "dateCreated": "v0.1.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 18254,
+    "stars": 16
   },
   {
     "id": "gh_ShaneMcGovernIE@mods_hotkeys",
@@ -1424,7 +1520,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@mods_hotkeys",
     "timestamp": 1786323600000,
     "dateCreated": "v0.1.10",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 805,
+    "stars": 2
   },
   {
     "id": "gh_ShaneMcGovernIE@potato_voxel",
@@ -1454,7 +1552,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@potato_voxel",
     "timestamp": 1786320000000,
     "dateCreated": "v1.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 11340,
+    "stars": 44
   },
   {
     "id": "gh_ShaneMcGovernIE@qol_toggles",
@@ -1480,7 +1580,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@qol_toggles",
     "timestamp": 1786316400000,
     "dateCreated": "v1.4.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 11175,
+    "stars": 2
   },
   {
     "id": "gh_ShaneMcGovernIE@relearn_moves",
@@ -1508,7 +1610,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@relearn_moves",
     "timestamp": 1786312800000,
     "dateCreated": "v1.1.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 2920,
+    "stars": 2
   },
   {
     "id": "gh_ShaneMcGovernIE@surround_audio",
@@ -1535,7 +1639,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@surround_audio",
     "timestamp": 1786309200000,
     "dateCreated": "v1.6.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 7359,
+    "stars": 9
   },
   {
     "id": "gh_ShaneMcGovernIE@trainer_rematch",
@@ -1562,7 +1668,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@trainer_rematch",
     "timestamp": 1786305600000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 6315,
+    "stars": 5
   },
   {
     "id": "gh_ShaneMcGovernIE@useful_bag",
@@ -1590,7 +1698,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@useful_bag",
     "timestamp": 1786302000000,
     "dateCreated": "v2.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 12487,
+    "stars": 11
   },
   {
     "id": "gh_ShaneMcGovernIE@useful_dex",
@@ -1618,7 +1728,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@useful_dex",
     "timestamp": 1786298400000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 6773,
+    "stars": 4
   },
   {
     "id": "gh_ShaneMcGovernIE@useful_marts",
@@ -1647,7 +1759,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@useful_marts",
     "timestamp": 1786294800000,
     "dateCreated": "v1.0.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1729,
+    "stars": 1
   },
   {
     "id": "gh_ShaneMcGovernIE@useful_move_info",
@@ -1675,7 +1789,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@useful_move_info",
     "timestamp": 1786291200000,
     "dateCreated": "v1.4.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 8166,
+    "stars": 3
   },
   {
     "id": "gh_ShaneMcGovernIE@widescreen_battle_intro",
@@ -1702,7 +1818,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@widescreen_battle_intro",
     "timestamp": 1786287600000,
     "dateCreated": "v1.2.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 10156,
+    "stars": 9
   },
   {
     "id": "gh_ShaneMcGovernIE@yellow_legacy_changes",
@@ -1729,7 +1847,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ShaneMcGovernIE@yellow_legacy_changes",
     "timestamp": 1786284000000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4951,
+    "stars": 5
   },
   {
     "id": "gh_TanukiTooks@candy_jar",
@@ -1755,7 +1875,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/TanukiTooks@candy_jar",
     "timestamp": 1786280400000,
     "dateCreated": "v1.5.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 264,
+    "stars": 0
   },
   {
     "id": "gh_TanukiTooks@quest_menu",
@@ -1781,7 +1903,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/TanukiTooks@quest_menu",
     "timestamp": 1786276800000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 466,
+    "stars": 0
   },
   {
     "id": "gh_TheRhysWyrill@instant_heal_pc_rest",
@@ -1806,7 +1930,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/TheRhysWyrill@instant_heal_pc_rest",
     "timestamp": 1786273200000,
     "dateCreated": "v1.1.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1211,
+    "stars": 0
   },
   {
     "id": "gh_YoDrehDenSwagAuf@overworld_wild_spawns",
@@ -1840,7 +1966,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/YoDrehDenSwagAuf@overworld_wild_spawns",
     "timestamp": 1786269600000,
     "dateCreated": "v1.7.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 55716,
+    "stars": 82
   },
   {
     "id": "gh_YukitaMayako@simple_girl",
@@ -1866,7 +1994,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/YukitaMayako@simple_girl",
     "timestamp": 1786266000000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 159,
+    "stars": 0
   },
   {
     "id": "gh_Yukitty@oak_brief",
@@ -1891,7 +2021,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/Yukitty@oak_brief",
     "timestamp": 1786262400000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 910,
+    "stars": 0
   },
   {
     "id": "gh_absol89@BATTLE_ART_VOXEL_FORK",
@@ -1922,7 +2054,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/absol89@BATTLE_ART_VOXEL_FORK",
     "timestamp": 1786258800000,
     "dateCreated": "v1.7.6",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 51917,
+    "stars": 146
   },
   {
     "id": "gh_adrian@recomp-rider",
@@ -1950,7 +2084,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/adrian@recomp-rider",
     "timestamp": 1786255200000,
     "dateCreated": "v0.4.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 523,
+    "stars": 0
   },
   {
     "id": "gh_alamops@rby_mmo",
@@ -1982,7 +2118,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/alamops@rby_mmo",
     "timestamp": 1786251600000,
     "dateCreated": "v0.7.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 3986,
+    "stars": 12
   },
   {
     "id": "gh_allanrmartins@SWITCH_ADVISOR",
@@ -2012,7 +2150,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/allanrmartins@SWITCH_ADVISOR",
     "timestamp": 1786248000000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 433,
+    "stars": 2
   },
   {
     "id": "gh_bryanthaboi@bookers_heaven",
@@ -2038,7 +2178,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/bryanthaboi@bookers_heaven",
     "timestamp": 1786244400000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 3292,
+    "stars": 1
   },
   {
     "id": "gh_bryanthaboi@nuzlocke",
@@ -2065,7 +2207,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/bryanthaboi@nuzlocke",
     "timestamp": 1786240800000,
     "dateCreated": "v1.0.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4323,
+    "stars": 7
   },
   {
     "id": "gh_bryanthaboi@translation-ja-hrkt",
@@ -2091,7 +2235,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/bryanthaboi@translation-ja-hrkt",
     "timestamp": 1786237200000,
     "dateCreated": "v0.4.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 269,
+    "stars": 2
   },
   {
     "id": "gh_bryanthaboi@versaovermelha",
@@ -2117,7 +2263,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/bryanthaboi@versaovermelha",
     "timestamp": 1786233600000,
     "dateCreated": "v0.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4143,
+    "stars": 20
   },
   {
     "id": "gh_ciddmandude@pokemon_randomizer",
@@ -2142,7 +2290,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ciddmandude@pokemon_randomizer",
     "timestamp": 1786230000000,
     "dateCreated": "v0.46.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4754,
+    "stars": 6
   },
   {
     "id": "gh_ddagent@npc_bubbles",
@@ -2173,7 +2323,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ddagent@npc_bubbles",
     "timestamp": 1786226400000,
     "dateCreated": "v2.3.10",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 3107,
+    "stars": 7
   },
   {
     "id": "gh_eduardocalafell@auto_battle",
@@ -2201,7 +2353,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@auto_battle",
     "timestamp": 1786222800000,
     "dateCreated": "v0.1.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 795,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@bag_sort",
@@ -2230,7 +2384,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@bag_sort",
     "timestamp": 1786219200000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 530,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@better_battle_ui",
@@ -2261,7 +2417,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@better_battle_ui",
     "timestamp": 1786215600000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 2152,
+    "stars": 3
   },
   {
     "id": "gh_eduardocalafell@bike_anywhere",
@@ -2291,7 +2449,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@bike_anywhere",
     "timestamp": 1786212000000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 290,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@damage_numbers",
@@ -2321,7 +2481,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@damage_numbers",
     "timestamp": 1786208400000,
     "dateCreated": "v0.4.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1585,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@fakemons",
@@ -2349,7 +2511,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@fakemons",
     "timestamp": 1786204800000,
     "dateCreated": "v0.1.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 144,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@gen2_dex",
@@ -2379,7 +2543,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@gen2_dex",
     "timestamp": 1786201200000,
     "dateCreated": "v1.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 620,
+    "stars": 1
   },
   {
     "id": "gh_eduardocalafell@minimap",
@@ -2407,7 +2573,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@minimap",
     "timestamp": 1786197600000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 568,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@modern_dialog",
@@ -2437,7 +2605,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@modern_dialog",
     "timestamp": 1786194000000,
     "dateCreated": "v0.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 764,
+    "stars": 0
   },
   {
     "id": "gh_eduardocalafell@player_sprite_flip",
@@ -2467,7 +2637,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/eduardocalafell@player_sprite_flip",
     "timestamp": 1786190400000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 901,
+    "stars": 0
   },
   {
     "id": "gh_hdbreaker@cheat_engine",
@@ -2493,7 +2665,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/hdbreaker@cheat_engine",
     "timestamp": 1786186800000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 533,
+    "stars": 0
   },
   {
     "id": "gh_hdbreaker@intro_bypass",
@@ -2521,7 +2695,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/hdbreaker@intro_bypass",
     "timestamp": 1786183200000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 191,
+    "stars": 0
   },
   {
     "id": "gh_jherediagu@traduccion_es",
@@ -2549,7 +2725,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/jherediagu@traduccion_es",
     "timestamp": 1786179600000,
     "dateCreated": "v0.1.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 154,
+    "stars": 0
   },
   {
     "id": "gh_liminal@no_exp_challenge",
@@ -2577,7 +2755,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/liminal@no_exp_challenge",
     "timestamp": 1786176000000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 208,
+    "stars": 0
   },
   {
     "id": "gh_martin2844@blackjack_corner",
@@ -2610,7 +2790,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/martin2844@blackjack_corner",
     "timestamp": 1786172400000,
     "dateCreated": "v0.7.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1895,
+    "stars": 5
   },
   {
     "id": "gh_masterwebx@ACCESS_PC_ANYWHERE",
@@ -2637,7 +2819,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@ACCESS_PC_ANYWHERE",
     "timestamp": 1786168800000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 5738,
+    "stars": 6
   },
   {
     "id": "gh_masterwebx@CONTROLLER_RUMBLE",
@@ -2665,7 +2849,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@CONTROLLER_RUMBLE",
     "timestamp": 1786165200000,
     "dateCreated": "v1.0.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4744,
+    "stars": 5
   },
   {
     "id": "gh_masterwebx@FOLLOWERS_EX",
@@ -2692,7 +2878,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@FOLLOWERS_EX",
     "timestamp": 1786161600000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 10382,
+    "stars": 13
   },
   {
     "id": "gh_masterwebx@HEAL_ANYWHERE",
@@ -2719,7 +2907,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@HEAL_ANYWHERE",
     "timestamp": 1786158000000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1258,
+    "stars": 0
   },
   {
     "id": "gh_masterwebx@MOVE_MATCHUP",
@@ -2748,7 +2938,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@MOVE_MATCHUP",
     "timestamp": 1786154400000,
     "dateCreated": "v1.0.6",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 5561,
+    "stars": 5
   },
   {
     "id": "gh_masterwebx@MULTI_SAVE_SLOTS",
@@ -2775,7 +2967,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@MULTI_SAVE_SLOTS",
     "timestamp": 1786150800000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 4407,
+    "stars": 7
   },
   {
     "id": "gh_masterwebx@RUN_MODE",
@@ -2803,7 +2997,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@RUN_MODE",
     "timestamp": 1786143600000,
     "dateCreated": "v1.1.9",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 6937,
+    "stars": 7
   },
   {
     "id": "gh_masterwebx@SHINY_POKEMON",
@@ -2831,7 +3027,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@SHINY_POKEMON",
     "timestamp": 1786140000000,
     "dateCreated": "v1.0.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 11875,
+    "stars": 19
   },
   {
     "id": "gh_menyas@unique_menu_icons",
@@ -2860,7 +3058,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/menyas@unique_menu_icons",
     "timestamp": 1786136400000,
     "dateCreated": "v1.3.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 11361,
+    "stars": 23
   },
   {
     "id": "gh_mresnick67@pokewalker",
@@ -2888,7 +3088,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/mresnick67@pokewalker",
     "timestamp": 1786132800000,
     "dateCreated": "v0.3.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 2479,
+    "stars": 5
   },
   {
     "id": "gh_redelpedron@kanto_companion_lite",
@@ -2912,7 +3114,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/redelpedron@kanto_companion_lite",
     "timestamp": 1786129200000,
     "dateCreated": "v1.3.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1439,
+    "stars": 0
   },
   {
     "id": "gh_scottcandy34@DRAMATIC_SHAPE",
@@ -2942,7 +3146,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/scottcandy34@DRAMATIC_SHAPE",
     "timestamp": 1786125600000,
     "dateCreated": "v1.8.2",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 9895,
+    "stars": 55
   },
   {
     "id": "gh_tebwritescode@gen1mmo",
@@ -2975,7 +3181,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/tebwritescode@gen1mmo",
     "timestamp": 1786122000000,
     "dateCreated": "v1.5.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 427,
+    "stars": 0
   },
   {
     "id": "gh_tebwritescode@savesync",
@@ -3007,7 +3215,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/tebwritescode@savesync",
     "timestamp": 1786118400000,
     "dateCreated": "v1.6.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 228,
+    "stars": 1
   },
   {
     "id": "gh_ty-mcdk@additional_story_healers",
@@ -3032,7 +3242,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/ty-mcdk@additional_story_healers",
     "timestamp": 1786114800000,
     "dateCreated": "v0.2.1",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 440,
+    "stars": 0
   },
   {
     "id": "gh_unxpected-uxp@quality_of_life",
@@ -3057,7 +3269,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/unxpected-uxp@quality_of_life",
     "timestamp": 1786111200000,
     "dateCreated": "v1.2.0",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 48020,
+    "stars": 78
   },
   {
     "id": "gh_DarioMelo@Music_FRLG",
@@ -3083,7 +3297,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/DarioMelo@Music_FRLG",
     "timestamp": 1786400000000,
     "dateCreated": "v26.08.04",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 7957,
+    "stars": 7
   },
   {
     "id": "gh_masterwebx@MUSIC_PLAYER",
@@ -3111,7 +3327,9 @@ var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
     "githubIndexUrl": "https://github.com/bryanthaboi/gen1recomp-mod-index/tree/main/mods/masterwebx@MUSIC_PLAYER",
     "timestamp": 1786400000000,
     "dateCreated": "v1.2.4",
-    "source": "github_index"
+    "source": "github_index",
+    "downloads": 1255,
+    "stars": 0
   }
 ];
 

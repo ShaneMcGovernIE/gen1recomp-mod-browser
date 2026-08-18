@@ -1,6 +1,7 @@
 /**
  * Gen1Recomp & Gen2Recomp Mod Browser - Interactive Controller
  * Supports bryanthaboi/gen1recomp-mod-index & Discord Forum Sources
+ * Ranked by Total Downloads Across All Releases
  */
 
 (function () {
@@ -16,7 +17,7 @@
     selectedGen: 'all',
     selectedCategories: new Set(),
     selectedStatus: 'all',
-    sortBy: 'relevance',
+    sortBy: 'downloads', // Default to Most Popular!
     viewMode: 'grid',
     theme: 'redblue',
     soundEnabled: true,
@@ -25,6 +26,14 @@
     exportScope: 'favs',
     exportFormat: 'markdown'
   };
+
+  // Helper to format download numbers (e.g. 55.7K, 1.2M)
+  function formatDownloads(num) {
+    if (!num || isNaN(num) || num <= 0) return '0';
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return num.toLocaleString();
+  }
 
   // Load Saved Preferences
   try {
@@ -218,6 +227,8 @@
     modalDexNo: document.getElementById('modalDexNo'),
     modalGenBadge: document.getElementById('modalGenBadge'),
     modalCatBadge: document.getElementById('modalCatBadge'),
+    modalDownloadsBadge: document.getElementById('modalDownloadsBadge'),
+    modalStarsBadge: document.getElementById('modalStarsBadge'),
     modalVersionBadge: document.getElementById('modalVersionBadge'),
     modalStatusBadge: document.getElementById('modalStatusBadge'),
     modalTitle: document.getElementById('modalTitle'),
@@ -278,7 +289,7 @@
 
     if (elements.siteSubtitle) {
       if (state.dataSource === 'github') {
-        elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${ghCount} GITHUB INDEX ENTRIES (BY BRYANTHABOI)`;
+        elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${ghCount} GITHUB INDEX ENTRIES`;
       } else if (state.dataSource === 'discord') {
         elements.siteSubtitle.textContent = `POKéMON MOD ARCHIVE // ${discCount} DISCORD COMMUNITY ENTRIES`;
       } else {
@@ -481,16 +492,22 @@
 
     // 2. Sort
     return filtered.sort((a, b) => {
-      // If there is an active search query and sort is 'relevance', sort by weighted score
-      if (query && (state.sortBy === 'relevance' || !state.sortBy)) {
+      // If there is an active search query, weighted relevance is primary
+      if (query) {
         const scoreDiff = (b._searchScore || 0) - (a._searchScore || 0);
         if (scoreDiff !== 0) return scoreDiff;
-        // Tie-breaker: active status first, then timestamp
+        // Tie-breaker: most popular downloads first!
+        const dlDiff = (b.downloads || 0) - (a.downloads || 0);
+        if (dlDiff !== 0) return dlDiff;
         if (a.status !== b.status) return a.status === 'active' ? -1 : 1;
         return (b.timestamp || 0) - (a.timestamp || 0);
       }
 
       switch (state.sortBy) {
+        case 'downloads':
+          const dlDiff = (b.downloads || 0) - (a.downloads || 0);
+          if (dlDiff !== 0) return dlDiff;
+          return (b.timestamp || 0) - (a.timestamp || 0);
         case 'newest':
           return (b.timestamp || 0) - (a.timestamp || 0);
         case 'oldest':
@@ -505,6 +522,8 @@
           return (a.category || '').localeCompare(b.category || '');
         case 'relevance':
         default:
+          const defaultDl = (b.downloads || 0) - (a.downloads || 0);
+          if (defaultDl !== 0) return defaultDl;
           return (b.timestamp || 0) - (a.timestamp || 0);
       }
     });
@@ -584,6 +603,14 @@
         ? `<div class="mod-author-tag">👤 by ${highlightText(mod.author, query)} ${mod.version ? `<span class="poke-tag tag-version" style="font-size:0.65rem;padding:1px 4px;margin-left:4px;">v${mod.version}</span>` : ''}</div>`
         : '';
 
+      const downloadsBadge = (mod.downloads && mod.downloads > 0)
+        ? `<span class="poke-tag tag-downloads" title="${mod.downloads.toLocaleString()} Total GitHub Downloads">📥 ${formatDownloads(mod.downloads)}</span>`
+        : '';
+
+      const starsBadge = (mod.stars && mod.stars > 0)
+        ? `<span class="poke-tag tag-stars" title="${mod.stars} GitHub Stars">★ ${mod.stars}</span>`
+        : '';
+
       const primaryActionBtn = isGh
         ? `<a href="${mod.repoUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-github" title="View Source on GitHub">GITHUB ↗</a>`
         : `<a href="${mod.discordWebUrl}" target="_blank" rel="noopener noreferrer" class="poke-btn poke-btn-sm poke-btn-discord" title="Open Thread in Web Browser">WEB ↗</a>`;
@@ -593,6 +620,8 @@
           <div class="dex-card-top">
             <span class="dex-index-num">${mod.dexNo}</span>
             <div class="dex-top-tags">
+              ${downloadsBadge}
+              ${starsBadge}
               <span class="poke-tag ${genClass}">${mod.generation}</span>
               <span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span>
               <button class="poke-btn poke-btn-sm btn-favorite" data-mod-id="${mod.id}" title="${isFav ? 'Remove Bookmark' : 'Bookmark Mod'}">
@@ -623,7 +652,7 @@
               </div>
               <span>${isActive ? 'ACTIVE' : 'ARCHIVED'}</span>
             </div>
-            <span>${mod.dateCreated || 'Recent'}</span>
+            <span>${mod.downloads ? `${mod.downloads.toLocaleString()} DLs` : (mod.dateCreated || 'Recent')}</span>
           </div>
 
           <div class="card-actions-row">
@@ -704,6 +733,7 @@
         </td>
         <td><span class="poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}">${mod.generation}</span></td>
         <td><span class="poke-tag">${mod.categoryIcon || '📦'} ${mod.category}</span></td>
+        <td><span class="poke-tag tag-downloads" title="${(mod.downloads || 0).toLocaleString()} Downloads">📥 ${formatDownloads(mod.downloads || 0)}</span></td>
         <td style="font-family:var(--font-mono);font-size:0.75rem;">${mod.dateCreated || 'Recent'}</td>
         <td style="text-align:right;">
           <div style="display:inline-flex;gap:4px;">
@@ -762,6 +792,20 @@
     elements.modalGenBadge.className = `poke-tag ${mod.generation === 'Gen 1' ? 'tag-red' : mod.generation === 'Gen 2' ? 'tag-blue' : 'tag-dual'}`;
     elements.modalCatBadge.textContent = `${mod.categoryIcon || '📦'} ${mod.category}`;
 
+    if (mod.downloads && mod.downloads > 0) {
+      elements.modalDownloadsBadge.textContent = `📥 ${mod.downloads.toLocaleString()} DLs`;
+      elements.modalDownloadsBadge.style.display = 'inline-block';
+    } else {
+      elements.modalDownloadsBadge.style.display = 'none';
+    }
+
+    if (mod.stars && mod.stars > 0) {
+      elements.modalStarsBadge.textContent = `★ ${mod.stars}`;
+      elements.modalStarsBadge.style.display = 'inline-block';
+    } else {
+      elements.modalStarsBadge.style.display = 'none';
+    }
+
     if (mod.version) {
       elements.modalVersionBadge.textContent = `v${mod.version}`;
       elements.modalVersionBadge.style.display = 'inline-block';
@@ -790,7 +834,7 @@
     elements.modalDesc.textContent = mod.description;
     elements.modalTags.innerHTML = (mod.tags || []).map(t => `<span class="mini-tag">#${escapeHTML(t)}</span>`).join('');
     elements.modalThreadId.textContent = mod.id;
-    elements.modalThreadDate.textContent = mod.dateCreated || 'Recent';
+    elements.modalThreadDate.textContent = mod.downloads ? `${mod.downloads.toLocaleString()} Total Downloads` : (mod.dateCreated || 'Recent');
 
     // Action links
     if (isGh && mod.repoUrl) {
@@ -1091,11 +1135,11 @@
 
     if (state.exportFormat === 'markdown') {
       output += `# Pokémon Gen1Recomp & Gen2Recomp Modpack (${modsToExport.length} Mods)\n\n`;
-      output += `| No. | Mod Title | Author | Gen | Category | Link |\n`;
-      output += `| --- | --------- | ------ | --- | -------- | ---- |\n`;
+      output += `| No. | Mod Title | Author | Gen | Category | Downloads | Link |\n`;
+      output += `| --- | --------- | ------ | --- | -------- | --------- | ---- |\n`;
       modsToExport.forEach(m => {
         const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${m.id}`;
-        output += `| ${m.dexNo} | ${m.title} | ${m.author || 'Community'} | ${m.generation} | ${m.category} | [View](${link}) |\n`;
+        output += `| ${m.dexNo} | ${m.title} | ${m.author || 'Community'} | ${m.generation} | ${m.category} | ${m.downloads ? m.downloads.toLocaleString() : '-'} | [View](${link}) |\n`;
       });
     } else if (state.exportFormat === 'text') {
       output += `POKÉMON GEN1RECOMP MODPACK EXPORT\nTotal: ${modsToExport.length} Mods\n=========================================\n\n`;
@@ -1103,6 +1147,7 @@
         const link = m.repoUrl || m.discordWebUrl || `https://discord.com/channels/${GUILD_ID}/${m.id}`;
         output += `[${m.dexNo}] ${m.title} (${m.generation} - ${m.category})\n`;
         if (m.author) output += `Author: ${m.author}\n`;
+        if (m.downloads) output += `Downloads: ${m.downloads.toLocaleString()}\n`;
         output += `Link: ${link}\n`;
         output += `-----------------------------------------\n`;
       });
@@ -1129,8 +1174,8 @@
     updateCategoryChipClasses();
     updateActiveFilterBadge();
 
-    state.sortBy = 'relevance';
-    elements.sortSelect.value = 'relevance';
+    state.sortBy = 'downloads';
+    elements.sortSelect.value = 'downloads';
 
     render();
     updateUrlParams();
@@ -1206,6 +1251,12 @@
       elements.sourceTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-source') === src));
     }
 
+    const sort = params.get('sort');
+    if (sort && ['downloads', 'relevance', 'newest', 'oldest', 'title-asc', 'title-desc', 'author', 'category'].includes(sort)) {
+      state.sortBy = sort;
+      elements.sortSelect.value = sort;
+    }
+
     const cat = params.get('cat');
     if (cat) {
       state.selectedCategories = new Set(cat.split(','));
@@ -1226,6 +1277,7 @@
     if (state.searchQuery.trim()) params.set('q', state.searchQuery.trim());
     if (state.selectedGen !== 'all') params.set('gen', state.selectedGen);
     if (state.dataSource !== 'github') params.set('source', state.dataSource);
+    if (state.sortBy !== 'downloads') params.set('sort', state.sortBy);
     if (state.selectedCategories.size > 0) params.set('cat', Array.from(state.selectedCategories).join(','));
 
     const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');

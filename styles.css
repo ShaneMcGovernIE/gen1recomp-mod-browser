@@ -737,7 +737,9 @@ body.scanlines-on::after {
 .tag-red { background: var(--poke-red); color: #ffffff; }
 .tag-blue { background: var(--poke-blue); color: #ffffff; }
 .tag-dual { background: var(--poke-purple); color: #ffffff; }
-.tag-version { background: var(--poke-yellow); color: #181818; }
+.tag-version { background: var(--bg-card); color: var(--text-main); }
+.tag-downloads { background: var(--poke-green); color: #ffffff; font-family: var(--font-mono); font-weight: 700; }
+.tag-stars { background: var(--poke-yellow); color: #181818; font-family: var(--font-mono); font-weight: 700; }
 
 /* HP Gauge Status Bar */
 .hp-gauge-wrapper {
