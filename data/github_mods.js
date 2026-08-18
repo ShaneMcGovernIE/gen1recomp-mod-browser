@@ -1,7 +1,7 @@
 // bryanthaboi/gen1recomp-mod-index dataset
 // Auto-generated from official GitHub Mod Index repository
 
-const GITHUB_MODS_DATA = [
+var GITHUB_MODS_DATA = window.GITHUB_MODS_DATA = [
   {
     "id": "gh_AntoniMan31@day_night_cycle",
     "modId": "day_night_cycle",

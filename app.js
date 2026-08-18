@@ -149,13 +149,18 @@
 
   // Get active dataset based on selected source
   function getActiveRawMods() {
-    const ghMods = typeof GITHUB_MODS_DATA !== 'undefined' ? GITHUB_MODS_DATA : [];
-    const discMods = typeof MODS_DATA !== 'undefined' ? MODS_DATA : [];
+    const ghMods = (typeof window !== 'undefined' && Array.isArray(window.GITHUB_MODS_DATA) && window.GITHUB_MODS_DATA.length > 0)
+      ? window.GITHUB_MODS_DATA
+      : ((typeof GITHUB_MODS_DATA !== 'undefined' && Array.isArray(GITHUB_MODS_DATA)) ? GITHUB_MODS_DATA : []);
+
+    const discMods = (typeof window !== 'undefined' && Array.isArray(window.MODS_DATA) && window.MODS_DATA.length > 0)
+      ? window.MODS_DATA
+      : ((typeof MODS_DATA !== 'undefined' && Array.isArray(MODS_DATA)) ? MODS_DATA : []);
 
     if (state.dataSource === 'github') {
-      return ghMods;
+      return ghMods.length > 0 ? ghMods : discMods;
     } else if (state.dataSource === 'discord') {
-      return discMods;
+      return discMods.length > 0 ? discMods : ghMods;
     } else {
       return [...ghMods, ...discMods];
     }

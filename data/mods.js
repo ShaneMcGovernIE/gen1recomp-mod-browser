@@ -1,7 +1,7 @@
 // Gen1Recomp & Gen2Recomp Discord Mods Dataset
 // Auto-generated & enriched with Discord Snowflake timestamps
 
-const MODS_DATA = [
+var MODS_DATA = window.MODS_DATA = [
   {
     "id": "1532024483546796103",
     "title": "[Gen 1 + Gen 2] Translation Mod Generator - DE/ES/FR/IT/JA/KO - Rom Coverage: RBY 100%",
