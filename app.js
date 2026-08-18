@@ -629,6 +629,7 @@
   };
 
   // Calculate 10-segment HP based on weeks since last update (-1 HP per week)
+  // Color smoothly transitions: Green (10-9) -> Lime (8-7) -> Yellow (6-5) -> Orange (4-3) -> Red (2-1)
   function calculateModHP(mod) {
     const msPerWeek = 7 * 24 * 60 * 60 * 1000;
     const now = Date.now();
@@ -639,10 +640,23 @@
     const hp = Math.max(0, Math.min(10, 10 - weeksOld));
     
     let hpClass = 'hp-green';
+    let tagClass = 'tag-green';
+
     if (hp <= 2) {
       hpClass = 'hp-red';
-    } else if (hp <= 5) {
+      tagClass = 'tag-red';
+    } else if (hp <= 4) {
+      hpClass = 'hp-orange';
+      tagClass = 'tag-orange';
+    } else if (hp <= 6) {
       hpClass = 'hp-yellow';
+      tagClass = 'tag-yellow';
+    } else if (hp <= 8) {
+      hpClass = 'hp-lime';
+      tagClass = 'tag-green';
+    } else {
+      hpClass = 'hp-green';
+      tagClass = 'tag-green';
     }
 
     return {
@@ -651,6 +665,7 @@
       weeksOld,
       daysOld,
       hpClass,
+      tagClass,
       tooltip: `Updated ${daysOld === 0 ? 'Today' : `${daysOld}d ago (${weeksOld}w)`} — ${hp}/10 HP`
     };
   }
@@ -915,7 +930,7 @@
 
     const hpInfo = calculateModHP(mod);
     elements.modalStatusBadge.textContent = `HP: ${hpInfo.hp}/10`;
-    elements.modalStatusBadge.className = `poke-tag ${hpInfo.hp > 5 ? 'tag-downloads' : hpInfo.hp > 2 ? 'tag-stars' : 'tag-red'}`;
+    elements.modalStatusBadge.className = `poke-tag ${hpInfo.tagClass}`;
     elements.modalStatusBadge.title = hpInfo.tooltip;
     elements.modalTitle.textContent = mod.title;
 
