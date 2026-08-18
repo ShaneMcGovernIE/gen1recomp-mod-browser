@@ -1,6 +1,6 @@
 # Gen1Recomp++ Mod Browser 🎮
 
-A fast, modern, zero-dependency web application designed for searching, filtering, and organizing Pokémon Gen1Recomp and Gen2Recomp mods hosted on the official community Discord forum threads.
+A fast, modern, zero-dependency web application designed for searching, filtering, and organizing Pokémon Gen1Recomp++ mods hosted on the official community Discord forum threads.
 
 ![Mod Browser Overview](https://img.shields.io/badge/Gen1Recomp-Mods-ef4444?style=for-the-badge) ![Discord Threads](https://img.shields.io/badge/Discord-Forum%20Threads-5865F2?style=for-the-badge) ![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-10B981?style=for-the-badge)
 
