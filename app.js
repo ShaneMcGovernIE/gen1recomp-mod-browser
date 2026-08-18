@@ -671,19 +671,27 @@
   }
 
   function renderHPBar(hpInfo) {
+    const colors = {
+      'hp-green': '#22c55e',
+      'hp-lime': '#84cc16',
+      'hp-yellow': '#eab308',
+      'hp-orange': '#f97316',
+      'hp-red': '#ef4444',
+      'hp-depleted': '#374151'
+    };
+
     const segments = [];
     for (let i = 0; i < 10; i++) {
-      if (i < hpInfo.hp) {
-        segments.push(`<span class="hp-segment ${hpInfo.hpClass}"></span>`);
-      } else {
-        segments.push(`<span class="hp-segment hp-depleted"></span>`);
-      }
+      const isFilled = i < hpInfo.hp;
+      const color = isFilled ? colors[hpInfo.hpClass] : colors['hp-depleted'];
+      const opacity = isFilled ? '1' : '0.35';
+      segments.push(`<span class="hp-segment ${isFilled ? hpInfo.hpClass : 'hp-depleted'}" style="display:inline-block;width:5px;height:8px;background:${color};opacity:${opacity};border-radius:1px;flex-shrink:0;"></span>`);
     }
     return `
-      <div class="hp-gauge-wrapper" title="${escapeHTML(hpInfo.tooltip)}">
-        <span class="hp-label">HP:</span>
-        <div class="hp-meter-10">${segments.join('')}</div>
-        <span class="hp-num">${hpInfo.hp}/10</span>
+      <div class="hp-gauge-wrapper" style="display:inline-flex;align-items:center;gap:6px;" title="${escapeHTML(hpInfo.tooltip)}">
+        <span class="hp-label" style="font-family:var(--font-retro-title);font-size:0.7rem;color:var(--text-muted);">HP:</span>
+        <div class="hp-meter-10" style="display:inline-flex;align-items:center;gap:2px;background:#111827;padding:3px 4px;border:2px solid var(--border-color);border-radius:2px;box-shadow:1px 1px 0px var(--shadow-color);height:14px;box-sizing:border-box;">${segments.join('')}</div>
+        <span class="hp-num" style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;color:var(--text-main);">${hpInfo.hp}/10</span>
       </div>
     `;
   }

@@ -746,7 +746,7 @@ body.scanlines-on::after {
 
 /* 10-Segment Pokémon HP Gauge Status Bar */
 .hp-gauge-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
@@ -763,16 +763,22 @@ body.scanlines-on::after {
 
 .hp-meter-10 {
   display: inline-flex;
+  align-items: center;
   gap: 2px;
   background: #111827;
-  padding: 2px;
+  padding: 3px 4px;
   border: 2px solid var(--border-color);
   box-shadow: 1px 1px 0px var(--shadow-color);
+  height: 14px;
+  box-sizing: border-box;
+  border-radius: 2px;
 }
 
 .hp-segment {
-  width: 4px;
-  height: 10px;
+  display: inline-block;
+  width: 5px;
+  height: 8px;
+  flex-shrink: 0;
   border-radius: 1px;
 }
 
