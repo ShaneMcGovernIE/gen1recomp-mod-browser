@@ -1194,11 +1194,12 @@
     elements.modalThreadDate.textContent = mod.downloads ? `${mod.downloads.toLocaleString()} Total Downloads` : (mod.dateCreated || 'Recent');
 
     // Direct Release Download Button
-    if (isGh && mod.repoUrl) {
-      elements.modalDownloadZipBtn.href = `${mod.repoUrl}/releases/latest`;
+    const downloadUrl = mod.directZipUrl || (mod.repoUrl ? `${mod.repoUrl}/releases/latest` : '');
+    if (isGh && downloadUrl) {
+      elements.modalDownloadZipBtn.href = downloadUrl;
       elements.modalDownloadZipBtn.style.display = 'inline-flex';
-      elements.modalRepoLink.href = mod.repoUrl;
-      elements.modalRepoLink.style.display = 'inline-flex';
+      elements.modalRepoLink.href = mod.repoUrl || '#';
+      elements.modalRepoLink.style.display = mod.repoUrl ? 'inline-flex' : 'none';
       elements.modalWebLink.href = mod.githubIndexUrl || mod.repoUrl;
       elements.modalWebLink.textContent = 'INDEX FILE ↗';
       elements.modalAppLink.style.display = 'none';
