@@ -1604,7 +1604,7 @@
     let output = '';
 
     if (state.exportFormat === 'markdown') {
-      output += `# Pokémon Gen1Recomp & Gen2Recomp Modpack (${modsToExport.length} Mods)\n\n`;
+      output += `# Pokémon Gen1Recomp++ Modpack (${modsToExport.length} Mods)\n\n`;
       output += `| No. | Mod Title | Author | Gen | Category | Downloads | Link |\n`;
       output += `| --- | --------- | ------ | --- | -------- | --------- | ---- |\n`;
       modsToExport.forEach(m => {
