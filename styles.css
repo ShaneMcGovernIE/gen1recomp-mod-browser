@@ -135,33 +135,6 @@
   --github-dark: #0f172a;
 }
 
-/* Theme 5: Lavender Town CRT */
-[data-theme="lavender"] {
-  --bg-casing: #180828;
-  --bg-casing-accent: #301050;
-  --bg-screen: #0f071a;
-  --bg-card: #1e1035;
-  --bg-card-hover: #2c164d;
-  --bg-box-header: #3b1968;
-  --bg-input: #180828;
-
-  --border-color: #c084fc;
-  --border-subtle: #7e22ce;
-  --shadow-color: #000000;
-  --shadow-inset: rgba(192, 132, 252, 0.15);
-
-  --text-main: #faf5ff;
-  --text-muted: #d8b4fe;
-  --text-inverse: #180828;
-  --text-header: #f472b6;
-
-  --poke-red: #fb7185;
-  --poke-blue: #38bdf8;
-  --poke-green: #34d399;
-  --poke-yellow: #fde047;
-  --github-dark: #3b1968;
-}
-
 /* ==========================================================================
    Base Styles
    ========================================================================== */

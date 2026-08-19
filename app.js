@@ -47,8 +47,10 @@
       state.favorites = new Set(JSON.parse(savedFavs));
     }
     const savedTheme = localStorage.getItem('gen1recomp_theme');
-    if (savedTheme) {
+    if (savedTheme && ['redblue', 'pokedex', 'dmg', 'gbc'].includes(savedTheme)) {
       state.theme = savedTheme;
+    } else {
+      state.theme = 'redblue';
     }
     const savedSound = localStorage.getItem('gen1recomp_sound');
     if (savedSound !== null) {
@@ -1448,7 +1450,13 @@
       try {
         localStorage.setItem('gen1recomp_theme', state.theme);
       } catch (err) {}
-      showToast(`THEME: ${state.theme.toUpperCase()}`, 'info');
+      const themeNames = {
+        redblue: 'LIGHT',
+        pokedex: 'DARK',
+        dmg: 'GAME BOY',
+        gbc: 'GBC'
+      };
+      showToast(`THEME: ${themeNames[state.theme] || state.theme.toUpperCase()}`, 'info');
     });
 
     // Sound toggle
