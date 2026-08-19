@@ -1769,6 +1769,32 @@
     window.history.replaceState({}, '', newUrl);
   }
 
+  // Live Visitor Counter
+  async function initVisitorCounter() {
+    const valEl = document.getElementById('visitorCountVal');
+    if (!valEl) return;
+    try {
+      // Increment once per browser session, otherwise read-only view
+      const hasVisitedThisSession = sessionStorage.getItem('gen1_visited_session');
+      const endpoint = hasVisitedThisSession
+        ? 'https://counterapi.com/api/gen1recomp-mod-browser/view/visits'
+        : 'https://counterapi.com/api/gen1recomp-mod-browser/visits';
+
+      const resp = await fetch(endpoint);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && typeof data.value === 'number') {
+          valEl.textContent = data.value.toLocaleString();
+          sessionStorage.setItem('gen1_visited_session', 'true');
+        }
+      }
+    } catch (err) {
+      if (valEl && valEl.textContent === '...') {
+        valEl.textContent = 'ONLINE';
+      }
+    }
+  }
+
   // Initialization
   function init() {
     // Apply initial settings
@@ -1790,6 +1816,7 @@
     initEventListeners();
     render();
     renderActiveBreadcrumbs();
+    initVisitorCounter();
   }
 
   if (document.readyState === 'loading') {

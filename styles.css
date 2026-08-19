@@ -243,6 +243,62 @@ body.scanlines-on::after {
   color: var(--text-header);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.brand-plus {
+  font-family: 'Press Start 2P', 'Pixelify Sans', var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--poke-red);
+  margin: 0 1px;
+  display: inline-block;
+  transform: translateY(-1px);
+}
+
+.brand-subtitle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+}
+
+.brand-subtitle-row p {
+  margin: 0;
+}
+
+.visitor-counter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-main);
+  box-shadow: 1px 1px 0px var(--shadow-color);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.visitor-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #22c55e;
+  display: inline-block;
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 }
 
 .brand-titles p {
