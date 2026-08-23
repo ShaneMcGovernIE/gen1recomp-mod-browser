@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const appSource = fs.readFileSync('app.js', 'utf8');
+const stylesSource = fs.readFileSync('styles.css', 'utf8');
 const start = appSource.indexOf('function getCandidateLogos');
 const end = appSource.indexOf('\n\n  // Global Image Fallback', start);
 
@@ -15,6 +16,17 @@ const candidates = getCandidateLogos('https://github.com/example/mod');
 assert.ok(
   candidates.includes('https://raw.githubusercontent.com/example/mod/main/LOGO.png'),
   'logo lookup should include an uppercase LOGO.png root path'
+);
+
+assert.match(
+  stylesSource,
+  /\.mod-thumbnail-frame \{[\s\S]*?aspect-ratio:\s*1018\s*\/\s*744;/,
+  'thumbnail frame should preserve the supplied 1018:744 aspect ratio'
+);
+assert.match(
+  stylesSource,
+  /\.mod-thumbnail-img \{[\s\S]*?object-fit:\s*contain;/,
+  'thumbnail images should be contained instead of cropped'
 );
 
 console.log('Logo candidate regression test passed.');
