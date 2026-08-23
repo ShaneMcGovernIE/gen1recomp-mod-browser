@@ -724,8 +724,8 @@ body.scanlines-on::after {
 /* Mod Card Thumbnail Preview */
 .mod-thumbnail-frame {
   width: 100%;
-  height: auto;
-  aspect-ratio: 1018 / 744;
+  height: 280px;
+  aspect-ratio: auto;
   background: #111827;
   border-bottom: 2px solid var(--border-color);
   position: relative;

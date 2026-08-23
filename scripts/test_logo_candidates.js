@@ -20,8 +20,8 @@ assert.ok(
 
 assert.match(
   stylesSource,
-  /\.mod-thumbnail-frame \{[\s\S]*?aspect-ratio:\s*1018\s*\/\s*744;/,
-  'thumbnail frame should preserve the supplied 1018:744 aspect ratio'
+  /\.mod-thumbnail-frame \{[\s\S]*?height:\s*280px;/,
+  'thumbnail frame should use one fixed preview height'
 );
 assert.match(
   stylesSource,
