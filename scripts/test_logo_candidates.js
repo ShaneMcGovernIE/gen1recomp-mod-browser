@@ -29,4 +29,10 @@ assert.match(
   'thumbnail images should be contained instead of cropped'
 );
 
+assert.match(
+  stylesSource,
+  /\[data-theme="pokedex"\]\s+\.tab-pill\.active\s*\{[\s\S]*?background:\s*var\(--poke-blue\);[\s\S]*?color:\s*var\(--text-inverse\);/,
+  'dark-theme active tabs should use readable contrasting colors'
+);
+
 console.log('Logo candidate regression test passed.');

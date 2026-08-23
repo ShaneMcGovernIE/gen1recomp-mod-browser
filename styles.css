@@ -508,6 +508,11 @@ body.scanlines-on::after {
   box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.4);
 }
 
+[data-theme="pokedex"] .tab-pill.active {
+  background: var(--poke-blue);
+  color: var(--text-inverse);
+}
+
 .tab-pill.gen-red.active { background: var(--poke-red); color: #ffffff; }
 .tab-pill.gen-blue.active { background: var(--poke-blue); color: #ffffff; }
 .tab-pill.gen-dual.active { background: var(--poke-purple); color: #ffffff; }
