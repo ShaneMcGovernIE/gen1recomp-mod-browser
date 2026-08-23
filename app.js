@@ -694,10 +694,13 @@
     const owner = match[1];
     const repo = match[2];
     return [
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/LOGO.png`,
       `https://raw.githubusercontent.com/${owner}/${repo}/main/Logo.png`,
       `https://raw.githubusercontent.com/${owner}/${repo}/main/logo.png`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/LOGO.PNG`,
       `https://raw.githubusercontent.com/${owner}/${repo}/main/Logo.PNG`,
       `https://raw.githubusercontent.com/${owner}/${repo}/main/logo.PNG`,
+      `https://raw.githubusercontent.com/${owner}/${repo}/master/LOGO.png`,
       `https://raw.githubusercontent.com/${owner}/${repo}/master/Logo.png`,
       `https://raw.githubusercontent.com/${owner}/${repo}/master/logo.png`,
       `https://raw.githubusercontent.com/${owner}/${repo}/main/assets/logo.png`,
